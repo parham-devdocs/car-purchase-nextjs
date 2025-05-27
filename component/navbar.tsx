@@ -6,6 +6,10 @@ import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
 import { RiGlobalFill } from 'react-icons/ri';
 import { BsPerson } from 'react-icons/bs';
 import { Button, Input } from "./index";
+import { BiMenu } from 'react-icons/bi';
+import { CgClose, CgMenu } from 'react-icons/cg';
+import Menu from './menu';
+import { SignInDropDown } from './signInDropDown';
 const Logo = '/alamo_site_logo.png';
 
 type LinkItem = {
@@ -17,7 +21,10 @@ type LinkItem = {
 
 const Navbar = () => {
   const [openIndex, setOpenIndex] = useState<{ type: 'left' | 'right', index: number } | null>(null);
-
+const [openSidebar,setOpenSidebar]=useState<boolean>(false)
+const toggleSidebar=()=>{
+  setOpenSidebar(prev=>!prev)
+}
   const leftSideItems: LinkItem[] = [
     {
       label: "Reservations",
@@ -96,7 +103,7 @@ const Navbar = () => {
         <Link href="/">
           <Image src={Logo} alt="Alamo Logo" width={100} height={70} />
         </Link>
-        <ul className="flex space-x-8 text-sm font-semibold">
+        <ul className=" lg:flex space-x-8 text-sm font-semibold hidden ">
           {leftSideItems.map((item, index) => (
             <li key={index} className="relative group">
               {item.link ? (
@@ -132,46 +139,69 @@ const Navbar = () => {
 
 
 <div className="flex gap-4 items-center">
-  {rightSideItems.map((item, index) => (
-    <div key={index} className="relative">
-      {item.link ? (
-        <Link href={item.link} className={` ${item.label==="Sign In" ? "text-violet-600 hover:text-violet-400" :" text-blue-900 hover:text-blue-600" }  transition-colors  text-xl`}>
+{rightSideItems.map((item, index) => (
+  <div key={index} className="relative">
+    {item.link ? (
+      <Link href={item.link} className={`${
+        item.label === "Sign In"
+          ? "text-violet-600 hover:text-violet-400"
+          : "text-blue-900 hover:text-blue-600"
+      } transition-colors text-xl`}>
+        {item.label}
+      </Link>
+    ) : (
+      <>
+        <button
+          onClick={() => toggleMenu('right', index)}
+          className={`${
+            item.label === "Sign In"
+              ? "text-violet-600 hover:text-violet-400"
+              : "text-blue-900 hover:text-blue-600 hidden xl:flex"
+          } flex items-center gap-1 transition-colors text-blue-900 text-xl focus:outline-none`}
+        >
+          {item.icon}
           {item.label}
-        </Link>
-      ) : (
-        <>
-          <button
-            onClick={() => toggleMenu('right', index)}
-            className={` ${item.label==="Sign In" ? "text-violet-600 hover:text-violet-400" :" text-blue-900 hover:text-blue-600" } flex items-center gap-1 hover:text-blue-600 transition-colors text-blue-900 text-xl focus:outline-none`}
-          >
-            {item.icon}
-            {item.label}
-
-            {openIndex?.type === 'right' && openIndex?.index === index ? (
-              <IoMdArrowDropup />
-            ) : (
-              <IoMdArrowDropdown />
-            )}
-          </button>
-
-          {/* Conditional Dropdown */}
-          {openIndex?.type === 'right' && openIndex?.index === index && (
-            <>
-              {item.label === "Sign In" ? (
-              <SignInDropDown />
-              ) : (
-                <ul className="absolute top-full right-0 mt-1 bg-white shadow-lg rounded-md py-2 min-w-[200px] z-10">
-                  <DropDownMenu items={item.items || []} direction={openIndex.type} />
-                </ul>
-              )}
-            </>
+          {openIndex?.type === 'right' && openIndex?.index === index ? (
+            <IoMdArrowDropup />
+          ) : (
+            <IoMdArrowDropdown />
           )}
-        </>
-      )}
-    </div>
-  ))}
-              <span className=' text-sm text-violet-600'>OR</span> <Button label='Join' link='/Sign-Up' className=' text-xl'/> 
+        </button>
 
+        {/* Conditional Dropdown */}
+        {openIndex?.type === 'right' && openIndex?.index === index && (
+          <>
+            {item.label === "Sign In" ? (
+              <SignInDropDown />
+            ) : (
+              <ul className="absolute top-full right-0 mt-1 bg-white shadow-lg rounded-md py-2 min-w-[200px] z-10">
+                <DropDownMenu items={item.items || []} direction={openIndex.type} />
+              </ul>
+            )}
+          </>
+        )}
+      </>
+    )}
+
+  
+  </div>
+))}
+             <div className=' hidden md:flex items-center gap-3'><span className=' text-sm text-violet-600'>OR</span> <Button label='Join' link='/Sign-Up' className=' text-xl'/> </div> 
+             <div className='md:hidden h-full relative'>
+  {openSidebar ? (
+    <CgClose onClick={toggleSidebar} className='text-violet-600 text-2xl' />
+  ) : (
+    <CgMenu onClick={toggleSidebar} className='text-violet-600 text-2xl' />
+  )}
+
+  {/* Sidebar Overlay */}
+  <div className={`fixed top-0 right-0 w-3/4 sm:w-full h-full bg-white shadow-lg transform transition-transform duration-300 z-50 ${
+      openSidebar ? 'translate-x-0' : 'translate-x-full'
+    }`
+  }>
+    <Menu items={leftSideItems} closeSidebar={()=>setOpenSidebar(false)} headerIsAvailable={true}/>
+  </div>
+</div>
 </div>
     </div>
   );
@@ -199,21 +229,3 @@ function DropDownMenu({ items ,direction}: { items: LinkItem[] ,direction:"right
 }
 
 
-function SignInDropDown() {
-    return(
-        <div className='border-t-8 border-b-8 border-blue-600 px-8 py-5  w-[400px] absolute -left-40 top-14 shadow'>
-              <IoMdArrowDropdown size={23} className={` absolute right-7 -top-7 text-blue-600 `}/>
-<div className='  flex gap-6 flex-col text-center'>
-<h2 className=' text-2xl text-blue-900 font-bold'>Alamo Insiders</h2>
-<p className=' text-blue-900 text-sm font-bold -mt-6'>Not a member yet ? <Link className=' underline text-violet-600' href="/Sign-Up">Join now</Link></p>
-<Input label='Email Address Or Username ' required/>
-<Input label='Password ' required type='password'/>
-<div className=' flex gap-3'>
-<input type="checkbox" id='checkbox' className=' w-7 h-7 checked:bg-violet-600 focus:b'/>
-<label htmlFor="checkbox" className=' text-violet-600'>stay signed in</label>
-</div>
-<Button label='Sign In' link='/Sign-In' className=' h-16 text-xl font-bold'/>
-</div>
-    </div>
-    )
-}

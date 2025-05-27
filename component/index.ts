@@ -1,8 +1,5 @@
 import Button from "./Button";
 import Navbar from "./navbar";
-import Input from "./input";
+import Input from "./textInput";
 
-
-
-
-export {Navbar,Button,Input}
+export { Navbar, Button, Input };
