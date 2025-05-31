@@ -22,7 +22,7 @@ setValue(e.target.value)
 
 }
   return (
-    <div className="relative w-full border-2 border-blue-300 rounded-md px-4 py-2">
+    <div className="relative w-full border-2 border-violet-500 rounded-md px-4 py-2">
       {/* Label with floating effect */}
       <label
         htmlFor={id}
@@ -42,7 +42,7 @@ setValue(e.target.value)
         required={required}
         className={`
            outline-none w-5/6
-          ${`focus:border-${color || 'blue-600'}`} transition-colors relative z-10 outline-none mt-3
+          ${`focus:border-${color || 'blue-600'}`} transition-colors relative z-10 outline-0 mt-3
         `}
         {...props}
       />

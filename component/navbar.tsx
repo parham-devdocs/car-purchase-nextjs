@@ -6,12 +6,10 @@ import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
 import { RiGlobalFill } from 'react-icons/ri';
 import { BsPerson } from 'react-icons/bs';
 import { Button, Input } from "./index";
-import { BiMenu } from 'react-icons/bi';
 import { CgClose, CgMenu } from 'react-icons/cg';
 import Menu from './menu';
 import { SignInDropDown } from './signInDropDown';
 const Logo = '/alamo_site_logo.png';
-
 type LinkItem = {
   label: string;
   link?: string;
@@ -71,7 +69,7 @@ const toggleSidebar=()=>{
         { label: "Français", link: "/language/french" }
       ]
     },
-    { label: "Sign In",icon:<
+    { label: "Sign Up",icon:<
         BsPerson size={23}/>
      }
   ];
@@ -143,7 +141,7 @@ const toggleSidebar=()=>{
   <div key={index} className="relative">
     {item.link ? (
       <Link href={item.link} className={`${
-        item.label === "Sign In"
+        item.label === "Sign Up"
           ? "text-violet-600 hover:text-violet-400"
           : "text-blue-900 hover:text-blue-600"
       } transition-colors text-xl`}>
@@ -186,7 +184,7 @@ const toggleSidebar=()=>{
   
   </div>
 ))}
-             <div className=' hidden md:flex items-center gap-3'><span className=' text-sm text-violet-600'>OR</span> <Button label='Join' link='/Sign-Up' className=' text-xl'/> </div> 
+             <div className=' hidden md:flex items-center gap-3'><span className=' text-sm text-violet-600'>OR</span> <Button label='Join' link='/sign-up' className=' text-xl'/> </div> 
              <div className='md:hidden h-full relative'>
   {openSidebar ? (
     <CgClose onClick={toggleSidebar} className='text-violet-600 text-2xl' />
