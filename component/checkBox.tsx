@@ -1,65 +1,67 @@
-import { ChangeEvent, useState } from "react";
+import { useState } from "react";
 import { FaCheck } from "react-icons/fa";
 
-export interface CheckboxProps {
+type CheckboxProps = {
   disabled?: boolean;
   defaultChecked?: boolean;
-  id?: string;
+  id?: number | string;
   label?: string;
-  onChangeHandler: (event: ChangeEvent<HTMLInputElement>) => void;
-}
+  onChangeHandler?: (checked: boolean) => void;
+};
 
-const Checkbox = (props: CheckboxProps) => {
-  const [isChecked, setIsChecked] = useState(!!props.defaultChecked);
-  const id = props.id || props.label || "checkbox";
-
+const Checkbox = ({
+  disabled = false,
+  defaultChecked = false,
+  id,
+  label,
+  onChangeHandler,
+  ...restProps
+}: CheckboxProps) => {
+  const [isChecked, setIsChecked] = useState(!!defaultChecked);
+  const generatedId = id || label || "checkbox";
+console.log(isChecked)
   const changeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setIsChecked(event.target.checked);
-    props.onChangeHandler(event);
+    const checked = event.target.checked;
+   
+    setIsChecked(checked);
+    if (onChangeHandler) {
+      onChangeHandler(checked);
+    }
   };
 
   return (
-    <div className="relative inline-block">
-      <input
-        type="checkbox"
-        id={id}
-        className="absolute appearance-none opacity-0 w-6 h-6 cursor-pointer"
-        defaultChecked={props.defaultChecked}
-        disabled={props.disabled}
-        onChange={changeHandler}
-      />
+    <div className="inline-block">
+     <input
+  type="checkbox"
+  id={generatedId as string}
+  className="absolute appearance-none opacity-0"
+  defaultChecked={defaultChecked}
+  disabled={disabled}
+  onChange={changeHandler}  // ✅ Uses your main handler
+  
+/>
 
-      {/* Custom checkbox box */}
-      <div
+      <label
+        htmlFor={generatedId as string}
         className={`
-          w-6 h-6
+           w-8 h-8
           border-2 border-violet-500
           rounded
           flex items-center justify-center
-          cursor-pointer
           transition-all duration-200
           ${isChecked ? 'bg-violet-500 border-transparent' : 'bg-white'}
-          ${props.disabled ? 'opacity-50 cursor-not-allowed' : ''}
-          focus:ring-2 focus:ring-violet-300
+          ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
+          focus-within:ring-2 focus-within:ring-violet-300
         `}
-        onClick={() => {
-          if (!props.disabled) {
-            const newChecked = !isChecked;
-            setIsChecked(newChecked);
-            // Create synthetic event to pass to onChangeHandler
-            const fakeEvent = {
-              target: {
-                checked: newChecked,
-                value: '', // adjust if needed
-              },
-            } as unknown as React.ChangeEvent<HTMLInputElement>;
-            props.onChangeHandler(fakeEvent);
-          }
-        }}
       >
-        {/* Check icon */}
-        {isChecked && <FaCheck className="text-white text-sm" />}
-      </div>
+        {isChecked && <FaCheck className="text-yellow-300" size={20} />}
+      </label>
+
+      {label && (
+        <label htmlFor={generatedId as string} className="ml-2 cursor-pointer">
+          {label}
+        </label>
+      )}
     </div>
   );
 };

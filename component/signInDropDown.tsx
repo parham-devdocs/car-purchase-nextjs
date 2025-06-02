@@ -28,6 +28,7 @@ export function SignInDropDown() {
   function onSubmit() {
     console.log("submitted");
   }
+  
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -54,6 +55,7 @@ export function SignInDropDown() {
           label="Email Address or Username"
           required
           {...register("email")}
+          onChangeHandler={(e)=>console.log(e.target.value)}
         />
         {errors?.email?.message && (
           <p className="text-red-700 mb-4">{errors.email.message}</p>
@@ -64,6 +66,8 @@ export function SignInDropDown() {
           required
           type="password"
           {...register("password")}
+          onChangeHandler={(e)=>console.log(e.target.value)}
+
         />
         {errors?.password?.message && (
           <p className="text-red-700 mb-4">{errors.password.message}</p>
