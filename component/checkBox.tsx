@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { FaCheck } from "react-icons/fa";
 
 type CheckboxProps = {
@@ -6,6 +5,7 @@ type CheckboxProps = {
   defaultChecked?: boolean;
   id?: number | string;
   label?: string;
+  checked:boolean
   onChangeHandler?: (checked: boolean) => void;
 };
 
@@ -15,22 +15,20 @@ const Checkbox = ({
   id,
   label,
   onChangeHandler,
+  checked=true,
   ...restProps
 }: CheckboxProps) => {
-  const [isChecked, setIsChecked] = useState(!!defaultChecked);
   const generatedId = id || label || "checkbox";
-console.log(isChecked)
   const changeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const checked = event.target.checked;
    
-    setIsChecked(checked);
     if (onChangeHandler) {
       onChangeHandler(checked);
     }
   };
 
   return (
-    <div className="inline-block">
+    <div className=" flex items-center">
      <input
   type="checkbox"
   id={generatedId as string}
@@ -38,6 +36,7 @@ console.log(isChecked)
   defaultChecked={defaultChecked}
   disabled={disabled}
   onChange={changeHandler}  // ✅ Uses your main handler
+  checked={checked}
   
 />
 
@@ -49,16 +48,16 @@ console.log(isChecked)
           rounded
           flex items-center justify-center
           transition-all duration-200
-          ${isChecked ? 'bg-violet-500 border-transparent' : 'bg-white'}
+          ${checked ? 'bg-violet-500 border-transparent' : 'bg-white'}
           ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
           focus-within:ring-2 focus-within:ring-violet-300
         `}
       >
-        {isChecked && <FaCheck className="text-yellow-300" size={20} />}
+        {checked && <FaCheck className="text-yellow-300" size={20} />}
       </label>
 
       {label && (
-        <label htmlFor={generatedId as string} className="ml-2 cursor-pointer">
+        <label htmlFor={generatedId as string} className="ml-2 cursor-pointer font-semibold text-white">
           {label}
         </label>
       )}
