@@ -24,7 +24,7 @@ const countries={
 const page = () => {
   const [regionModal,setRegionModal]=useState<null | string>(null)
   return (
-    <div className="flex flex-col min-h-screen w-full mt-16 " >
+    <div>
     <Header headerTitle="1,100+ Car Rental Locations Worldwide" />
       <div className="bg-blue-900 pt-7 pb-6 px-4 space-y-10"> 
       <div className="max-w-7xl mx-auto   flex flex-col lg:flex-row lg:justify-between gap-4 items-center text-white">
