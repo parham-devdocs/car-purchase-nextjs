@@ -7,6 +7,7 @@ import { MdLocationPin } from "react-icons/md";
 import { MdOutlineArrowDropDown, MdOutlineArrowDropUp } from "react-icons/md";
 import { BsAirplaneFill } from "react-icons/bs";
 import { FaBuilding } from "react-icons/fa";
+import Reservation from "@/component/Home/Reservation";
 export default function CountryPage({ params }: { params: { country: string } }) {
 
   const [locations, setLocations] = useState([
@@ -105,7 +106,7 @@ export default function CountryPage({ params }: { params: { country: string } })
         ) : (
           <FaBuilding className="text-green-500" />
         )}
-        <Link href={`/locations/${params.country}/location`}>{loc.name}</Link>
+        <Link href={`/locations/${params.country}/${loc.name}`}>{loc.name}</Link>
       </li>
     ))}
   </ul>
@@ -153,6 +154,7 @@ export default function CountryPage({ params }: { params: { country: string } })
           
         </div>
       </div>
+      <Reservation/>
     </div>
   );
 }

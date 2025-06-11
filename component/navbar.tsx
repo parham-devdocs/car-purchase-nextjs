@@ -27,7 +27,7 @@ const toggleSidebar=()=>{
     {
       label: "Reservations",
       items: [
-        { label: "Start a Reservation", link: "/reserve/reservation" },
+        { label: "Start a Reservation", link: "/" },
         { label: "View/Modify/Cancel", link: "/reserve/view-modify-cancel" },
         { label: "Past Trips/Receipts", link: "/reserve/past-trips" }
       ]

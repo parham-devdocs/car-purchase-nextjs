@@ -10,7 +10,7 @@ import generateTimeOptions from "../../utils/generateTimeOptions";
 import generateDriversAges from "@/utils/generateDriversAges";
 import Button from "../Button";
 import DatePicker from "../datePickerInput";
-export default function Reservation() {
+export default function Reservation({title="Rent a Car with Alamo and Drive Happy",pickUpLocation}:{title?:string,pickUpLocation?:string}) {
   return (
     <div className="w-full min-h-[200px] flex flex-col">
       {/* Unified Section with Responsive Behavior */}
@@ -27,18 +27,18 @@ export default function Reservation() {
         {/* Content Overlay */}
         <div className="relative z-10 flex flex-col items-center justify-center h-full text-white px-4">
           <h2 className="text-center text-2xl sm:text-3xl text-white font-bold mb-6 max-w-3xl">
-            Rent a Car with Alamo and Drive Happy
+           {title }
           </h2>
 
           {/* Reservation Form always shown here */}
-          <ReservationForm />
+          <ReservationForm pickUpLocation={pickUpLocation} />
         </div>
       </div>
     </div>
   );
 }
 
-function ReservationForm() {
+function ReservationForm({pickUpLocation}:{title?:string,pickUpLocation?:string}) {
   const [hasDifferentLocation, setHasDifferentLocation] = useState(false);
 
   return (
@@ -54,7 +54,7 @@ function ReservationForm() {
       </div>
 
       <div className="w-full relative">
-        <Input label="Pick-up Location" color="white" required />
+        <Input label="Pick-up Location" color="white" required value={pickUpLocation} />
         <button
           onClick={() => setHasDifferentLocation((prev) => !prev)}
           type="button"
