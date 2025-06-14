@@ -10,7 +10,12 @@ import generateTimeOptions from "../../utils/generateTimeOptions";
 import generateDriversAges from "@/utils/generateDriversAges";
 import Button from "../Button";
 import DatePicker from "../datePickerInput";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { useForm } from "react-hook-form";
+import { format } from "date-fns";
 export default function Reservation({title="Rent a Car with Alamo and Drive Happy",pickUpLocation}:{title?:string,pickUpLocation?:string}) {
+
   return (
     <div className="w-full min-h-[200px] flex flex-col">
       {/* Unified Section with Responsive Behavior */}
@@ -39,66 +44,87 @@ export default function Reservation({title="Rent a Car with Alamo and Drive Happ
 }
 
 function ReservationForm({pickUpLocation}:{title?:string,pickUpLocation?:string}) {
+  const [startDate,setStartDate]=useState(format( new Date(),  "yyyy-MM-dd" ))
+  const [dueDate,setDueDate]=useState( format( new Date(),  "yyyy-MM-dd" ))
+
+  const FormSchema = z.object({
+    pickUp: z.string({ message: "pick up location is required" }),
+     returnLocation:z.string({message:"return Location is not valid"}).optional(),
+     pickUpTime:z.string({message:"time is required"}),
+     returnTime:z.string({message:"time is required"}),
+     driverAge:z.string({message:"driver age is required"})
+
+  });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IFormInput>({
+    resolver: zodResolver(FormSchema),
+  });
+  type IFormInput = z.infer<typeof FormSchema>;
+
   const [hasDifferentLocation, setHasDifferentLocation] = useState(false);
+const onSubmit=(e)=>{
+console.log({...e,dueDate,startDate})
 
+}
   return (
-    <div className="w-full lg:w-5/6 flex flex-col mx-auto bg-blue-500 px-6 gap-5 rounded-sm py-2">
-      <div className="flex items-center justify-between ">
-        <h3 className="md:text-3xl text-xl font-bold text-white">Start a Reservation</h3>
-        <Link
-          href={"/reserve/view-modify-cancel"}
-          className="text-yellow-300 text-md md:text-xl font-bold"
-        >
-          view/modify/cancel
-        </Link>
-      </div>
+<form onSubmit={handleSubmit(onSubmit)} className="w-full lg:w-5/6 flex flex-col mx-auto bg-blue-500 px-6 gap-5 rounded-sm py-2">
+  {/* Pick-up Location */}
+  <div className="w-full relative">
+    <Input  label="Pick-up Location" color="white" {...register("pickUp")} />
+    {errors.pickUp && <p className="text-red-400 text-sm mt-1">{errors.pickUp.message}</p>}
+    <button
+      type="button"
+      onClick={() => setHasDifferentLocation((prev) => !prev)}
+      className="flex items-center gap-1 text-white absolute top-3 right-4"
+    >
+      {hasDifferentLocation ? <BiMinusCircle /> : <BiPlusCircle />}
+      {hasDifferentLocation ? "remove return" : "different return"}
+    </button>
+  </div>
 
-      <div className="w-full relative">
-        <Input label="Pick-up Location" color="white" required value={pickUpLocation} />
-        <button
-          onClick={() => setHasDifferentLocation((prev) => !prev)}
-          type="button"
-          className="flex items-center gap-1 text-white absolute top-3 right-4"
-        >
-          {hasDifferentLocation ? <BiMinusCircle /> : <BiPlusCircle />}
-          {hasDifferentLocation ? "remove return" : "different return"}
-        </button>
-      </div>
+  {/* Return Location (conditional) */}
+  {hasDifferentLocation && (
+    <div className="w-full relative">
+      <Input label="Return Location" color="white" {...register("returnLocation")} />
+    </div>
+  )}
 
-      {hasDifferentLocation && (
-        <div className="w-full relative">
-          <Input label="Return Location" color="white" required />
+  {/* Dates & Times */}
+  <div className="flex flex-col lg:flex-row gap-4">
+    <div className="lg:w-2/3 w-full flex flex-wrap gap-y-3">
+      {/* Pick-up Date + Time */}
+      <div className="w-full flex flex-col sm:flex-row gap-1">
+        <div className="sm:w-1/2 w-full">
+          <DatePicker required onChangeHandler={(e)=>setStartDate(e)}  label="Pick-Up Date" id="2" color="white"  />
         </div>
-      )}
-<div className="flex flex-col lg:flex-row gap-4">
-  <div className="lg:w-2/3 w-full flex flex-wrap gap-y-3">
-    <div className="w-full flex flex-col sm:flex-row gap-1">
-    <div className="sm:w-1/2 w-full ">
-<DatePicker required label="Pick-Up Date" id="2" color="white"/>
+        <div className="sm:w-1/2 w-full">
+          <SelectInput label="Pick-Up Time" options={generateTimeOptions()} color="white" {...register("pickUpTime")} />
+        </div>
       </div>
-      <div className="sm:w-1/2 w-full">
-        <SelectInput label="Time" options={generateTimeOptions()} color="white" />
+
+      {/* Return Date + Time */}
+      <div className="w-full flex flex-col sm:flex-row gap-1">
+        <div className="sm:w-1/2 w-full">
+          <DatePicker required onChangeHandler={(e)=>setDueDate(e)} label="Return Date" id="2" color="white"  />
+        </div>
+        <div className="sm:w-1/2 w-full">
+          <SelectInput label="Return Time" options={generateTimeOptions()} color="white" {...register("returnTime")} />
+        </div>
       </div>
-     
     </div>
 
-    <div className="w-full flex flex-col sm:flex-row gap-1">
-    <div className="sm:w-1/2 w-full ">
-    <DatePicker required label="Pick-Up Date" id="2" color="white"/>
-    </div>
-      <div className="sm:w-1/2 w-full">
-        <SelectInput label="Time" options={generateTimeOptions()} color="white" />
+    {/* Driver Age + Submit Button */}
+    <div className="lg:w-1/3 w-full flex flex-col justify-between gap-1.5">
+      <div>
+        <SelectInput options={generateDriversAges()} required label="Driver's Age" color="white" {...register("driverAge")} />
+        {errors.driverAge && <p className="text-red-400 text-sm mt-1">{errors.driverAge.message}</p>}
       </div>
+      <Button type="submit" label="Go" className="h-full mt-3.5" />
     </div>
   </div>
-  <div className="lg:w-1/3 w-full flex flex-col justify-between gap-1.5">
-    <div>
-      <SelectInput options={generateDriversAges()} required label="Driver's Age" color="white" />
-    </div>
-    <Button label="Go" fn={()=>console.log("clicked")} className=" h-full mt-3.5"  />
-      
-  </div>
-</div>
-    </div>
+</form>
   );
 }

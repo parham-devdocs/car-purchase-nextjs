@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+"use client"
+import React, {  useState } from 'react'
 import { MdKeyboardArrowDown,MdKeyboardArrowUp } from "react-icons/md";
 import { FaBusSimple } from "react-icons/fa6";
 const DirectionDropDown = () => {

@@ -17,15 +17,10 @@ interface InputProps extends InputHTMLAttributes<HTMLSelectElement> {
 
 const SelectInput: React.FC<InputProps > = ({ label,options, id, placeholder = '',color, required = false,...props }) => {
   const [isFocused, setIsFocused] = useState(false);
-  const [value, setValue] = useState('');
-
+ 
   const handleFocus = () => setIsFocused(true);
   const handleBlur = () => setIsFocused(()=>false);
-const valueHandler=(e)=>{
-setValue(e.target.value)
 
-
-}
   return (
     <div className="relative w-full border-2 border-blue-300 rounded-md pl-2 py-2">
       {/* Label with floating effect */}
@@ -39,8 +34,6 @@ setValue(e.target.value)
       <select
         id={id}
         name={label}
-        value={value}
-        onChange={valueHandler}
         onBlur={handleBlur}
         onFocus={handleFocus}
         required={required}
@@ -52,7 +45,7 @@ setValue(e.target.value)
         {...props}
       >
         {options.map(option=>{
-            return <option value={option.value} label={option.label} disabled={option.disabled} className=' py-2 bg-white text-violet-500 hover:bg-violet-500 hover:text-violet-500 '/>
+            return <option key={option.label} value={option.value} label={option.label} disabled={option.disabled} className=' py-2 bg-white text-violet-500 hover:bg-violet-500 hover:text-violet-500 '/>
         })}
       </select>
 

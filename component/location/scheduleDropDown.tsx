@@ -1,5 +1,5 @@
+"use client"
 import React, { useEffect, useState } from 'react'
-import { AiOutlineExport } from 'react-icons/ai'
 import { FaClock } from 'react-icons/fa'
 import { MdKeyboardArrowDown,MdKeyboardArrowUp } from "react-icons/md";
 interface WeekRange {

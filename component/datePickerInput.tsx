@@ -1,12 +1,18 @@
+import { format } from "date-fns";
 import React, { useMemo, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { isSameDay } from "date-fns";
-const Date_Picker = ({label,required,id,color}:{label:string,required:boolean,id: string,color:string}) => {
+const Date_Picker = ({label,required,id,color,onChangeHandler}:{label:string,required:boolean,id: string,color:string,onChangeHandler:(date:any)=>void}) => {
   const [isFocused,setIsFocused]=useState(false)
-  const [startDate, setStartDate] = useState(new Date());
+  const [startDate, setStartDate] = useState<any>(new Date());
   const monthsShown = useMemo(() => 2, []);
 
+  function changeInput(date:Date) {
+    const formatedDate= format( new Date(date),  "yyyy-MM-dd" )
+
+    setStartDate(formatedDate)
+    onChangeHandler(formatedDate)
+  }
 function focusHandler() {
     setIsFocused(true)
 }
@@ -91,7 +97,7 @@ const renderDayContents = (day, date) => {
         </div>
       )}
       selected={startDate}
-      onChange={(date) => setStartDate(date as Date)}
+      onChange={(date) => {changeInput(date as Date )}}
       monthsShown={monthsShown}
     />
       </div>
