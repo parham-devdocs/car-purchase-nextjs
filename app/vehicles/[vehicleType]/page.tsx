@@ -1,10 +1,12 @@
 "use client"
 import { Button } from '@/component'
-import CountryDropDown from "../../component/countryDropDown";
+import CountryDropDown from "../../../component/countryDropDown";
 import { FaFilter } from "react-icons/fa";
 import Filters from '@/component/filters';
 import { useEffect, useMemo, useState } from 'react';
 import CarCard from '@/component/carCard';
+import Link from 'next/link';
+import { MdKeyboardDoubleArrowRight } from "react-icons/md";
 type CarProps = {
   type: string;
   name: string;
@@ -64,163 +66,37 @@ const cars: CarProps[] = [
   }
 ];
 
-// === Trucks ===
-const trucks: CarProps[] = [
-  {
-    type: "Truck",
-    name: "Ford F-150",
-    automatic: true,
-    passengers: 5,
-    bags: 2,
-    electric: false,
-    doors: 4
-  },
-  {
-    type: "Truck",
-    name: "Chevrolet Silverado",
-    automatic: 8,
-    passengers: 5,
-    bags: 3,
-    electric: false,
-    doors: 4
-  },
-  {
-    type: "Truck",
-    name: "Ram 1500",
-    automatic: true,
-    passengers: 5,
-    bags: 2,
-    electric: false,
-    doors: 4
-  },
-  {
-    type: "Truck",
-    name: "Toyota Tundra",
-    automatic: 10,
-    passengers: 5,
-    bags: 2,
-    electric: false,
-    doors: 4
-  },
-  {
-    type: "Truck",
-    name: "Rivian R1T",
-    automatic: true,
-    passengers: 5,
-    bags: 4,
-    electric: true,
-    doors: 4
-  }
-];
-
-// === SUVs ===
-const suvs: CarProps[] = [
-  {
-    type: "SUV",
-    name: "Honda CR-V",
-    automatic: true,
-    passengers: 5,
-    bags: 5,
-    electric: false,
-    doors: 4
-  },
-  {
-    type: "SUV",
-    name: "Jeep Grand Cherokee",
-    automatic: true,
-    passengers: 5,
-    bags: 4,
-    electric: false,
-    doors: 4
-  },
-  {
-    type: "SUV",
-    name: "Subaru Outback",
-    automatic: true,
-    passengers: 5,
-    bags: 4,
-    electric: false,
-    doors: 4
-  },
-  {
-    type: "SUV",
-    name: "Tesla Model Y",
-    automatic: true,
-    passengers: 5,
-    bags: 5,
-    electric: true,
-    doors: 4
-  },
-  {
-    type: "SUV",
-    name: "BMW X5",
-    automatic: true,
-    passengers: 5,
-    bags: 4,
-    electric: false,
-    doors: 4
-  }
-];
-
-// === Vans ===
-const vans: CarProps[] = [
-  {
-    type: "Van",
-    name: "Chrysler Pacifica",
-    automatic: true,
-    passengers: 7,
-    bags: 6,
-    electric: true,
-    doors: 4
-  },
-  {
-    type: "Van",
-    name: "Toyota Sienna",
-    automatic: true,
-    passengers: 7,
-    bags: 5,
-    electric: true,
-    doors: 4
-  },
-  {
-    type: "Van",
-    name: "Honda Odyssey",
-    automatic: true,
-    passengers: 8,
-    bags: 6,
-    electric: false,
-    doors: 4
-  },
-  {
-    type: "Van",
-    name: "Mercedes-Benz Sprinter",
-    automatic: 5,
-    passengers: 3,
-    bags: 4,
-    electric: false,
-    doors: 4
-  },
-  {
-    type: "Van",
-    name: "Ford Transit Connect",
-    automatic: false,
-    passengers: 2,
-    bags: 3,
-    electric: false,
-    doors: 4
-  }
-];
 
 
 
-const page = () => {
+
+const page = ({ params }: { params: { vehicleType: string }, children: React.ReactNode }) => {
   const [isFilterSidebarShown, setIsFilterSidebarShown] = useState<boolean>(false)
   const [totalVehicleNumber,setTotalVehicleNumber]=useState<number>(0)
   const [country,setCountry]=useState<string>("")
+  console.log(params.vehicleType)
+
+  const Filter=()=>{
+    switch (params.vehicleType) {
+      case "cars":
+               return     <Filters  passengers  onCloseHandler={()=>setIsFilterSidebarShown(false)} />
+
+        case "truck":
+         return <Filters  passengers drive  onCloseHandler={()=>setIsFilterSidebarShown(false)} />
+
+        case "SUV":
+       return   <Filters  passengers drive  onCloseHandler={()=>setIsFilterSidebarShown(false)} />
+
+         default :
+         return null
+        
+    }
+   
+  }
   useEffect(() => {
-    const total = trucks.length + cars.length + vans.length + suvs.length;
+    const total =  cars.length 
     setTotalVehicleNumber(total);
-  }, [trucks, cars, vans, suvs]);
+  }, [ cars]);
   return (
     <div className=" mt-32 min-h-screen h-auto ">
 
@@ -242,11 +118,11 @@ const page = () => {
           <Button label='Start a Reservation' link='/' />
         </div>
 
-        <div className='lg:flex w-full gap-5 items-start mt-5'>
-          <div className='w-56 min-h-96 xl:flex hidden rounded-sm'>
-            <Filters type passengers drive onCloseHandler={()=>setIsFilterSidebarShown(false)} />
-          </div>
-
+        <div className='lg:flex w-full gap-10 items-start mt-5'>
+        <div className='w-56 min-h-96 flex-col gap-3  xl:flex hidden rounded-sm'>
+          <Link href={`/vehicles`} className=' text-yellow-400 text-[15px] font-bold flex items gap-1'>View All <MdKeyboardDoubleArrowRight/> </Link>
+          <Filter/>
+            </div>
           <div className='flex-1 min-h-96 h-auto bg-blue-800 py-3 rounded-sm'>
             <div className='xl:hidden flex'>
               <CountryDropDown onChangeHandler={(e) => setCountry(e)} />
@@ -286,59 +162,7 @@ const page = () => {
     </div>
   </section>
 
-  {/* Trucks Section */}
-  <section className="my-8">
-    <h4 className="text-yellow-300 text-left ml-10 mb-4 text-xl">Trucks ({trucks.length})</h4>
-    <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-5 px-10 w-full max-w-7xl">
-      {trucks.map((truck, index) => (
-        <CarCard
-          key={index}
-          passengers={truck.passengers}
-          name={truck.name}
-          automatic={truck.automatic}
-          bags={truck.bags}
-          type={truck.type}
-          doors={truck.doors}
-        />
-      ))}
-    </div>
-  </section>
-
-  {/* Vans Section */}
-  <section className="my-8">
-    <h4 className="text-yellow-300 text-left ml-10 mb-4 text-xl">Vans ({vans.length})</h4>
-    <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-5 px-10 w-full max-w-7xl">
-      {vans.map((van, index) => (
-        <CarCard
-          key={index}
-          passengers={van.passengers}
-          name={van.name}
-          automatic={van.automatic}
-          bags={van.bags}
-          type={van.type}
-          doors={van.doors}
-        />
-      ))}
-    </div>
-  </section>
-
-  {/* SUVs Section */}
-  <section className="my-8">
-    <h4 className="text-yellow-300 text-left ml-10 mb-4 text-xl">SUVs ({suvs.length})</h4>
-    <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-5 px-10 w-full max-w-7xl">
-      {suvs.map((suv, index) => (
-        <CarCard
-          key={index}
-          passengers={suv.passengers}
-          name={suv.name}
-          automatic={suv.automatic}
-          bags={suv.bags}
-          type={suv.type}
-          doors={suv.doors}
-        />
-      ))}
-    </div>
-  </section>
+  
 </div>
 
 

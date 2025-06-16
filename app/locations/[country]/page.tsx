@@ -154,7 +154,7 @@ export default function CountryPage({ params }: { params: { country: string } })
           
         </div>
       </div>
-      <Reservation/>
+      <Reservation title={`${params.country} Car Rental`}/>
     </div>
   );
 }

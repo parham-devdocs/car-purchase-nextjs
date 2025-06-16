@@ -20,7 +20,7 @@ type CarProps={
 
 const CarCard = ({type,name,automatic,passengers,bags,electric,doors}:CarProps) => {
   return (
-    <Link className=' h-96 w-full  bg-white rounded-md flex  items-center justify-center ' href={`${type}/${name}`}>
+    <Link className=' h-96 w-full  bg-white rounded-md flex  items-center justify-center ' href={`/vehicles/${type}/${name}`}>
         <div className=' w-72 flex flex-col items-center justify-center '>
             <div className=" flex flex-col items-center gap-2 text-center">
                 <p className=" text-blue-950 text-2xl font-bold">{type}</p>

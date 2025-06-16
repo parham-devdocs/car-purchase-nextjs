@@ -1,7 +1,5 @@
 "use client";
 import React, { forwardRef, useState } from 'react';
-import { ChangeEvent } from "react";
-
 interface InputProps {
   label: string;
   id?: string;
