@@ -1,6 +1,7 @@
 "use client"
 import React from 'react';
 import Menu from './menu';
+import Link from 'next/link';
 
 type LinkItem = {
   label: string;
@@ -11,26 +12,26 @@ const footerLinks: LinkItem[] = [
     {
       label: "Customer Support",
       items: [
-        { label: "Help & FAQs" },
-        { label: "Customers with Disabilities" }
+        { label: "Help & FAQs",link:"#" },
+        { label: "Customers with Disabilities" ,link:"#"}
       ]
     },
     {
       label: "Reservations",
       items: [
-        { label: "Start a Reservation" },
-        { label: "View/Modify/Cancel" },
-        { label: "Accelerated Check-In" },
-        { label: "Skip the Counter" },
-        { label: "Past Trips/Receipts" },
-        { label: "One-Way Car Rental" }
+        { label: "Start a Reservation",link:"#" },
+        { label: "View/Modify/Cancel",link:"#" },
+        { label: "Accelerated Check-In",link:"#" },
+        { label: "Skip the Counter",link:"#" },
+        { label: "Past Trips/Receipts",link:"#" },
+        { label: "One-Way Car Rental",link:"#" }
       ]
     },
     {
       label: "Alamo Deal Retriever®",
       items: [
-        { label: "Car Rental Deals" },
-        { label: "Sign Up for Email Specials" }
+        { label: "Car Rental Deals",link:"#" },
+        { label: "Sign Up for Email Specials",link:"#" }
       ]
     },
     {
@@ -43,8 +44,8 @@ const footerLinks: LinkItem[] = [
     {
       label: "Programs",
       items: [
-        { label: "Partner Rewards Program" },
-        { label: "Global Franchise Opportunities" },
+        { label: "Partner Rewards Program",link:"#" },
+        { label: "Global Franchise Opportunities",link:"#" },
         { label: "Travel Agents", link: "#" },
         { label: "Tour Operators", link: "#" }
       ]
@@ -52,19 +53,19 @@ const footerLinks: LinkItem[] = [
     {
       label: "Vehicles",
       items: [
-        { label: "Cars" },
-        { label: "SUVs" },
-        { label: "Trucks" },
-        { label: "Vans" }
+        { label: "Cars",link:"#"},
+        { label: "SUVs",link:"#" },
+        { label: "Trucks",link:"#" },
+        { label: "Vans",link:"#" }
       ]
     },
     {
       label: "Company",
       items: [
-        { label: "About Alamo" },
+        { label: "About Alamo",link:"#" },
         { label: "Careers", link: "#" },
-        { label: "Used Cars" },
-        { label: "Alamo App" }
+        { label: "Used Cars",link:"#" },
+        { label: "Alamo App",link:"#" }
       ]
     },
     {
@@ -72,8 +73,8 @@ const footerLinks: LinkItem[] = [
       items: [
         { label: "Privacy Policy", link: "#" },
         { label: "Cookie Policy", link: "#" },
-        { label: "Terms of Use" },
-        { label: "Sitemap" }
+        { label: "Terms of Use",link:"#" },
+        { label: "Sitemap",link:"#" }
       ]
     }
   ];
@@ -88,18 +89,14 @@ const Footer = () => {
       <ul className="space-y-1">
         {section.items && section.items.map((item, subIndex) => (
           <li key={subIndex}>
-            {item.link ? (
-              <a
-                href={item.link}
-                target={item.link.startsWith('#') ? undefined : '_blank'}
+              <Link
+                href={item.link || ""}
                 rel="noopener noreferrer"
-                className="text-blue-600 hover:underline"
+                className="text-blue-700 hover:underline"
               >
                 {item.label}
-              </a>
-            ) : (
-              <span className="text-gray-700">{item.label}</span>
-            )}
+              </Link>
+          
           </li>
         ))}
       </ul>

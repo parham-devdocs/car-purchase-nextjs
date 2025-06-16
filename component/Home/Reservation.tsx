@@ -14,24 +14,24 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { format } from "date-fns";
-export default function Reservation({title="Rent a Car with Alamo and Drive Happy",pickUpLocation}:{title?:string,pickUpLocation?:string}) {
+export default function Reservation({title="Rent a Car with Alamo and Drive Happy",bgImage=true,pickUpLocation}:{title?:string,bgImage?:boolean,pickUpLocation?:string}) {
 
   return (
     <div className="w-full min-h-[200px] flex flex-col">
       {/* Unified Section with Responsive Behavior */}
-      <div className="relative w-full h-[900px] md:h-[600px] bg-blue-800">
+      <div className={`relative  w-full h-[900px] md:h-[600px] ${bgImage ?"bg-blue-800": "bg-transparent"}`}>
         {/* Background Image */}
-        <Image
+      {bgImage &&  <Image
           src={BgImage}
           alt="bgimage"
           layout="fill"
           objectFit="cover"
           className="absolute inset-0 z-0"
         />
-
+ } 
         {/* Content Overlay */}
-        <div className="relative z-10 flex flex-col items-center justify-center h-full text-white px-4">
-          <h2 className="text-center text-2xl sm:text-3xl text-white font-bold mb-6 max-w-3xl">
+        <div className="relative w-full  z-10 flex flex-col items-center justify-center h-full text-white px-4">
+          <h2 className=" text-2xl sm:text-5xl text-white font-bold mb-6 max-w-3xl">
            {title }
           </h2>
 
@@ -70,7 +70,7 @@ console.log({...e,dueDate,startDate})
 
 }
   return (
-<form onSubmit={handleSubmit(onSubmit)} className="w-full lg:w-5/6 flex flex-col mx-auto bg-blue-500 px-6 gap-5 rounded-sm py-2">
+<form onSubmit={handleSubmit(onSubmit)} className="w-full lg:w-5/6 flex flex-col mx-auto bg-blue-500 px-6 gap-5 rounded-sm py-5">
   {/* Pick-up Location */}
   <div className="w-full relative">
     <Input  label="Pick-up Location" color="white" {...register("pickUp")} />
@@ -78,7 +78,7 @@ console.log({...e,dueDate,startDate})
     <button
       type="button"
       onClick={() => setHasDifferentLocation((prev) => !prev)}
-      className="flex items-center gap-1 text-white absolute top-3 right-4"
+      className="flex text-sm md:text-xl mt-2 items-center gap-1 text-white absolute top-3 right-4"
     >
       {hasDifferentLocation ? <BiMinusCircle /> : <BiPlusCircle />}
       {hasDifferentLocation ? "remove return" : "different return"}

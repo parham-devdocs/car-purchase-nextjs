@@ -3,7 +3,7 @@ import React, { ReactNode } from 'react'
 
 const Layout = ({children}:{children:ReactNode}) => {
   return (
-    <div className='flex flex-col min-h-screen w-full mt-16 bg-blue-900'>{children}</div>
+    <div className='flex flex-col min-h-screen w-full py-16 bg-blue-900'>{children}</div>
   )
 }
 

@@ -28,7 +28,7 @@ const Page: FC<Props> = ({ params }) => {
   const [dropDown,setDropDown]=useState("")
   return (
     <div>
-      <Reservation title={`${decodedLocation} Car Rental`} pickUpLocation={decodedLocation as string} />
+      <Reservation title={`${decodedLocation} Car Rental`} pickUpLocation={decodedLocation as string} bgImage />
       <div className='bg-blue-500 w-full py-7 px-32 '>
         <div className=' items-center justify-between flex flex-col lg:flex-row'>
         <div className='space-y-5'>
