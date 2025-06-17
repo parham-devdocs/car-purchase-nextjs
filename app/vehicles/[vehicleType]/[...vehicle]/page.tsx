@@ -5,23 +5,23 @@ import { TbManualGearboxFilled } from "react-icons/tb";
 import { IoMdPerson } from "react-icons/io";
 import { PiBagSimpleFill } from "react-icons/pi";
 import { FaCheck } from "react-icons/fa6";
-
+import VehicleTypes from "@/component/VehicleTypes";
+const carInfo = {
+  automaticTranstion: true,
+  passengers: 2,
+  bags: 2,
+  options: [
+    "Cruise Control",
+    "AM/FM Stereo Radio",
+    "Air Conditioning",
+    "2 Wheel Drive",
+    "Gasoline Vehicle"
+  ]
+};
 const page = ({ params }: { params: { vehicle: string }, children?: React.ReactNode }) => {
-  const carInfo = {
-    automaticTranstion: true,
-    passengers: 2,
-    bags: 2,
-    options: [
-      "Cruise Control",
-      "AM/FM Stereo Radio",
-      "Air Conditioning",
-      "2 Wheel Drive",
-      "Gasoline Vehicle"
-    ]
-  };
 
   return (
-    <div className="md:px-12 lg:px-24  ">
+    <div className="md:px-12 lg:px-24 space-y-16  ">
       <Reservation bgImage={false} title={`${params.vehicle} Car Rental`} />
 
       <div className="flex justify-center items-center py-8 bg-blue-500 rounded-md">
@@ -81,6 +81,7 @@ const page = ({ params }: { params: { vehicle: string }, children?: React.ReactN
           </div>
         </div>
       </div>
+      <VehicleTypes />
     </div>
   );
 };
