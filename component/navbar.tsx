@@ -9,6 +9,7 @@ import { Button, Input } from "./index";
 import { CgClose, CgMenu } from 'react-icons/cg';
 import Menu from './menu';
 import { SignInDropDown } from './signInDropDown';
+import ToggleButton from './lightModeToggleButton';
 const Logo = '/alamo_site_logo.png';
 type LinkItem = {
   label: string;
@@ -137,8 +138,10 @@ const toggleSidebar=()=>{
 
 
 <div className="flex gap-4 items-center">
+  <ToggleButton/>
 {rightSideItems.map((item, index) => (
   <div key={index} className="relative">
+    
     {item.link ? (
       <Link href={item.link} className={`${
         item.label === "Sign Up"
@@ -165,7 +168,7 @@ const toggleSidebar=()=>{
             <IoMdArrowDropdown />
           )}
         </button>
-
+{/* <ToggleButton/> */}
         {/* Conditional Dropdown */}
         {openIndex?.type === 'right' && openIndex?.index === index && (
           <>

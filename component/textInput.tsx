@@ -8,11 +8,13 @@ interface InputProps {
   required?: boolean;
   color?: string;
   onChangeHandler?:any;
-  className?:string
+  className?:string;
+  defaultValue?:string
 }
 const Input = (
-  ({ label, type = 'text', placeholder = '', color, required = false, ...props }:InputProps) => {
+  ({ label, type = 'text', placeholder = '', color, required = false,defaultValue, ...props }:InputProps) => {
     const [isFocused, setIsFocused] = useState(false);
+    const [value,setValue]=useState("")
     const handleFocus = () => setIsFocused(true);
     const handleBlur = () => setIsFocused(false);
 
@@ -36,6 +38,8 @@ const Input = (
           required={required}
           onFocus={handleFocus}
           onBlur={handleBlur}
+          value={value ? value : defaultValue }
+          onChange={(e)=>setValue(e.target.value)}
           {...props} // This includes value, onChange, onBlur, etc., from react-hook-form
           className={`
             outline-none w-5/6 mt-3 bg-transparent

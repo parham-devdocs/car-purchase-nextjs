@@ -1,7 +1,6 @@
 "use client";
 import Image from "next/image";
 import BgImage from "../../public/mvt649_mb_bwest (2).png";
-import Link from "next/link";
 import Input from "../textInput";
 import { BiMinusCircle, BiPlusCircle } from "react-icons/bi";
 import { useState } from "react";
@@ -73,7 +72,7 @@ console.log({...e,dueDate,startDate})
 <form onSubmit={handleSubmit(onSubmit)} className="w-full lg:w-5/6 flex flex-col mx-auto bg-blue-500 px-6 gap-5 rounded-sm py-5">
   {/* Pick-up Location */}
   <div className="w-full relative">
-    <Input  label="Pick-up Location" color="white" {...register("pickUp")} />
+    <Input  label="Pick-up Location" color="white" {...register("pickUp")} value={pickUpLocation} />
     {errors.pickUp && <p className="text-red-400 text-sm mt-1">{errors.pickUp.message}</p>}
     <button
       type="button"
