@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 const ToggleButton = () => {
     const [toggleIsOn,setToggleIsOn]=useState(true)
-    const isDarkMode = useSelector((state) => state.isDarkMode)
+    const isDarkMode = useSelector((state:any) => state.isDarkMode)
 const dispatch=useDispatch()
   useEffect(()=>{
      setIsDarkMode(false)

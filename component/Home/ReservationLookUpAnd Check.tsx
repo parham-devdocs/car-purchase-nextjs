@@ -5,7 +5,7 @@ import Link from "next/link";
 import { IoIosArrowForward } from "react-icons/io";
 const ReservationLookupAndCheckIn = () => {
     return (
-      <div className="bg-blue-800 text-white p-6 rounded-lg max-w-3xl mx-auto mb-6">
+      <div className=" transition-all duration-500 bg-blue-800 text-white dark:bg-neutral-800 p-6 rounded-lg max-w-3xl mx-auto mb-6">
         <h2 className="text-2xl font-bold mb-4">Already Have a Reservation?</h2>
   
         {/* Find Reservation Section */}

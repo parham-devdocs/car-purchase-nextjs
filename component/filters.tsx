@@ -73,7 +73,7 @@ const Filters = ({
   };
 
   return (
-    <div className='w-full py-4 px-4 space-y-7 bg-blue-800 rounded-sm pointer-events-auto opacity-100'>
+    <div className='w-full py-4 px-4 space-y-7 bg-blue-800 dark:bg-gray-800 rounded-sm pointer-events-auto opacity-100'>
       <div className='flex justify-between text-white text-2xl items-center'>
         Filters
            {isTogglable &&  <AiFillCloseSquare className="cursor-pointer text-white w-6 h-6" size={20} onClick={onCloseHandler } />        } 

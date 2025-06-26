@@ -70,8 +70,7 @@ const toggleSidebar=()=>{
         { label: "Français", link: "/language/french" }
       ]
     },
-    { label: "Sign Up",icon:<
-        BsPerson size={23}/>
+    { label: "Sign Up",icon:< BsPerson size={23}/>
      }
   ];
 
@@ -96,7 +95,7 @@ const toggleSidebar=()=>{
   };
 
   return (
-    <div ref={navbarRef} className="w-full fixed top-0 left-0 bg-white py-3 px-6 flex items-center justify-between z-50 shadow-md">
+    <div ref={navbarRef} className="w-full fixed top-0 left-0 bg-white transition-all duration-500  dark:bg-gray-800 py-3 px-6 flex items-center justify-between z-50 shadow-md">
       {/* Left Side Items */}
       <div className="flex gap-4 items-center">
         <Link href="/">
@@ -106,14 +105,14 @@ const toggleSidebar=()=>{
           {leftSideItems.map((item, index) => (
             <li key={index} className="relative group">
               {item.link ? (
-                <Link href={item.link} className="hover:text-blue-600 transition-colors text-blue-900 text-xl">
+                <Link href={item.link} className="hover:text-blue-600 transition-colors text-blue-900 dark:text-stone-200 dark:hover:text-stone-400 text-xl">
                   {item.label}
                 </Link>
               ) : (
                 <>
                   <button
                     onClick={() => toggleMenu('left', index)}
-                    className="flex items-center gap-1 hover:text-blue-600 transition-colors text-blue-900 text-xl focus:outline-none"
+                    className="flex items-center gap-1 hover:text-blue-600 cursor-pointer transition-colors text-blue-900 dark:text-stone-300 dark:hover:text-stone-400 text-xl focus:outline-none"
                   >
                     {item.label}
                     {openIndex?.type === 'left' && openIndex?.index === index ? (
@@ -156,8 +155,8 @@ const toggleSidebar=()=>{
           onClick={() => toggleMenu('right', index)}
           className={`${
             item.label === "Sign In"
-              ? "text-violet-600 hover:text-violet-400"
-              : "text-blue-900 hover:text-blue-600 hidden xl:flex"
+              ? "text-violet-600 hover:text-violet-400 dark:text-stone-300 dark:hover:text-stone-400"
+              : "text-blue-900 hover:text-blue-600 hidden xl:flex dark:text-stone-300 dark:hover:text-stone-400"
           } flex items-center gap-1 transition-colors text-blue-900 text-xl focus:outline-none`}
         >
           {item.icon}
@@ -172,10 +171,10 @@ const toggleSidebar=()=>{
         {/* Conditional Dropdown */}
         {openIndex?.type === 'right' && openIndex?.index === index && (
           <>
-            {item.label === "Sign In" ? (
+            {item.label === "Sign Up" ? (
               <SignInDropDown />
             ) : (
-              <ul className="absolute top-full right-0 mt-1 bg-white shadow-lg rounded-md py-2 min-w-[200px] z-10">
+              <ul className="absolute top-full right-0 mt-1  shadow-lg rounded-md py-2 min-w-[200px] z-10">
                 <DropDownMenu items={item.items || []} direction={openIndex.type} />
               </ul>
             )}
@@ -187,7 +186,7 @@ const toggleSidebar=()=>{
   
   </div>
 ))}
-             <div className=' hidden md:flex items-center gap-3'><span className=' text-sm text-violet-600'>OR</span> <Button label='Join' link='/sign-up' className=' text-xl'/> </div> 
+             <div className=' hidden md:flex items-center gap-3'><span className=' text-sm text-violet-600 hidden xl:flex'>OR</span> <Button label='Join' link='/sign-up' className=' text-xl  '/> </div> 
              <div className='md:hidden h-full relative'>
   {openSidebar ? (
     <CgClose onClick={toggleSidebar} className='text-violet-600 text-2xl' />
@@ -213,13 +212,13 @@ export default Navbar;
 // Dropdown Menu Component
 function DropDownMenu({ items ,direction}: { items: LinkItem[] ,direction:"right"| "left"}) {
   return (
-    <div className='border-t-8 border-b-8 border-blue-600 px-2 py-1 relative'>
-        <IoMdArrowDropdown size={23} className={` absolute ${direction==="right" ? " right-7":" left-7"} -top-7 text-blue-600 `}/>
+    <div className='border-t-8 border-b-8 border-blue-600 dark:bg-gray-800 bg-white   dark:text-stone-300 dark: dark:border-violet-500 px-2 py-1 relative'>
+        <IoMdArrowDropdown size={23} className={` absolute ${direction==="right" ? " right-7":" left-7"} -top-7 text-blue-600 dark:text-violet-500 `}/>
       {items.map((item, idx) => (
         <li key={idx}>
           <Link
             href={item.link || '#'}
-            className='block py-2 px-1.5 hover:bg-blue-200 w-full text-left'
+            className='block py-2 px-1.5 hover:bg-blue-200 dark:hover:bg-stone-300 text-black dark:text-stone-300 dark:hover:text-black rounded-sm w-full text-left'
           >
             {item.label}
           </Link>

@@ -80,19 +80,19 @@ const footerLinks: LinkItem[] = [
   ];
 const Footer = () => {
   return (
-    <div className='w-full px-10 py-5 mt-10 '>
+    <div className='w-full px-10 py-5 transition-all duration-500 dark:bg-gray-900 '>
       <hr />
       <div className=" hidden sm:grid grid-cols-2 sm:grid-cols-4 gap-8 mt-5 ">
   {footerLinks.map((section, index) => (
     <div key={index} className="flex flex-col">
-      <h4 className="font-bold text-lg mb-2">{section.label}</h4>
+      <h4 className="font-bold text-lg mb-2 dark:text-stone-600">{section.label}</h4>
       <ul className="space-y-1">
         {section.items && section.items.map((item, subIndex) => (
           <li key={subIndex}>
               <Link
                 href={item.link || ""}
                 rel="noopener noreferrer"
-                className="text-blue-700 hover:underline"
+                className="text-blue-700 hover:underline dark:text-white"
               >
                 {item.label}
               </Link>

@@ -20,9 +20,9 @@ const cardsInfo: VehicleType[] = [
 
 export default function VehicleTypes() {
   return (
-    <section className="w-full py-12 bg-blue-500 rounded-md">
+    <section className="w-full py-12 bg-blue-500 dark:bg-gray-800 transition-all duration-500 dark:bg rounded-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-bold text-center mb-10 text-gray-800">Choose Your Vehicle Type</h2>
+        <h2 className="text-3xl font-bold text-center mb-10 text-gray-800 dark:text-stone-300">Choose Your Vehicle Type</h2>
         <div className="flex flex-wrap justify-center gap-8">
           {cardsInfo.map((vehicle, index) => (
             <VehicleTypeCard key={index} image={vehicle.image} type={vehicle.type} link={vehicle.link} />
@@ -36,7 +36,7 @@ export default function VehicleTypes() {
 function VehicleTypeCard({image,type,link}:VehicleType) {
   return (
     <Link href={link} passHref>
-      <div className="group w-[250px] h-[320px] bg-gray-100  rounded-xl shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-2xl cursor-pointer">
+      <div className="group w-[250px] h-[320px] bg-gray-100 dark:bg-neutral-900  rounded-xl shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-2xl cursor-pointer">
         <div className="relative w-full h-48 overflow-hidden">
           <Image
             src={image}
@@ -46,8 +46,8 @@ function VehicleTypeCard({image,type,link}:VehicleType) {
           />
         </div>
         <div className="p-6 text-center">
-          <h3 className="text-2xl font-semibold text-gray-800">{type}</h3>
-          <p className="mt-2 text-sm text-gray-600">Select this vehicle type</p>
+          <h3 className="text-2xl font-semibold text-gray-800 dark:text-stone-400">{type}</h3>
+          <p className="mt-2 text-sm text-gray-600 dark:text-stone-200">Select this vehicle type</p>
         </div>
       </div>
     </Link>

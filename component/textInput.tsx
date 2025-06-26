@@ -9,7 +9,8 @@ interface InputProps {
   color?: string;
   onChangeHandler?:any;
   className?:string;
-  defaultValue?:string
+  defaultValue?:string;
+  value?:string
 }
 const Input = (
   ({ label, type = 'text', placeholder = '', color, required = false,defaultValue, ...props }:InputProps) => {
@@ -21,7 +22,7 @@ const Input = (
    
 
     return (
-      <div className="relative w-full border-2 border-violet-500 rounded-md px-4 py-2">
+      <div className={`relative w-full border-2 ${ color ? color : "border-violet-500"} rounded-md px-4 py-2 `}>
         {/* Label */}
         <label
           className={`absolute left-2 transition-all duration-200 px-1 pointer-events-none top-1 text-[14px] ${

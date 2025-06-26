@@ -247,7 +247,7 @@ const page = () => {
             <Filters type passengers drive onCloseHandler={()=>setIsFilterSidebarShown(false)} />
           </div>
 
-          <div className='flex-1 min-h-96 h-auto bg-blue-800 py-3 rounded-sm'>
+          <div className='flex-1 min-h-96 h-auto bg-blue-800 dark:bg-gray-800 py-3 rounded-sm'>
             <div className='xl:hidden flex'>
               <CountryDropDown onChangeHandler={(e) => setCountry(e)} />
             </div>

@@ -33,7 +33,7 @@ const deals= [
   
 const CarRentalDeals = () => {
   return (
-    <div className=" bg-blue-500 px-7 py-6">
+    <div className=" bg-blue-500 dark:bg-gray-800 transition-all duration-500 px-7 py-6">
         <Image src={CarsPic} alt="cars"/>
         <div className=" flex md:flex-row flex-col items-center justify-between">
             <h3 className=" text-white text-xl font-bold">Featured Car Rental Deals</h3>
@@ -63,10 +63,10 @@ import React from 'react'
 
 const Card = ({title,subtitle,description}:{title:string,subtitle:string,description:string}) => {
   return (
-    <div className=" py-4 px-4 bg-white rounded-sm space-y-2 md:w-[300px] w-full h-40">
+    <div className=" py-4 px-4 bg-white dark:bg-neutral-800 rounded-sm space-y-2 md:w-[300px] w-full h-40 transition-all duration-500">
 <p className=" text-green-800 gap-2 flex text-md ml-1"><IoTicketSharp/>{title}</p>
 <p className=" text-violet-500 gap-2 flex text-xl">{subtitle}<IoIosArrowForward/></p>
-<p className="line-clamp-2 overflow-hidden">
+<p className="line-clamp-2 overflow-hidden dark:text-white">
   {description}
 </p>    </div>
   )

@@ -3,7 +3,7 @@ import CarCarePic from "../../public/alamo-standard-of-care-600.avif";
 import Button from "../Button";
 const StandardOfCare = () => {
   return (
-    <div className=' flex md:flex-row flex-col bg-white px-11 py-5'>
+    <div className=' flex md:flex-row flex-col transition-all duration-500 bg-white dark:bg-black px-11 py-5'>
         <Image src={CarCarePic} alt="car" width={200} height={200}/>
         <div className=" flex flex-col gap-3 md:justify-start justify-center">
             <h3 className=" text-blue-800 text-2xl font-bold">Our Standard Of Care</h3>

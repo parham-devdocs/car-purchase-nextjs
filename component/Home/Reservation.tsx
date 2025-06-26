@@ -3,7 +3,7 @@ import Image from "next/image";
 import BgImage from "../../public/mvt649_mb_bwest (2).png";
 import Input from "../textInput";
 import { BiMinusCircle, BiPlusCircle } from "react-icons/bi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SelectInput from "../selectInput";
 import generateTimeOptions from "../../utils/generateTimeOptions";
 import generateDriversAges from "@/utils/generateDriversAges";
@@ -18,7 +18,7 @@ export default function Reservation({title="Rent a Car with Alamo and Drive Happ
   return (
     <div className="w-full min-h-[200px] flex flex-col">
       {/* Unified Section with Responsive Behavior */}
-      <div className={`relative  w-full h-[900px] md:h-[600px] ${bgImage ?"bg-blue-800": "bg-transparent"}`}>
+      <div className={`relative  w-full  h-[900px] md:h-[600px] ${bgImage ?"bg-blue-800 dark:bg-gray-800": "bg-transparent"}`}>
         {/* Background Image */}
       {bgImage &&  <Image
           src={BgImage}
@@ -30,7 +30,7 @@ export default function Reservation({title="Rent a Car with Alamo and Drive Happ
  } 
         {/* Content Overlay */}
         <div className="relative w-full  z-10 flex flex-col items-center justify-center h-full text-white px-4">
-          <h2 className=" text-2xl sm:text-5xl text-white font-bold mb-6 max-w-3xl">
+          <h2 className=" text-3xl sm:text-5xl text-white font-bold mb-6 max-w-3xl">
            {title }
           </h2>
 
@@ -69,7 +69,7 @@ console.log({...e,dueDate,startDate})
 
 }
   return (
-<form onSubmit={handleSubmit(onSubmit)} className="w-full lg:w-5/6 flex flex-col mx-auto bg-blue-500 px-6 gap-5 rounded-sm py-5">
+<form onSubmit={handleSubmit(onSubmit)} className="w-full lg:w-5/6 flex flex-col mx-auto bg-blue-500 dark:bg-gray-800 transition-all duration-500 px-6 gap-5 rounded-sm py-5">
   {/* Pick-up Location */}
   <div className="w-full relative">
     <Input  label="Pick-up Location" color="white" {...register("pickUp")} value={pickUpLocation} />

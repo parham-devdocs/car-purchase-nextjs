@@ -10,7 +10,7 @@ const SignInSignUpSection = () => {
   const [termsAndPoliciesOpen,setTermsAndPolisiesOpen]=useState(false)
 
   return (
-    <div className="w-full min-h-[300px] flex md:flex-row flex-col items-center justify-center px-8 md:gap-[100px] gap-12 bg-blue-800 py-10 text-white">
+    <div className="w-full min-h-[300px] flex md:flex-row flex-col items-center justify-center px-8 md:gap-[100px] gap-12 transition-all duration-500 bg-blue-800 py-10 text-white dark:bg-gray-800">
       {/* Image */}
       <Image src={CarPercentageImage} alt="car-image" height={200} width={200} />
 

@@ -33,13 +33,13 @@ export function SignInDropDown() {
     <form
       onSubmit={handleSubmit(onSubmit)}
       className="
-                border-t-8 border-b-8 border-blue-600 px-8 py-5 w-[400px] absolute 
+                border-t-8 border-b-8 border-blue-600 dark:border-violet-500 px-8 py-5 w-[400px] absolute 
                 lg:-left-40 -left-72 top-14 shadow-lg backdrop-blur-md bg-white/30
             "
     >
       <IoMdArrowDropdown
         size={23}
-        className="absolute right-7 -top-7 text-blue-600"
+        className="absolute right-7 -top-7 text-blue-600 dark:text-violet-500"
       />
 
       <div className="flex gap-6 flex-col text-center">

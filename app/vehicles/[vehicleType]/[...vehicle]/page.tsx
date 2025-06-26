@@ -1,3 +1,4 @@
+"use client"
 import Reservation from "@/component/Home/Reservation";
 import CarImage from "@/public/1567006637480.avif";
 import Image from "next/image";
@@ -6,6 +7,8 @@ import { IoMdPerson } from "react-icons/io";
 import { PiBagSimpleFill } from "react-icons/pi";
 import { FaCheck } from "react-icons/fa6";
 import VehicleTypes from "@/component/VehicleTypes";
+import { useEffect, useState } from "react";
+import useURLDecoder from "@/hooks/useURLDecoder";
 const carInfo = {
   automaticTranstion: true,
   passengers: 2,
@@ -19,17 +22,18 @@ const carInfo = {
   ]
 };
 const page = ({ params }: { params: { vehicle: string }, children?: React.ReactNode }) => {
-
+ const {decodedURL}= useURLDecoder(params.vehicle)
+ 
   return (
     <div className="md:px-12 lg:px-24 space-y-16  ">
-      <Reservation bgImage={false} title={`${params.vehicle} Car Rental`} />
+      <Reservation bgImage={false} title={`${decodedURL} Car Rental`} />
 
-      <div className="flex justify-center items-center py-8 bg-blue-500 rounded-md">
+      <div className="flex justify-center items-center py-8 bg-blue-500 dark:bg-gray-800 transition-all duration-500 rounded-md">
         <div className="flex lg:flex-row flex-col gap-10 w-full max-w-6xl mx-auto items-center">
           {/* Left Column - Details */}
           <div className="space-y-6 px-6 lg:w-2/3 w-full text-center lg:text-left ">
-            <p className="text-white text-3xl">{params.vehicle} Details</p>
-            <p className="text-white text-[17px] -mt-2">{params.vehicle} or similar</p>
+            <p className="text-white text-3xl">{decodedURL} Details</p>
+            <p className="text-white text-[17px] -mt-2">{decodedURL} or similar</p>
 
             {/* Specifications + Also Includes Row */}
             <div className="flex flex-col md:flex-row gap-10 mt-4 justify-center lg:justify-start">

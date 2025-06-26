@@ -18,25 +18,25 @@ const Menu = ({ items,closeSidebar,headerIsAvailable }: { items: LinkItem[],clos
   };
 
   return (
-    <div className=' flex flex-col gap-4'>
-     {headerIsAvailable && <div className=' flex items-center justify-between my-4 mx-4 '><Image src={Logo} alt='logo'/><button className=' text-violet-600' onClick={closeSidebar}><CgClose size={25}/></button></div> }   
-<ul className="w-full bg-white p-5 space-y-4 overflow-y-auto">
+    <div className=' flex flex-col gap-4 dark:bg-gray-800 h-full'>
+     {headerIsAvailable && <div className=' flex items-center justify-between my-4 mx-4  '><Image src={Logo} alt='logo'/><button className=' text-violet-600' onClick={closeSidebar}><CgClose size={25}/></button></div> }   
+<ul className="w-full bg-white dark:bg-gray-800 transition-all duration-500 p-5 space-y-4 overflow-y-auto">
       {items.map((item) => (
-        <li key={item.label} className="flex flex-col">
+        <li key={item.label} className="flex flex-col dark:text-stone-300  ">
           {item.link ? (
             <Link
               href={item.link}
-              className="flex justify-between items-center py-3 px-2 hover:bg-gray-100 rounded-md"
+              className="flex justify-between items-center py-3 px-2 dark:text-stone-300 hover:bg-gray-100  rounded-md"
             >
-              <span className="text-gray-800">{item.label}</span>
+              <span className="text-gray-800 dark:text-stone-300">{item.label}</span>
               {item.items && <BsArrowDownCircle size={18} />}
             </Link>
           ) : (
             <button
               onClick={() => toggleSubMenu(item.label)}
-              className="flex justify-between items-center w-full text-left py-3 px-2 hover:bg-gray-100 rounded-md focus:outline-none"
+              className="flex justify-between items-center cursor-pointer w-full text-left py-3 px-2 dark:text-stone-300 hover:bg-gray-100  rounded-md focus:outline-none"
             >
-              <span className="text-gray-800">{item.label}</span>
+              <span className="text-gray-800 dark:text-stone-300 ">{item.label}</span>
               {item.items && expandedItem === item.label ? (
                 <BsArrowDownCircle size={18} />
               ) : (
@@ -52,7 +52,7 @@ const Menu = ({ items,closeSidebar,headerIsAvailable }: { items: LinkItem[],clos
                 <li key={subItem.label}>
                   <Link
                     href={subItem.link || '#'}
-                    className="text-gray-700 hover:text-blue-600 hover:bg-gray-50 px-2 py-1 rounded-md block"
+                    className="text-gray-700 dark:text-stone-300 hover:text-blue-600 hover:bg-gray-50 px-2 py-1 rounded-md block"
                   >
                     {subItem.label}
                   </Link>

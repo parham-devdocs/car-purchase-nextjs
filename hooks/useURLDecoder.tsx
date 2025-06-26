@@ -2,17 +2,17 @@
 
 import { useEffect, useState } from 'react'
 
-const useURLDecoder = (location:string) => {
-    const [decodedLocation, setDecoded] = useState<string | null>(null);
+const useURLDecoder = (url:string) => {
+    const [decodedURL, setDecodedURL] = useState<string | null>(null);
   
     useEffect(() => {
     
-        const decoded = decodeURIComponent(location);
-        setDecoded(decoded);
+        const decoded = decodeURIComponent(url);
+        setDecodedURL(decoded);
       
     }, [location]);
   
-  return {decodedLocation}
+  return {decodedURL}
 }
 
 export default useURLDecoder

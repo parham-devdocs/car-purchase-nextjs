@@ -5,7 +5,7 @@ import SignInSignUpSection from "./SignInSignUpSection";
 import StandardOfCare from "./StandardOfCare";
 
 export default function Index() {
-    return <div >
+    return <div className=" dark:bg-black transition-all duration-500" >
         <Reservation/>
         <SignInSignUpSection/>
         <StandardOfCare/>
