@@ -13,6 +13,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { format } from "date-fns";
+
 export default function Reservation({title="Rent a Car with Alamo and Drive Happy",bgImage=true,pickUpLocation}:{title?:string,bgImage?:boolean,pickUpLocation?:string}) {
 
   return (

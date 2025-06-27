@@ -46,12 +46,13 @@ export function SignInDropDown() {
         <h2 className="text-2xl text-blue-900 font-bold">Alamo Insiders</h2>
         <p className="text-blue-900 text-sm font-bold -mt-6">
           Not a member yet?{" "}
-          <Link className="underline text-violet-600" href="/Sign-Up">
+          <Link className="underline text-violet-800" href="/Sign-Up">
             Join now
           </Link>
         </p>
 
         <Input
+        color=" text-violet-800"
           label="Email Address or Username"
           required
           {...register("email")}
@@ -62,6 +63,7 @@ export function SignInDropDown() {
         )}
 
         <Input
+        color=" text-violet-800"
           label="Password"
           required
           type="password"
@@ -78,7 +80,7 @@ export function SignInDropDown() {
             id="checkbox"
             className="w-5 h-5 checked:bg-violet-600 focus:ring-violet-600"
           />
-          <label htmlFor="checkbox" className="text-violet-600 text-sm">
+          <label htmlFor="checkbox" className="text-violet-800 text-sm">
             Stay signed in
           </label>
         </div>

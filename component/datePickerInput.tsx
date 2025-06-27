@@ -2,10 +2,9 @@ import { format } from "date-fns";
 import React, { useMemo, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-const Date_Picker = ({label,required,id,color,onChangeHandler}:{label:string,required:boolean,id: string,color:string,onChangeHandler:(date:any)=>void}) => {
+const Date_Picker = ({label,required,id,color,onChangeHandler}:{label:string,required:boolean,id?: string,color?:string,onChangeHandler:(date:any)=>void}) => {
   const [isFocused,setIsFocused]=useState(false)
   const [startDate, setStartDate] = useState<any>(new Date());
-  const monthsShown = useMemo(() => 2, []);
 
   function changeInput(date:Date) {
     const formatedDate= format( new Date(date),  "yyyy-MM-dd" )
@@ -43,7 +42,10 @@ const renderDayContents = (day, date) => {
       onBlur={blurHandler}
       className=" outline-0 absolute cursor-pointer"
       renderDayContents={renderDayContents}
-      renderCustomHeader={({
+      portalId="root-portal"
+      popperClassName="react-datepicker-popper" // Custom class for styling
+      
+          renderCustomHeader={({
         monthDate,
         customHeaderCount,
         decreaseMonth,
@@ -81,10 +83,7 @@ const renderDayContents = (day, date) => {
               "react-datepicker__navigation react-datepicker__navigation--next"
             }
             onClick={increaseMonth}
-            style={{
-              visibility:
-                customHeaderCount === monthsShown - 1 ? "visible" : "hidden",
-            }}
+           
           >
             <span
               className={
@@ -98,7 +97,7 @@ const renderDayContents = (day, date) => {
       )}
       selected={startDate}
       onChange={(date) => {changeInput(date as Date )}}
-      monthsShown={monthsShown}
+      monthsShown={1}
     />
       </div>
     {isFocused &&  <div className={` absolute top-0 left-0 bg-${color ? color:"violet-500"} h-full w-2`}/>} 

@@ -22,7 +22,7 @@ const SelectInput: React.FC<InputProps > = ({ label,options, id, placeholder = '
   const handleBlur = () => setIsFocused(()=>false);
 
   return (
-    <div className="relative w-full border-2 border-blue-300 rounded-md pl-2 py-2">
+    <div className="relative w-full border-2 border-blue-300 rounded-md pl-2 py-2 cursor-pointer">
       {/* Label with floating effect */}
       <label
         htmlFor={id}
@@ -40,12 +40,12 @@ const SelectInput: React.FC<InputProps > = ({ label,options, id, placeholder = '
         className={`
            outline-none
            w-full 
-          ${`focus:border-${color || 'blue-600'}`} transition-colors relative z-10 outline-none mt-3
+          ${`focus:border-${color || 'blue-600'}`}  transition-colors relative z-10 outline-none mt-3 cursor-pointer
         `}
         {...props}
       >
         {options.map(option=>{
-            return <option key={option.label} value={option.value} label={option.label} disabled={option.disabled} className=' py-2 bg-white text-violet-500 hover:bg-violet-500 hover:text-violet-500 '/>
+            return <option key={option.label} value={option.value} label={option.label} disabled={option.disabled} className=' py-2 cursor-pointer bg-white dark:text-white dark:bg-gray-800 text-violet-500  hover:bg-violet-500 hover:text-violet-500 '/>
         })}
       </select>
 

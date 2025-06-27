@@ -2,22 +2,52 @@ import Image from "next/image"
 import SearchImage from "@/public/download.svg";
 import Input from "../textInput";
 import Button from "../Button";
-const Form = ({api,action}:{api?:string,action:"cancel"|"modify"|"view"}) => {
-    const detailsAboutActions=[
-        {action:"cancel",detail:" you can cancel a reservationa nd be sure that all your cancellation info is kept secret "},
-        {action:"view",detail:"all the info related to your reservation is viewed"},
-        {action:"modify",detail:" first search your reservation and then you can modify it"},
+import {  useEffect, useState } from "react";
+import Modal from "./modal";
+import DisplayInfo from "./displayInfo";
+import ModifyInfo from "./modifyInfo";
+import Loading from "../loading";
+const detailsAboutActions=[
+  {action:"cancel",detail:" you can cancel a reservationa nd be sure that all your cancellation info is kept secret "},
+  {action:"view",detail:"all the info related to your reservation is viewed"},
+  {action:"modify",detail:" first search your reservation and then you can modify it"},
 
 
-    ]
+]
+const Form = ({action}:{action:"cancel"|"modify"|"view"}) => {
+  const [openModal,setOpenModal]=useState(false)
+ const [showReservationInfo,setShowReservationInfo]=useState(false)
+ const [showModifyReservation,setShowModifyReservation]=useState(false)
     const specificAction=detailsAboutActions.filter(e=>e.action===action)[0]
+   
+    useEffect(()=>{
+        setShowReservationInfo(false);
+        setShowModifyReservation(false);
+    },[action])
   return (
-    <div className=' flex lg:flex-row flex-col bg-transparent lg:gap-24 gap-8'>
+    <div className=" flex flex-col gap-8">
+  <div className=' flex lg:flex-row flex-col bg-transparent lg:gap-24 gap-8  relative'>
         <div className=" flex flex-col flex-1/2 gap-3 w-full max-w-md">
         <Input label="first name" color=" text-stone-200 dark:text-violet-500" />
         <Input label="last name" color=" text-stone-200 dark:text-violet-500"/>
         <Input label=" reservation Number" color=" text-stone-200 dark:text-violet-500" />
-        <Button label={action}/>
+        <Button label={action} fn={()=>{
+          
+          switch (action) {
+            case "view":
+              setShowReservationInfo(true)
+
+              break;
+          case "modify":
+              setShowModifyReservation(true)
+              break;
+            default:
+              setOpenModal(true)
+
+              break;
+          }
+        
+        }}/>
 
 
         </div>
@@ -27,8 +57,21 @@ const Form = ({api,action}:{api?:string,action:"cancel"|"modify"|"view"}) => {
             <Image src={SearchImage} alt="search" width={300} height={300} style={{width:"200px",height:"200px",objectFit:"cover"}}/>
             <p className=" text-white text-xl ">{specificAction.detail}</p>
         </div>
-
+            {openModal    && <div className=" inset-0 flex items-center justify-center absolute z-50">
+              <Modal api="/" text={`Are you sure to ${action} this reservation ? `} onCloseHandler={()=>setOpenModal(false)}/>
+            </div> }     
+            
     </div>
+  
+   
+   <div className={`overflow-hidden transition-all duration-500 ease-in-out ${showReservationInfo ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`} >
+   {showReservationInfo && <DisplayInfo api="https://jsonplaceholder.typicode.com/todos/10 " />}        </div>
+  
+      <div className={`overflow-hidden transition-all duration-500 ease-in-out ${showModifyReservation ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`} >
+        {showModifyReservation && <ModifyInfo id={67852} api={"/"}/>}
+</div>
+    </div>
+  
   )
 }
 

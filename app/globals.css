@@ -15,15 +15,19 @@
   --font-mono: var(--font-geist-mono);
 }
 
-
-
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+.react-datepicker-popper {
+  z-index: 1000;
+  width: max-content;
+}
+
+
 .react-datepicker{
-  @apply !ml-[300px] py-1 px-1 !flex
+  @apply !ml-[300px] py-1 px-1 
 }
 .react-datepicker button {
   @apply rounded-full text-white bg-violet-500 h-5 font-extrabold w-5 flex items-center justify-center text-center;
@@ -44,3 +48,31 @@ body {
 .react-datepicker__day{
   @apply hover:!bg-violet-200 !h-9 !w-9 !rounded-full !inline-flex !justify-center !items-center;
 }
+
+        @keyframes spin-slow {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse-slow {
+          0%, 100% { transform: scale(1); opacity: 1; }
+          50% { transform: scale(1.15); opacity: 0.8; }
+        }
+
+        @keyframes orbit {
+          0% { transform: translateX(8px) rotate(0deg) translateY(0px) rotate(0deg); }
+          100% { transform: translateX(8px) rotate(360deg) translateY(0px) rotate(-360deg); }
+        }
+
+        .animate-spin-slow {
+          animation: spin-slow 1s linear infinite;
+        }
+
+        .animate-pulse-slow {
+          animation: pulse-slow 2s ease-in-out infinite;
+        }
+
+        .animate-orbit {
+          animation: orbit 1s linear infinite;
+        }
+     
