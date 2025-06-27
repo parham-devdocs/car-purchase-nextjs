@@ -4,9 +4,9 @@ import Date_Picker from "../datePickerInput";
 import SelectInput from "../selectInput";
 import generateTimeOptions from "@/utils/generateTimeOptions";
 import Button from "../Button";
-import Loading from "../loading";
-type ReservationType={ id:number,api}
-const ModifyInfo = ({id,api}: ReservationType) => {
+
+type ReservationType={ id:number|null,openModal:(e:boolean)=>void}
+const ModifyInfo = ({id,openModal}: ReservationType) => {
 
   return (
     <div className="w-full h-fit bg-blue-800 rounded-md dark:bg-neutral-800 p-6 text-yellow-400 space-y-4 transition-colors duration-500">
@@ -54,7 +54,7 @@ const ModifyInfo = ({id,api}: ReservationType) => {
        
 
       </div>
-      <div className=" ml-8">        <Button label="modify"/>
+      <div className=" ml-8">        <Button label="modify" fn={()=>openModal(true)}/>
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 "use client";
-import React, { forwardRef, useState } from 'react';
+import React, { ChangeEvent, forwardRef, useState } from 'react';
 interface InputProps {
   label: string;
   id?: string;
@@ -7,19 +7,24 @@ interface InputProps {
   placeholder?: string;
   required?: boolean;
   color?: string;
-  onChangeHandler?:any;
+  onChangeHandler?:(e:string)=>void;
   className?:string;
   defaultValue?:string;
   value?:string
 }
 const Input = (
-  ({ label, type = 'text', placeholder = '', color, required = false,defaultValue, ...props }:InputProps) => {
+  ({ label,onChangeHandler, type = 'text', placeholder = '', color, required = false,defaultValue, ...props }:InputProps) => {
     const [isFocused, setIsFocused] = useState(false);
     const [value,setValue]=useState("")
     const handleFocus = () => setIsFocused(true);
     const handleBlur = () => setIsFocused(false);
 
-   
+    function inputChangeHandler(value:ChangeEvent<HTMLInputElement>) {
+      setValue(value.target.value)
+    if (onChangeHandler) {
+      onChangeHandler(value.target.value)
+    }  
+    }
 
     return (
       <div className={`relative w-full border-2 ${ color ? color : "border-violet-500"} rounded-md px-4 py-2 `}>
@@ -40,7 +45,7 @@ const Input = (
           onFocus={handleFocus}
           onBlur={handleBlur}
           value={value ? value : defaultValue }
-          onChange={(e)=>setValue(e.target.value)}
+          onChange={(e)=>inputChangeHandler(e)}
           {...props} // This includes value, onChange, onBlur, etc., from react-hook-form
           className={`
             outline-none w-5/6 mt-3 bg-transparent

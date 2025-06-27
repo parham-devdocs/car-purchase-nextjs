@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react'
 import Button from '../Button'
 
 const Modal = ({api,text,onCloseHandler}:{api:string,text:string,onCloseHandler:()=>void}) => {
-
+console.log(api)
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-[3px] bg-opacity-60 transition-colors duration-500">
     <div 

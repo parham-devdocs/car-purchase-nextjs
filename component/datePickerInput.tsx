@@ -40,10 +40,10 @@ const renderDayContents = (day, date) => {
       <DatePicker
       onFocus={focusHandler}
       onBlur={blurHandler}
-      className=" outline-0 absolute cursor-pointer"
+      className=" outline-0 absolute cursor-pointer z-50"
       renderDayContents={renderDayContents}
       portalId="root-portal"
-      popperClassName="react-datepicker-popper" // Custom class for styling
+      popperClassName="react-datepicker-popper" 
       
           renderCustomHeader={({
         monthDate,

@@ -33,6 +33,8 @@ export default function RootLayout({
         <ReduxWrapper>
         <Navbar/>
         {children}
+        <div id="root-portal"></div>
+
         </ReduxWrapper>
        
 

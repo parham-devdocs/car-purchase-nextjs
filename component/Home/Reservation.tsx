@@ -3,7 +3,7 @@ import Image from "next/image";
 import BgImage from "../../public/mvt649_mb_bwest (2).png";
 import Input from "../textInput";
 import { BiMinusCircle, BiPlusCircle } from "react-icons/bi";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import SelectInput from "../selectInput";
 import generateTimeOptions from "../../utils/generateTimeOptions";
 import generateDriversAges from "@/utils/generateDriversAges";
@@ -70,7 +70,7 @@ console.log({...e,dueDate,startDate})
 
 }
   return (
-<form onSubmit={handleSubmit(onSubmit)} className="w-full lg:w-5/6 flex flex-col mx-auto bg-blue-500 dark:bg-gray-800 transition-all duration-500 px-6 gap-5 rounded-sm py-5">
+<form onSubmit={handleSubmit(onSubmit)} className="w-full lg:w-5/6 flex flex-col overflow-visible mx-auto bg-blue-500 dark:bg-gray-800 transition-all duration-500 px-6 gap-5 rounded-sm py-5">
   {/* Pick-up Location */}
   <div className="w-full relative">
     <Input  label="Pick-up Location" color="white" {...register("pickUp")} value={pickUpLocation} />
@@ -97,7 +97,7 @@ console.log({...e,dueDate,startDate})
     <div className="lg:w-2/3 w-full flex flex-wrap gap-y-3">
       {/* Pick-up Date + Time */}
       <div className="w-full flex flex-col sm:flex-row gap-1">
-        <div className="sm:w-1/2 w-full">
+        <div className="sm:w-1/2 w-full relative">
           <DatePicker required onChangeHandler={(e)=>setStartDate(e)}  label="Pick-Up Date" id="2" color="white"  />
         </div>
         <div className="sm:w-1/2 w-full">
@@ -106,7 +106,7 @@ console.log({...e,dueDate,startDate})
       </div>
 
       {/* Return Date + Time */}
-      <div className="w-full flex flex-col sm:flex-row gap-1">
+      <div className="w-full flex flex-col sm:flex-row gap-1 ">
         <div className="sm:w-1/2 w-full">
           <DatePicker required onChangeHandler={(e)=>setDueDate(e)} label="Return Date" id="2" color="white"  />
         </div>
