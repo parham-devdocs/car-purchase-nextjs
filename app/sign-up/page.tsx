@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import AlamoInsider from "../../public/alamo-insiders.avif";
@@ -14,13 +14,12 @@ import { Button } from "@/component";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
-import { email } from "zod/v4";
 
 const FormSchema = z.object({
   firstName: z.string().min(1, { message: "First name is required" }),
   lastName: z.string().min(1, { message: "Last name is required" }),
   email: z.string().email({ message: "Please enter a valid email" }),
-  country: z.string({ message: "Country is required" }).default("USA"),
+  country: z.string({message:"country is required"}),
   password: z
     .string()
     .min(3, "Password must be at least 3 characters")
@@ -35,26 +34,24 @@ export default function Page() {
   const [phoneError, setPhoneError] = useState<string | null>(null);
   const [policies,setPolicies]=useState(false)
   const [emails,setEmails]=useState(false)
-
+  const phoneNumberRef=useRef<HTMLInputElement|null >(null)
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm<IFormInput>({
     resolver: zodResolver(FormSchema),
+    defaultValues:{country:"USA"}
   });
 
-  const isValidPhoneNumber = (number: string): boolean => {
-    const phoneRegex = /^\+?[1-9]\d{7,14}$/; // Basic international validation
-    return phoneRegex.test(number);
-  };
+
 
   const onSubmit = (data: IFormInput) => {
-    const isValidPhone = isValidPhoneNumber(phone);
-    if (!isValidPhone) {
-      setPhoneError("Please enter a valid phone number");
-      return;
-    }
+  if (!phoneNumberRef) {
+    setPhoneError("phone number not valid")
+    return
+  }
 
     console.log("Submitted Data:", {
       ...data,
@@ -67,7 +64,7 @@ export default function Page() {
   return (
     <form className="my-16" onSubmit={handleSubmit(onSubmit)}>
       {/* Hero Section */}
-      <div className="bg-blue-500 w-full min-h-96 flex flex-col md:flex-row md:gap-64 gap-24 items-center justify-between px-24 py-20">
+      <div className="bg-blue-500 dark:bg-neutral-800 transition-all duration-500 w-full min-h-96 flex flex-col md:flex-row md:gap-64 gap-24 items-center justify-between px-24 py-20">
         <div className="flex flex-col gap-4">
           <h2 className="text-white lg:text-5xl md:text-3xl text-2xl font-bold">
             Alamo Insiders - Free and Easy to Join!
@@ -86,25 +83,30 @@ export default function Page() {
       </div>
 
       {/* Form Section */}
-      <div className="flex flex-col gap-12 lg:w-2/3 w-full px-24 py-12">
+      <div className="flex flex-col dark:bg-gray-800 transition-all duration-500 gap-12 lg:w-2/3 w-full px-24 py-12">
         <div className="space-y-4">
           <h3 className="text-blue-500 text-3xl font-bold">Account Information</h3>
 
           <div className="grid lg:grid-cols-2 grid-cols-1 gap-3">
             {/* First Name */}
-            <div className="space-y-1">
-              <Input label="First Name" id="firstName" {...register("firstName")} />
-              {errors.firstName && (
-                <p className="text-red-500 text-sm mt-1">{errors.firstName.message}</p>
-              )}
-            </div>
+           {/* First Name Field */}
+<div className="space-y-1">
+  <Input label="First Name" id="firstName" {...register("firstName")} />
+  <div className="h-5">
+    {errors.firstName && (
+      <p className="text-red-500 text-sm">{errors.firstName.message}</p>
+    )}
+  </div>
+</div>
 
             {/* Last Name */}
             <div className="space-y-1">
-              <Input label="Last Name" id="lastName" {...register("lastName")} />
-              {errors.lastName && (
-                <p className="text-red-500 text-sm mt-1">{errors.lastName.message}</p>
-              )}
+              <Input label="Last Name" id="lastName" {...register("lastName")}  />
+              <div className="h-5">
+    {errors.lastName && (
+      <p className="text-red-500 text-sm">{errors.lastName.message}</p>
+    )}
+  </div>
             </div>
 
             {/* Email Address */}
@@ -118,10 +120,12 @@ export default function Page() {
             {/* Phone Number */}
             <div className="space-y-1">
               <PhoneNumberInput
+              control={control}
                 onChangeHandler={(value: string) => {
                   setPhone(value);
                   setPhoneError(null);
                 }}
+                
               />
               {phoneError && (
                 <p className="text-red-500 text-sm mt-1">{phoneError}</p>
@@ -164,8 +168,8 @@ export default function Page() {
 
         {/* Marketing Consent */}
         <div className="flex gap-2 relative">
-          <Checkbox onChangeHandler={(e)=>setEmails(e)} id="receiving-emails"  />
-          <div className="text-sm">
+          <Checkbox onChangeHandler={(e)=>setEmails(()=>!emails)} id="receiving-emails" checked={emails} />
+          <div className="text-sm dark:text-white">
             <div className="block">
               Sign up for Alamo email specials.
               <span className="text-green-500 mt-2 mb-4 text-base font-semibold">
@@ -177,14 +181,14 @@ export default function Page() {
         </div>
 
         {/* Terms & Conditions */}
-        <div className="bg-gray-200 py-3 px-3 flex flex-col gap-8">
+        <div className="bg-gray-200 rounded-sm dark:bg-neutral-800 py-3 px-3 flex flex-col gap-8">
           <div className="flex items-center gap-2">
-            <Checkbox onChangeHandler={(e)=>setPolicies(e)} id="terms" />
-            <p className="text-sm">
+            <Checkbox onChangeHandler={(e)=>setPolicies(()=>!policies)} id="terms" checked={policies} />
+            <p className="text-sm dark:text-white" >
               I accept <span className="underline">Alamo Insiders Terms & Conditions*</span>
             </p>
           </div>
-          <Button label="Join" className="w-60 font-bold h-12" />
+          <Button disabled={!policies} label="Join" className={`w-60 font-bold h-12 disabled:bg-gray-800`} type="submit" />
         </div>
       </div>
     </form>

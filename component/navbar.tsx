@@ -70,8 +70,7 @@ const toggleSidebar=()=>{
         { label: "Français", link: "/language/french" }
       ]
     },
-    { label: "Sign Up",icon:< BsPerson size={23}/>
-     }
+    { label: "Login",icon:< BsPerson size={23}/> }
   ];
 
   // Close dropdown on outside click
@@ -171,7 +170,7 @@ const toggleSidebar=()=>{
         {/* Conditional Dropdown */}
         {openIndex?.type === 'right' && openIndex?.index === index && (
           <>
-            {item.label === "Sign Up" ? (
+            {item.label === "Login" ? (
               <SignInDropDown />
             ) : (
               <ul className="absolute top-full right-0 mt-1  shadow-lg rounded-md py-2 min-w-[200px] z-10">
@@ -180,6 +179,7 @@ const toggleSidebar=()=>{
             )}
           </>
         )}
+        
       </>
     )}
 

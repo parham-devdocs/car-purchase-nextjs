@@ -14,7 +14,7 @@ const dispatch=useDispatch()
     dispatch(setIsDarkMode(!toggleIsOn))
   },[toggleIsOn])
   return (
-    <button className={` w-16 h-8 rounded-full transition-all duration-500 relative border-2 ${toggleIsOn ? "  bg-violet-500 border-white" : " border-violet-500 bg-white"}`} onClick={()=>setToggleIsOn(()=>!toggleIsOn)}>
+    <button className={` cursor-pointer w-16 h-8 rounded-full transition-all duration-500 relative border-2 ${toggleIsOn ? "  bg-violet-500 border-white" : " border-violet-500 bg-white"}`} onClick={()=>setToggleIsOn(()=>!toggleIsOn)}>
      <div className={` absolute w-6 h-6 flex justify-center items-center rounded-full  top-[2.5px] ${toggleIsOn ? " bg-white right-1.5" : " bg-violet-500 left-1.5"} `}>
       { toggleIsOn ? <BsSun/> : <BsMoon className=" text-white"/> }
       

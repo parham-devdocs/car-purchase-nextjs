@@ -11,14 +11,15 @@ interface InputProps {
   className?:string;
   defaultValue?:string;
   value?:string
+  name:string
 }
 const Input = (
-  ({ label,onChangeHandler, type = 'text', placeholder = '', color, required = false,defaultValue, ...props }:InputProps) => {
+  ({ label,onChangeHandler, type = 'text', placeholder = '', color, required = false,defaultValue }:InputProps) => {
     const [isFocused, setIsFocused] = useState(false);
     const [value,setValue]=useState("")
     const handleFocus = () => setIsFocused(true);
-    const handleBlur = () => setIsFocused(false);
-
+    const handleBlur = () => {setIsFocused(false)};
+console.log(isFocused)
     function inputChangeHandler(value:ChangeEvent<HTMLInputElement>) {
       setValue(value.target.value)
     if (onChangeHandler) {
@@ -39,6 +40,7 @@ const Input = (
 
         {/* Input */}
         <input
+        
           type={type}
           placeholder={placeholder}
           required={required}
@@ -46,18 +48,16 @@ const Input = (
           onBlur={handleBlur}
           value={value ? value : defaultValue }
           onChange={(e)=>inputChangeHandler(e)}
-          {...props} // This includes value, onChange, onBlur, etc., from react-hook-form
           className={`
             outline-none w-5/6 mt-3 bg-transparent
-            focus:border-${color || 'blue-600'} transition-colors relative z-10
-            ${props.className || ''}
+            focus:border-${color || 'blue-600'} transition-colors dark:text-white relative z-10
           `}
         />
 
         {/* Focus indicator bar */}
-        {isFocused && (
-          <div className={`absolute top-0 left-0 h-full w-2 ${color ? `bg-${color}` : 'bg-violet-500'} rounded-l-md z-0`}></div>
-        )}
+       
+        {isFocused ? <div className={`absolute top-0 left-0 h-full rounded-l-sm w-2 ${color ? `bg-${color}` : 'bg-violet-500'} rounded-l-md z-0`}></div> : <div className=' absolute left-0 h-full w-2'></div>}  
+     
       </div>
     );
   }

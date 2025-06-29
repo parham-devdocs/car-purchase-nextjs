@@ -1,11 +1,12 @@
+import React from "react";
 import { FaCheck } from "react-icons/fa";
 
 type CheckboxProps = {
   disabled?: boolean;
   defaultChecked?: boolean;
-  id?: number | string;
+  id?: string | number;
   label?: string;
-  checked:boolean
+  checked?: boolean;
   onChangeHandler?: (checked: boolean) => void;
 };
 
@@ -15,35 +16,35 @@ const Checkbox = ({
   id,
   label,
   onChangeHandler,
-  checked=true,
-  ...restProps
+  checked,
+
 }: CheckboxProps) => {
-  const generatedId = id || label || "checkbox";
+  const generatedId = String(id || label || "checkbox");
+
   const changeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const checked = event.target.checked;
-   
-    if (onChangeHandler) {
-      onChangeHandler(checked);
-    }
+    const isChecked = event.target.checked;
+    onChangeHandler?.(isChecked);
   };
 
   return (
-    <div className=" flex items-center">
-     <input
-  type="checkbox"
-  id={generatedId as string}
-  className="absolute appearance-none opacity-0"
-  defaultChecked={defaultChecked}
-  disabled={disabled}
-  onChange={changeHandler}  // ✅ Uses your main handler
-  checked={checked}
-  
-/>
+    <div className="flex items-center ">
+      {/* Hidden Native Input */}
+      <input
+        type="checkbox"
+        id={generatedId}
+        className="absolute opacity-0"
+        defaultChecked={defaultChecked}
+        disabled={disabled}
+        onChange={changeHandler}
+        checked={checked}
+        aria-checked={checked}
+      />
 
+      {/* Custom Checkbox UI */}
       <label
-        htmlFor={generatedId as string}
+        htmlFor={generatedId}
         className={`
-           w-8 h-8
+          w-8 h-8
           border-2 border-violet-500
           rounded
           flex items-center justify-center
@@ -52,12 +53,16 @@ const Checkbox = ({
           ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
           focus-within:ring-2 focus-within:ring-violet-300
         `}
+        tabIndex={disabled ? -1 : 0} // Make label focusable only when enabled
+        role="checkbox"
+        aria-checked={checked}
       >
         {checked && <FaCheck className="text-yellow-300" size={20} />}
       </label>
 
+      {/* Optional Label Text */}
       {label && (
-        <label htmlFor={generatedId as string} className="ml-2 cursor-pointer font-semibold text-white">
+        <label htmlFor={generatedId} className="ml-2 cursor-pointer font-semibold text-white">
           {label}
         </label>
       )}
