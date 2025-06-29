@@ -19,7 +19,7 @@ const PhoneNumberInput = forwardRef<HTMLInputElement, PhoneNumberInputProps>(
   ({ id, color, onChangeHandler, control,...props }, forwardedRef) => {
 
     return (
-      <div className="relative w-full">
+      <div className="relative w-full h-full">
         <label
           htmlFor={id}
           className={`absolute left-2 transition-colors duration-200 px-1 pointer-events-none top-1 text-[14px] ${
