@@ -1,0 +1,121 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+#root-portal {
+  position: relative;
+  z-index: 9999;
+}
+
+
+
+.react-datepicker{
+  @apply !ml-[300px] py-1 px-1 
+}
+.react-datepicker button {
+  @apply rounded-full text-white bg-violet-500 h-5 font-extrabold w-5 flex items-center justify-center text-center;
+}
+.react-datepicker__day-names {
+  @apply flex justify-between px-1.5
+}
+.react-datepicker__header h2 {
+   @apply text-blue-900 font-bold
+}
+.react-datepicker__day-names div{
+  @apply  text-blue-900 opacity-60 font-bold
+}
+
+.react-datepicker__day--selected {
+  @apply !inline-flex !items-center !justify-center  !bg-violet-500 !text-yellow-300 !rounded-full   !font-bold !p-0;
+}
+.react-datepicker__day{
+  @apply hover:!bg-violet-200 !h-9 !w-9 !rounded-full !inline-flex !justify-center !items-center;
+}
+
+        @keyframes spin-slow {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse-slow {
+          0%, 100% { transform: scale(1); opacity: 1; }
+          50% { transform: scale(1.15); opacity: 0.8; }
+        }
+
+        @keyframes orbit {
+          0% { transform: translateX(8px) rotate(0deg) translateY(0px) rotate(0deg); }
+          100% { transform: translateX(8px) rotate(360deg) translateY(0px) rotate(-360deg); }
+        }
+
+        .animate-spin-slow {
+          animation: spin-slow 1s linear infinite;
+        }
+
+        .animate-pulse-slow {
+          animation: pulse-slow 2s ease-in-out infinite;
+        }
+
+        .animate-orbit {
+          animation: orbit 1s linear infinite;
+        }
+        
+   /* hiding input spin button   */
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0; 
+}
+
+/* styling of  phone input  */
+ .form-control {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  padding-left: 48px;
+  margin-left: 0; 
+  background-color: transparent !important;
+  border: none !important; /* 👈 Removes the border */
+  border-radius: 5px;
+  line-height: 25px;
+  height: 100% !important;
+
+  width: 100%; /* 👈 Makes it take full width of the parent */
+  box-sizing: border-box; /* Ensures padding doesn't overflow width */
+}
+.react-tel-input {
+  margin-top: 0 !important;
+  margin-left: 115px !important;
+  display:  flex;
+   align-items: center;
+  height: 100%;
+}
+.flag-dropdown{
+  background-color: transparent !important;
+  border: none !important;
+
+  
+}
+.flag-dropdown:hover{
+  background-color: transparent !important;
+  border: none !important;
+  
+}
