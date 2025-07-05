@@ -4,9 +4,8 @@ import authRoutes from "./routes/auth";
 import carRoutes from "./routes/vehicles";
 import dotenv from "dotenv";
 import path from "path";
-
 const app: Express = express();
-const PORT: number = parseInt(process.env.PORT || "3000", 10);
+const PORT: number = parseInt(process.env.PORT || "3001", 10);
 dotenv.config({ path: path.resolve(__dirname, "../.env") });
 
 app.use(express.json());

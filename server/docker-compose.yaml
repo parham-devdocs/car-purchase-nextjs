@@ -1,0 +1,31 @@
+name: Car
+services:
+  api:
+    build: .
+    ports:
+      - "4000:5000"
+    volumes:
+       - .:/src
+    command: node dist/index.js
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=postgresql://mypostgres:mysecretpassword@mypostgres:5432/devdb
+     
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:latest
+    container_name: mypostgres
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: mypostgres
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_DB: devdb
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:

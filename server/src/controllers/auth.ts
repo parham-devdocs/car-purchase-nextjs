@@ -1,8 +1,10 @@
 import {  Request,Response } from "express";
 import { UserLogin, User } from "src/types/user";
 import {  generateAccessToken, generateRefreshToken } from "../utils/jwt";
+import prisma from "../prisma/client";
 export function login(req:Request<any,any,UserLogin>,res:Response) {
     const {body}=req
+  
   const accessToken=generateAccessToken(body.emailOrUsername)
   const refreshToken=generateRefreshToken(body.emailOrUsername)
   //////  saving refreshToken i data base 
