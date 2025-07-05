@@ -1,7 +1,7 @@
 "use client";
 import Reservation from "@/component/Reservation";
 import Image from "next/image";
-import { FC, useState } from "react";
+import {  useState } from "react";
 import map from "@/public/staticmap.png";
 import useURLDecoder from "@/hooks/useURLDecoder";
 import ScheduleDropDown from "@/component/location/scheduleDropDown";
@@ -12,6 +12,7 @@ import { FaCheck } from "react-icons/fa6";
 import { IoCloudyNightSharp } from "react-icons/io5";
 import { TbHandClick } from "react-icons/tb";
 import { RxRotateCounterClockwise } from "react-icons/rx";
+import { useParams } from "next/navigation";
 
 interface Props {
   params: {
@@ -38,20 +39,23 @@ const services = [
     Icon: RxRotateCounterClockwise,
   },
 ];
-const Page: FC<Props> = ({ params }) => {
-  const { decodedLocation } = useURLDecoder(params.location);
+const Page = ({ params }:Props) => {
+  const { decodedURL } = useURLDecoder(params.location) 
   const [dropDown, setDropDown] = useState("");
+  const {location}=useParams()
+  console.log(location)
+  console.log("oiefh")
   return (
     <div>
       <Reservation
-        title={`${decodedLocation} Car Rental`}
-        pickUpLocation={decodedLocation as string}
+        title={`${decodedURL} Car Rental`}
+        pickUpLocation={decodedURL as string}
         bgImage
       />
       <div className="bg-blue-500 w-full py-7 px-32 ">
         <div className=" items-center justify-between flex flex-col lg:flex-row">
           <div className="space-y-5">
-            <p className="text-white font-bold text-2xl">{decodedLocation}</p>
+            <p className="text-white font-bold text-2xl">{decodedURL}</p>
             <Image src={map} height={550} width={550} alt="map" />
           </div>
           {/* Your other divs */}

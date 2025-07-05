@@ -14,10 +14,10 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
 
 
 /**
- * Model Dollar
+ * Model User
  * 
  */
-export type Dollar = $Result.DefaultSelection<Prisma.$DollarPayload>
+export type User = $Result.DefaultSelection<Prisma.$UserPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -26,8 +26,8 @@ export type Dollar = $Result.DefaultSelection<Prisma.$DollarPayload>
  * @example
  * ```
  * const prisma = new PrismaClient()
- * // Fetch zero or more Dollars
- * const dollars = await prisma.dollar.findMany()
+ * // Fetch zero or more Users
+ * const users = await prisma.user.findMany()
  * ```
  *
  *
@@ -47,8 +47,8 @@ export class PrismaClient<
    * @example
    * ```
    * const prisma = new PrismaClient()
-   * // Fetch zero or more Dollars
-   * const dollars = await prisma.dollar.findMany()
+   * // Fetch zero or more Users
+   * const users = await prisma.user.findMany()
    * ```
    *
    *
@@ -145,14 +145,14 @@ export class PrismaClient<
   }>>
 
       /**
-   * `prisma.dollar`: Exposes CRUD operations for the **Dollar** model.
+   * `prisma.user`: Exposes CRUD operations for the **User** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more Dollars
-    * const dollars = await prisma.dollar.findMany()
+    * // Fetch zero or more Users
+    * const users = await prisma.user.findMany()
     * ```
     */
-  get dollar(): Prisma.DollarDelegate<ExtArgs, ClientOptions>;
+  get user(): Prisma.UserDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -593,7 +593,7 @@ export namespace Prisma {
 
 
   export const ModelName: {
-    Dollar: 'Dollar'
+    User: 'User'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -612,81 +612,81 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "dollar"
+      modelProps: "user"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
-      Dollar: {
-        payload: Prisma.$DollarPayload<ExtArgs>
-        fields: Prisma.DollarFieldRefs
+      User: {
+        payload: Prisma.$UserPayload<ExtArgs>
+        fields: Prisma.UserFieldRefs
         operations: {
           findUnique: {
-            args: Prisma.DollarFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$DollarPayload> | null
+            args: Prisma.UserFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPayload> | null
           }
           findUniqueOrThrow: {
-            args: Prisma.DollarFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$DollarPayload>
+            args: Prisma.UserFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPayload>
           }
           findFirst: {
-            args: Prisma.DollarFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$DollarPayload> | null
+            args: Prisma.UserFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPayload> | null
           }
           findFirstOrThrow: {
-            args: Prisma.DollarFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$DollarPayload>
+            args: Prisma.UserFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPayload>
           }
           findMany: {
-            args: Prisma.DollarFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$DollarPayload>[]
+            args: Prisma.UserFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPayload>[]
           }
           create: {
-            args: Prisma.DollarCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$DollarPayload>
+            args: Prisma.UserCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPayload>
           }
           createMany: {
-            args: Prisma.DollarCreateManyArgs<ExtArgs>
+            args: Prisma.UserCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
           createManyAndReturn: {
-            args: Prisma.DollarCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$DollarPayload>[]
+            args: Prisma.UserCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPayload>[]
           }
           delete: {
-            args: Prisma.DollarDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$DollarPayload>
+            args: Prisma.UserDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPayload>
           }
           update: {
-            args: Prisma.DollarUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$DollarPayload>
+            args: Prisma.UserUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPayload>
           }
           deleteMany: {
-            args: Prisma.DollarDeleteManyArgs<ExtArgs>
+            args: Prisma.UserDeleteManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateMany: {
-            args: Prisma.DollarUpdateManyArgs<ExtArgs>
+            args: Prisma.UserUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateManyAndReturn: {
-            args: Prisma.DollarUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$DollarPayload>[]
+            args: Prisma.UserUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPayload>[]
           }
           upsert: {
-            args: Prisma.DollarUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$DollarPayload>
+            args: Prisma.UserUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPayload>
           }
           aggregate: {
-            args: Prisma.DollarAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateDollar>
+            args: Prisma.UserAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateUser>
           }
           groupBy: {
-            args: Prisma.DollarGroupByArgs<ExtArgs>
-            result: $Utils.Optional<DollarGroupByOutputType>[]
+            args: Prisma.UserGroupByArgs<ExtArgs>
+            result: $Utils.Optional<UserGroupByOutputType>[]
           }
           count: {
-            args: Prisma.DollarCountArgs<ExtArgs>
-            result: $Utils.Optional<DollarCountAggregateOutputType> | number
+            args: Prisma.UserCountArgs<ExtArgs>
+            result: $Utils.Optional<UserCountAggregateOutputType> | number
           }
         }
       }
@@ -774,7 +774,7 @@ export namespace Prisma {
     omit?: Prisma.GlobalOmitConfig
   }
   export type GlobalOmitConfig = {
-    dollar?: DollarOmit
+    user?: UserOmit
   }
 
   /* Types for Logging */
@@ -870,40 +870,40 @@ export namespace Prisma {
    */
 
   /**
-   * Model Dollar
+   * Model User
    */
 
-  export type AggregateDollar = {
-    _count: DollarCountAggregateOutputType | null
-    _avg: DollarAvgAggregateOutputType | null
-    _sum: DollarSumAggregateOutputType | null
-    _min: DollarMinAggregateOutputType | null
-    _max: DollarMaxAggregateOutputType | null
+  export type AggregateUser = {
+    _count: UserCountAggregateOutputType | null
+    _avg: UserAvgAggregateOutputType | null
+    _sum: UserSumAggregateOutputType | null
+    _min: UserMinAggregateOutputType | null
+    _max: UserMaxAggregateOutputType | null
   }
 
-  export type DollarAvgAggregateOutputType = {
+  export type UserAvgAggregateOutputType = {
     id: number | null
   }
 
-  export type DollarSumAggregateOutputType = {
+  export type UserSumAggregateOutputType = {
     id: number | null
   }
 
-  export type DollarMinAggregateOutputType = {
-    id: number | null
-    createdAt: Date | null
-    updatedAt: Date | null
-    value: string | null
-  }
-
-  export type DollarMaxAggregateOutputType = {
+  export type UserMinAggregateOutputType = {
     id: number | null
     createdAt: Date | null
     updatedAt: Date | null
     value: string | null
   }
 
-  export type DollarCountAggregateOutputType = {
+  export type UserMaxAggregateOutputType = {
+    id: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    value: string | null
+  }
+
+  export type UserCountAggregateOutputType = {
     id: number
     createdAt: number
     updatedAt: number
@@ -912,29 +912,29 @@ export namespace Prisma {
   }
 
 
-  export type DollarAvgAggregateInputType = {
+  export type UserAvgAggregateInputType = {
     id?: true
   }
 
-  export type DollarSumAggregateInputType = {
+  export type UserSumAggregateInputType = {
     id?: true
   }
 
-  export type DollarMinAggregateInputType = {
-    id?: true
-    createdAt?: true
-    updatedAt?: true
-    value?: true
-  }
-
-  export type DollarMaxAggregateInputType = {
+  export type UserMinAggregateInputType = {
     id?: true
     createdAt?: true
     updatedAt?: true
     value?: true
   }
 
-  export type DollarCountAggregateInputType = {
+  export type UserMaxAggregateInputType = {
+    id?: true
+    createdAt?: true
+    updatedAt?: true
+    value?: true
+  }
+
+  export type UserCountAggregateInputType = {
     id?: true
     createdAt?: true
     updatedAt?: true
@@ -942,286 +942,286 @@ export namespace Prisma {
     _all?: true
   }
 
-  export type DollarAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which Dollar to aggregate.
+     * Filter which User to aggregate.
      */
-    where?: DollarWhereInput
+    where?: UserWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Dollars to fetch.
+     * Determine the order of Users to fetch.
      */
-    orderBy?: DollarOrderByWithRelationInput | DollarOrderByWithRelationInput[]
+    orderBy?: UserOrderByWithRelationInput | UserOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: DollarWhereUniqueInput
+    cursor?: UserWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Dollars from the position of the cursor.
+     * Take `±n` Users from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Dollars.
+     * Skip the first `n` Users.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned Dollars
+     * Count returned Users
     **/
-    _count?: true | DollarCountAggregateInputType
+    _count?: true | UserCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to average
     **/
-    _avg?: DollarAvgAggregateInputType
+    _avg?: UserAvgAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to sum
     **/
-    _sum?: DollarSumAggregateInputType
+    _sum?: UserSumAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: DollarMinAggregateInputType
+    _min?: UserMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: DollarMaxAggregateInputType
+    _max?: UserMaxAggregateInputType
   }
 
-  export type GetDollarAggregateType<T extends DollarAggregateArgs> = {
-        [P in keyof T & keyof AggregateDollar]: P extends '_count' | 'count'
+  export type GetUserAggregateType<T extends UserAggregateArgs> = {
+        [P in keyof T & keyof AggregateUser]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateDollar[P]>
-      : GetScalarType<T[P], AggregateDollar[P]>
+        : GetScalarType<T[P], AggregateUser[P]>
+      : GetScalarType<T[P], AggregateUser[P]>
   }
 
 
 
 
-  export type DollarGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: DollarWhereInput
-    orderBy?: DollarOrderByWithAggregationInput | DollarOrderByWithAggregationInput[]
-    by: DollarScalarFieldEnum[] | DollarScalarFieldEnum
-    having?: DollarScalarWhereWithAggregatesInput
+  export type UserGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserWhereInput
+    orderBy?: UserOrderByWithAggregationInput | UserOrderByWithAggregationInput[]
+    by: UserScalarFieldEnum[] | UserScalarFieldEnum
+    having?: UserScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: DollarCountAggregateInputType | true
-    _avg?: DollarAvgAggregateInputType
-    _sum?: DollarSumAggregateInputType
-    _min?: DollarMinAggregateInputType
-    _max?: DollarMaxAggregateInputType
+    _count?: UserCountAggregateInputType | true
+    _avg?: UserAvgAggregateInputType
+    _sum?: UserSumAggregateInputType
+    _min?: UserMinAggregateInputType
+    _max?: UserMaxAggregateInputType
   }
 
-  export type DollarGroupByOutputType = {
+  export type UserGroupByOutputType = {
     id: number
     createdAt: Date
     updatedAt: Date
     value: string
-    _count: DollarCountAggregateOutputType | null
-    _avg: DollarAvgAggregateOutputType | null
-    _sum: DollarSumAggregateOutputType | null
-    _min: DollarMinAggregateOutputType | null
-    _max: DollarMaxAggregateOutputType | null
+    _count: UserCountAggregateOutputType | null
+    _avg: UserAvgAggregateOutputType | null
+    _sum: UserSumAggregateOutputType | null
+    _min: UserMinAggregateOutputType | null
+    _max: UserMaxAggregateOutputType | null
   }
 
-  type GetDollarGroupByPayload<T extends DollarGroupByArgs> = Prisma.PrismaPromise<
+  type GetUserGroupByPayload<T extends UserGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickEnumerable<DollarGroupByOutputType, T['by']> &
+      PickEnumerable<UserGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof DollarGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof UserGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], DollarGroupByOutputType[P]>
-            : GetScalarType<T[P], DollarGroupByOutputType[P]>
+              : GetScalarType<T[P], UserGroupByOutputType[P]>
+            : GetScalarType<T[P], UserGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type DollarSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type UserSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     value?: boolean
-  }, ExtArgs["result"]["dollar"]>
+  }, ExtArgs["result"]["user"]>
 
-  export type DollarSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type UserSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     value?: boolean
-  }, ExtArgs["result"]["dollar"]>
+  }, ExtArgs["result"]["user"]>
 
-  export type DollarSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     value?: boolean
-  }, ExtArgs["result"]["dollar"]>
+  }, ExtArgs["result"]["user"]>
 
-  export type DollarSelectScalar = {
+  export type UserSelectScalar = {
     id?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     value?: boolean
   }
 
-  export type DollarOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "value", ExtArgs["result"]["dollar"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "value", ExtArgs["result"]["user"]>
 
-  export type $DollarPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "Dollar"
+  export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "User"
     objects: {}
     scalars: $Extensions.GetPayloadResult<{
       id: number
       createdAt: Date
       updatedAt: Date
       value: string
-    }, ExtArgs["result"]["dollar"]>
+    }, ExtArgs["result"]["user"]>
     composites: {}
   }
 
-  type DollarGetPayload<S extends boolean | null | undefined | DollarDefaultArgs> = $Result.GetResult<Prisma.$DollarPayload, S>
+  type UserGetPayload<S extends boolean | null | undefined | UserDefaultArgs> = $Result.GetResult<Prisma.$UserPayload, S>
 
-  type DollarCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<DollarFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: DollarCountAggregateInputType | true
+  type UserCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<UserFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: UserCountAggregateInputType | true
     }
 
-  export interface DollarDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Dollar'], meta: { name: 'Dollar' } }
+  export interface UserDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['User'], meta: { name: 'User' } }
     /**
-     * Find zero or one Dollar that matches the filter.
-     * @param {DollarFindUniqueArgs} args - Arguments to find a Dollar
+     * Find zero or one User that matches the filter.
+     * @param {UserFindUniqueArgs} args - Arguments to find a User
      * @example
-     * // Get one Dollar
-     * const dollar = await prisma.dollar.findUnique({
+     * // Get one User
+     * const user = await prisma.user.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUnique<T extends DollarFindUniqueArgs>(args: SelectSubset<T, DollarFindUniqueArgs<ExtArgs>>): Prisma__DollarClient<$Result.GetResult<Prisma.$DollarPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findUnique<T extends UserFindUniqueArgs>(args: SelectSubset<T, UserFindUniqueArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find one Dollar that matches the filter or throw an error with `error.code='P2025'`
+     * Find one User that matches the filter or throw an error with `error.code='P2025'`
      * if no matches were found.
-     * @param {DollarFindUniqueOrThrowArgs} args - Arguments to find a Dollar
+     * @param {UserFindUniqueOrThrowArgs} args - Arguments to find a User
      * @example
-     * // Get one Dollar
-     * const dollar = await prisma.dollar.findUniqueOrThrow({
+     * // Get one User
+     * const user = await prisma.user.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUniqueOrThrow<T extends DollarFindUniqueOrThrowArgs>(args: SelectSubset<T, DollarFindUniqueOrThrowArgs<ExtArgs>>): Prisma__DollarClient<$Result.GetResult<Prisma.$DollarPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findUniqueOrThrow<T extends UserFindUniqueOrThrowArgs>(args: SelectSubset<T, UserFindUniqueOrThrowArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first Dollar that matches the filter.
+     * Find the first User that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {DollarFindFirstArgs} args - Arguments to find a Dollar
+     * @param {UserFindFirstArgs} args - Arguments to find a User
      * @example
-     * // Get one Dollar
-     * const dollar = await prisma.dollar.findFirst({
+     * // Get one User
+     * const user = await prisma.user.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirst<T extends DollarFindFirstArgs>(args?: SelectSubset<T, DollarFindFirstArgs<ExtArgs>>): Prisma__DollarClient<$Result.GetResult<Prisma.$DollarPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findFirst<T extends UserFindFirstArgs>(args?: SelectSubset<T, UserFindFirstArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first Dollar that matches the filter or
+     * Find the first User that matches the filter or
      * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {DollarFindFirstOrThrowArgs} args - Arguments to find a Dollar
+     * @param {UserFindFirstOrThrowArgs} args - Arguments to find a User
      * @example
-     * // Get one Dollar
-     * const dollar = await prisma.dollar.findFirstOrThrow({
+     * // Get one User
+     * const user = await prisma.user.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirstOrThrow<T extends DollarFindFirstOrThrowArgs>(args?: SelectSubset<T, DollarFindFirstOrThrowArgs<ExtArgs>>): Prisma__DollarClient<$Result.GetResult<Prisma.$DollarPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findFirstOrThrow<T extends UserFindFirstOrThrowArgs>(args?: SelectSubset<T, UserFindFirstOrThrowArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find zero or more Dollars that matches the filter.
+     * Find zero or more Users that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {DollarFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @param {UserFindManyArgs} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all Dollars
-     * const dollars = await prisma.dollar.findMany()
+     * // Get all Users
+     * const users = await prisma.user.findMany()
      * 
-     * // Get first 10 Dollars
-     * const dollars = await prisma.dollar.findMany({ take: 10 })
+     * // Get first 10 Users
+     * const users = await prisma.user.findMany({ take: 10 })
      * 
      * // Only select the `id`
-     * const dollarWithIdOnly = await prisma.dollar.findMany({ select: { id: true } })
+     * const userWithIdOnly = await prisma.user.findMany({ select: { id: true } })
      * 
      */
-    findMany<T extends DollarFindManyArgs>(args?: SelectSubset<T, DollarFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DollarPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+    findMany<T extends UserFindManyArgs>(args?: SelectSubset<T, UserFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
-     * Create a Dollar.
-     * @param {DollarCreateArgs} args - Arguments to create a Dollar.
+     * Create a User.
+     * @param {UserCreateArgs} args - Arguments to create a User.
      * @example
-     * // Create one Dollar
-     * const Dollar = await prisma.dollar.create({
+     * // Create one User
+     * const User = await prisma.user.create({
      *   data: {
-     *     // ... data to create a Dollar
+     *     // ... data to create a User
      *   }
      * })
      * 
      */
-    create<T extends DollarCreateArgs>(args: SelectSubset<T, DollarCreateArgs<ExtArgs>>): Prisma__DollarClient<$Result.GetResult<Prisma.$DollarPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    create<T extends UserCreateArgs>(args: SelectSubset<T, UserCreateArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Create many Dollars.
-     * @param {DollarCreateManyArgs} args - Arguments to create many Dollars.
+     * Create many Users.
+     * @param {UserCreateManyArgs} args - Arguments to create many Users.
      * @example
-     * // Create many Dollars
-     * const dollar = await prisma.dollar.createMany({
+     * // Create many Users
+     * const user = await prisma.user.createMany({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      *     
      */
-    createMany<T extends DollarCreateManyArgs>(args?: SelectSubset<T, DollarCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    createMany<T extends UserCreateManyArgs>(args?: SelectSubset<T, UserCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create many Dollars and returns the data saved in the database.
-     * @param {DollarCreateManyAndReturnArgs} args - Arguments to create many Dollars.
+     * Create many Users and returns the data saved in the database.
+     * @param {UserCreateManyAndReturnArgs} args - Arguments to create many Users.
      * @example
-     * // Create many Dollars
-     * const dollar = await prisma.dollar.createManyAndReturn({
+     * // Create many Users
+     * const user = await prisma.user.createManyAndReturn({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      * 
-     * // Create many Dollars and only return the `id`
-     * const dollarWithIdOnly = await prisma.dollar.createManyAndReturn({
+     * // Create many Users and only return the `id`
+     * const userWithIdOnly = await prisma.user.createManyAndReturn({
      *   select: { id: true },
      *   data: [
      *     // ... provide data here
@@ -1231,28 +1231,28 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    createManyAndReturn<T extends DollarCreateManyAndReturnArgs>(args?: SelectSubset<T, DollarCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DollarPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+    createManyAndReturn<T extends UserCreateManyAndReturnArgs>(args?: SelectSubset<T, UserCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Delete a Dollar.
-     * @param {DollarDeleteArgs} args - Arguments to delete one Dollar.
+     * Delete a User.
+     * @param {UserDeleteArgs} args - Arguments to delete one User.
      * @example
-     * // Delete one Dollar
-     * const Dollar = await prisma.dollar.delete({
+     * // Delete one User
+     * const User = await prisma.user.delete({
      *   where: {
-     *     // ... filter to delete one Dollar
+     *     // ... filter to delete one User
      *   }
      * })
      * 
      */
-    delete<T extends DollarDeleteArgs>(args: SelectSubset<T, DollarDeleteArgs<ExtArgs>>): Prisma__DollarClient<$Result.GetResult<Prisma.$DollarPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    delete<T extends UserDeleteArgs>(args: SelectSubset<T, UserDeleteArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Update one Dollar.
-     * @param {DollarUpdateArgs} args - Arguments to update one Dollar.
+     * Update one User.
+     * @param {UserUpdateArgs} args - Arguments to update one User.
      * @example
-     * // Update one Dollar
-     * const dollar = await prisma.dollar.update({
+     * // Update one User
+     * const user = await prisma.user.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -1262,30 +1262,30 @@ export namespace Prisma {
      * })
      * 
      */
-    update<T extends DollarUpdateArgs>(args: SelectSubset<T, DollarUpdateArgs<ExtArgs>>): Prisma__DollarClient<$Result.GetResult<Prisma.$DollarPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    update<T extends UserUpdateArgs>(args: SelectSubset<T, UserUpdateArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Delete zero or more Dollars.
-     * @param {DollarDeleteManyArgs} args - Arguments to filter Dollars to delete.
+     * Delete zero or more Users.
+     * @param {UserDeleteManyArgs} args - Arguments to filter Users to delete.
      * @example
-     * // Delete a few Dollars
-     * const { count } = await prisma.dollar.deleteMany({
+     * // Delete a few Users
+     * const { count } = await prisma.user.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
      */
-    deleteMany<T extends DollarDeleteManyArgs>(args?: SelectSubset<T, DollarDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    deleteMany<T extends UserDeleteManyArgs>(args?: SelectSubset<T, UserDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more Dollars.
+     * Update zero or more Users.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {DollarUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {UserUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many Dollars
-     * const dollar = await prisma.dollar.updateMany({
+     * // Update many Users
+     * const user = await prisma.user.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -1295,14 +1295,14 @@ export namespace Prisma {
      * })
      * 
      */
-    updateMany<T extends DollarUpdateManyArgs>(args: SelectSubset<T, DollarUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    updateMany<T extends UserUpdateManyArgs>(args: SelectSubset<T, UserUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more Dollars and returns the data updated in the database.
-     * @param {DollarUpdateManyAndReturnArgs} args - Arguments to update many Dollars.
+     * Update zero or more Users and returns the data updated in the database.
+     * @param {UserUpdateManyAndReturnArgs} args - Arguments to update many Users.
      * @example
-     * // Update many Dollars
-     * const dollar = await prisma.dollar.updateManyAndReturn({
+     * // Update many Users
+     * const user = await prisma.user.updateManyAndReturn({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -1311,8 +1311,8 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Update zero or more Dollars and only return the `id`
-     * const dollarWithIdOnly = await prisma.dollar.updateManyAndReturn({
+     * // Update zero or more Users and only return the `id`
+     * const userWithIdOnly = await prisma.user.updateManyAndReturn({
      *   select: { id: true },
      *   where: {
      *     // ... provide filter here
@@ -1325,56 +1325,56 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    updateManyAndReturn<T extends DollarUpdateManyAndReturnArgs>(args: SelectSubset<T, DollarUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DollarPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+    updateManyAndReturn<T extends UserUpdateManyAndReturnArgs>(args: SelectSubset<T, UserUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Create or update one Dollar.
-     * @param {DollarUpsertArgs} args - Arguments to update or create a Dollar.
+     * Create or update one User.
+     * @param {UserUpsertArgs} args - Arguments to update or create a User.
      * @example
-     * // Update or create a Dollar
-     * const dollar = await prisma.dollar.upsert({
+     * // Update or create a User
+     * const user = await prisma.user.upsert({
      *   create: {
-     *     // ... data to create a Dollar
+     *     // ... data to create a User
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the Dollar we want to update
+     *     // ... the filter for the User we want to update
      *   }
      * })
      */
-    upsert<T extends DollarUpsertArgs>(args: SelectSubset<T, DollarUpsertArgs<ExtArgs>>): Prisma__DollarClient<$Result.GetResult<Prisma.$DollarPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    upsert<T extends UserUpsertArgs>(args: SelectSubset<T, UserUpsertArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
 
     /**
-     * Count the number of Dollars.
+     * Count the number of Users.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {DollarCountArgs} args - Arguments to filter Dollars to count.
+     * @param {UserCountArgs} args - Arguments to filter Users to count.
      * @example
-     * // Count the number of Dollars
-     * const count = await prisma.dollar.count({
+     * // Count the number of Users
+     * const count = await prisma.user.count({
      *   where: {
-     *     // ... the filter for the Dollars we want to count
+     *     // ... the filter for the Users we want to count
      *   }
      * })
     **/
-    count<T extends DollarCountArgs>(
-      args?: Subset<T, DollarCountArgs>,
+    count<T extends UserCountArgs>(
+      args?: Subset<T, UserCountArgs>,
     ): Prisma.PrismaPromise<
       T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], DollarCountAggregateOutputType>
+          : GetScalarType<T['select'], UserCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a Dollar.
+     * Allows you to perform aggregations operations on a User.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {DollarAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {UserAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -1394,13 +1394,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends DollarAggregateArgs>(args: Subset<T, DollarAggregateArgs>): Prisma.PrismaPromise<GetDollarAggregateType<T>>
+    aggregate<T extends UserAggregateArgs>(args: Subset<T, UserAggregateArgs>): Prisma.PrismaPromise<GetUserAggregateType<T>>
 
     /**
-     * Group by Dollar.
+     * Group by User.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {DollarGroupByArgs} args - Group by arguments.
+     * @param {UserGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -1415,14 +1415,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends DollarGroupByArgs,
+      T extends UserGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: DollarGroupByArgs['orderBy'] }
-        : { orderBy?: DollarGroupByArgs['orderBy'] },
+        ? { orderBy: UserGroupByArgs['orderBy'] }
+        : { orderBy?: UserGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends MaybeTupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -1471,20 +1471,20 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, DollarGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDollarGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, UserGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUserGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
   /**
-   * Fields of the Dollar model
+   * Fields of the User model
    */
-  readonly fields: DollarFieldRefs;
+  readonly fields: UserFieldRefs;
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for Dollar.
+   * The delegate class that acts as a "Promise-like" for User.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__DollarClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+  export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1512,376 +1512,376 @@ export namespace Prisma {
 
 
   /**
-   * Fields of the Dollar model
+   * Fields of the User model
    */
-  interface DollarFieldRefs {
-    readonly id: FieldRef<"Dollar", 'Int'>
-    readonly createdAt: FieldRef<"Dollar", 'DateTime'>
-    readonly updatedAt: FieldRef<"Dollar", 'DateTime'>
-    readonly value: FieldRef<"Dollar", 'String'>
+  interface UserFieldRefs {
+    readonly id: FieldRef<"User", 'Int'>
+    readonly createdAt: FieldRef<"User", 'DateTime'>
+    readonly updatedAt: FieldRef<"User", 'DateTime'>
+    readonly value: FieldRef<"User", 'String'>
   }
     
 
   // Custom InputTypes
   /**
-   * Dollar findUnique
+   * User findUnique
    */
-  export type DollarFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Dollar
+     * Select specific fields to fetch from the User
      */
-    select?: DollarSelect<ExtArgs> | null
+    select?: UserSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Dollar
+     * Omit specific fields from the User
      */
-    omit?: DollarOmit<ExtArgs> | null
+    omit?: UserOmit<ExtArgs> | null
     /**
-     * Filter, which Dollar to fetch.
+     * Filter, which User to fetch.
      */
-    where: DollarWhereUniqueInput
+    where: UserWhereUniqueInput
   }
 
   /**
-   * Dollar findUniqueOrThrow
+   * User findUniqueOrThrow
    */
-  export type DollarFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Dollar
+     * Select specific fields to fetch from the User
      */
-    select?: DollarSelect<ExtArgs> | null
+    select?: UserSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Dollar
+     * Omit specific fields from the User
      */
-    omit?: DollarOmit<ExtArgs> | null
+    omit?: UserOmit<ExtArgs> | null
     /**
-     * Filter, which Dollar to fetch.
+     * Filter, which User to fetch.
      */
-    where: DollarWhereUniqueInput
+    where: UserWhereUniqueInput
   }
 
   /**
-   * Dollar findFirst
+   * User findFirst
    */
-  export type DollarFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Dollar
+     * Select specific fields to fetch from the User
      */
-    select?: DollarSelect<ExtArgs> | null
+    select?: UserSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Dollar
+     * Omit specific fields from the User
      */
-    omit?: DollarOmit<ExtArgs> | null
+    omit?: UserOmit<ExtArgs> | null
     /**
-     * Filter, which Dollar to fetch.
+     * Filter, which User to fetch.
      */
-    where?: DollarWhereInput
+    where?: UserWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Dollars to fetch.
+     * Determine the order of Users to fetch.
      */
-    orderBy?: DollarOrderByWithRelationInput | DollarOrderByWithRelationInput[]
+    orderBy?: UserOrderByWithRelationInput | UserOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for Dollars.
+     * Sets the position for searching for Users.
      */
-    cursor?: DollarWhereUniqueInput
+    cursor?: UserWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Dollars from the position of the cursor.
+     * Take `±n` Users from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Dollars.
+     * Skip the first `n` Users.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of Dollars.
+     * Filter by unique combinations of Users.
      */
-    distinct?: DollarScalarFieldEnum | DollarScalarFieldEnum[]
+    distinct?: UserScalarFieldEnum | UserScalarFieldEnum[]
   }
 
   /**
-   * Dollar findFirstOrThrow
+   * User findFirstOrThrow
    */
-  export type DollarFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Dollar
+     * Select specific fields to fetch from the User
      */
-    select?: DollarSelect<ExtArgs> | null
+    select?: UserSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Dollar
+     * Omit specific fields from the User
      */
-    omit?: DollarOmit<ExtArgs> | null
+    omit?: UserOmit<ExtArgs> | null
     /**
-     * Filter, which Dollar to fetch.
+     * Filter, which User to fetch.
      */
-    where?: DollarWhereInput
+    where?: UserWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Dollars to fetch.
+     * Determine the order of Users to fetch.
      */
-    orderBy?: DollarOrderByWithRelationInput | DollarOrderByWithRelationInput[]
+    orderBy?: UserOrderByWithRelationInput | UserOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for Dollars.
+     * Sets the position for searching for Users.
      */
-    cursor?: DollarWhereUniqueInput
+    cursor?: UserWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Dollars from the position of the cursor.
+     * Take `±n` Users from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Dollars.
+     * Skip the first `n` Users.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of Dollars.
+     * Filter by unique combinations of Users.
      */
-    distinct?: DollarScalarFieldEnum | DollarScalarFieldEnum[]
+    distinct?: UserScalarFieldEnum | UserScalarFieldEnum[]
   }
 
   /**
-   * Dollar findMany
+   * User findMany
    */
-  export type DollarFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Dollar
+     * Select specific fields to fetch from the User
      */
-    select?: DollarSelect<ExtArgs> | null
+    select?: UserSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Dollar
+     * Omit specific fields from the User
      */
-    omit?: DollarOmit<ExtArgs> | null
+    omit?: UserOmit<ExtArgs> | null
     /**
-     * Filter, which Dollars to fetch.
+     * Filter, which Users to fetch.
      */
-    where?: DollarWhereInput
+    where?: UserWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Dollars to fetch.
+     * Determine the order of Users to fetch.
      */
-    orderBy?: DollarOrderByWithRelationInput | DollarOrderByWithRelationInput[]
+    orderBy?: UserOrderByWithRelationInput | UserOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing Dollars.
+     * Sets the position for listing Users.
      */
-    cursor?: DollarWhereUniqueInput
+    cursor?: UserWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Dollars from the position of the cursor.
+     * Take `±n` Users from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Dollars.
+     * Skip the first `n` Users.
      */
     skip?: number
-    distinct?: DollarScalarFieldEnum | DollarScalarFieldEnum[]
+    distinct?: UserScalarFieldEnum | UserScalarFieldEnum[]
   }
 
   /**
-   * Dollar create
+   * User create
    */
-  export type DollarCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Dollar
+     * Select specific fields to fetch from the User
      */
-    select?: DollarSelect<ExtArgs> | null
+    select?: UserSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Dollar
+     * Omit specific fields from the User
      */
-    omit?: DollarOmit<ExtArgs> | null
+    omit?: UserOmit<ExtArgs> | null
     /**
-     * The data needed to create a Dollar.
+     * The data needed to create a User.
      */
-    data: XOR<DollarCreateInput, DollarUncheckedCreateInput>
+    data: XOR<UserCreateInput, UserUncheckedCreateInput>
   }
 
   /**
-   * Dollar createMany
+   * User createMany
    */
-  export type DollarCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to create many Dollars.
+     * The data used to create many Users.
      */
-    data: DollarCreateManyInput | DollarCreateManyInput[]
+    data: UserCreateManyInput | UserCreateManyInput[]
     skipDuplicates?: boolean
   }
 
   /**
-   * Dollar createManyAndReturn
+   * User createManyAndReturn
    */
-  export type DollarCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Dollar
+     * Select specific fields to fetch from the User
      */
-    select?: DollarSelectCreateManyAndReturn<ExtArgs> | null
+    select?: UserSelectCreateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the Dollar
+     * Omit specific fields from the User
      */
-    omit?: DollarOmit<ExtArgs> | null
+    omit?: UserOmit<ExtArgs> | null
     /**
-     * The data used to create many Dollars.
+     * The data used to create many Users.
      */
-    data: DollarCreateManyInput | DollarCreateManyInput[]
+    data: UserCreateManyInput | UserCreateManyInput[]
     skipDuplicates?: boolean
   }
 
   /**
-   * Dollar update
+   * User update
    */
-  export type DollarUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Dollar
+     * Select specific fields to fetch from the User
      */
-    select?: DollarSelect<ExtArgs> | null
+    select?: UserSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Dollar
+     * Omit specific fields from the User
      */
-    omit?: DollarOmit<ExtArgs> | null
+    omit?: UserOmit<ExtArgs> | null
     /**
-     * The data needed to update a Dollar.
+     * The data needed to update a User.
      */
-    data: XOR<DollarUpdateInput, DollarUncheckedUpdateInput>
+    data: XOR<UserUpdateInput, UserUncheckedUpdateInput>
     /**
-     * Choose, which Dollar to update.
+     * Choose, which User to update.
      */
-    where: DollarWhereUniqueInput
+    where: UserWhereUniqueInput
   }
 
   /**
-   * Dollar updateMany
+   * User updateMany
    */
-  export type DollarUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to update Dollars.
+     * The data used to update Users.
      */
-    data: XOR<DollarUpdateManyMutationInput, DollarUncheckedUpdateManyInput>
+    data: XOR<UserUpdateManyMutationInput, UserUncheckedUpdateManyInput>
     /**
-     * Filter which Dollars to update
+     * Filter which Users to update
      */
-    where?: DollarWhereInput
+    where?: UserWhereInput
     /**
-     * Limit how many Dollars to update.
+     * Limit how many Users to update.
      */
     limit?: number
   }
 
   /**
-   * Dollar updateManyAndReturn
+   * User updateManyAndReturn
    */
-  export type DollarUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Dollar
+     * Select specific fields to fetch from the User
      */
-    select?: DollarSelectUpdateManyAndReturn<ExtArgs> | null
+    select?: UserSelectUpdateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the Dollar
+     * Omit specific fields from the User
      */
-    omit?: DollarOmit<ExtArgs> | null
+    omit?: UserOmit<ExtArgs> | null
     /**
-     * The data used to update Dollars.
+     * The data used to update Users.
      */
-    data: XOR<DollarUpdateManyMutationInput, DollarUncheckedUpdateManyInput>
+    data: XOR<UserUpdateManyMutationInput, UserUncheckedUpdateManyInput>
     /**
-     * Filter which Dollars to update
+     * Filter which Users to update
      */
-    where?: DollarWhereInput
+    where?: UserWhereInput
     /**
-     * Limit how many Dollars to update.
+     * Limit how many Users to update.
      */
     limit?: number
   }
 
   /**
-   * Dollar upsert
+   * User upsert
    */
-  export type DollarUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Dollar
+     * Select specific fields to fetch from the User
      */
-    select?: DollarSelect<ExtArgs> | null
+    select?: UserSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Dollar
+     * Omit specific fields from the User
      */
-    omit?: DollarOmit<ExtArgs> | null
+    omit?: UserOmit<ExtArgs> | null
     /**
-     * The filter to search for the Dollar to update in case it exists.
+     * The filter to search for the User to update in case it exists.
      */
-    where: DollarWhereUniqueInput
+    where: UserWhereUniqueInput
     /**
-     * In case the Dollar found by the `where` argument doesn't exist, create a new Dollar with this data.
+     * In case the User found by the `where` argument doesn't exist, create a new User with this data.
      */
-    create: XOR<DollarCreateInput, DollarUncheckedCreateInput>
+    create: XOR<UserCreateInput, UserUncheckedCreateInput>
     /**
-     * In case the Dollar was found with the provided `where` argument, update it with this data.
+     * In case the User was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<DollarUpdateInput, DollarUncheckedUpdateInput>
+    update: XOR<UserUpdateInput, UserUncheckedUpdateInput>
   }
 
   /**
-   * Dollar delete
+   * User delete
    */
-  export type DollarDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Dollar
+     * Select specific fields to fetch from the User
      */
-    select?: DollarSelect<ExtArgs> | null
+    select?: UserSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Dollar
+     * Omit specific fields from the User
      */
-    omit?: DollarOmit<ExtArgs> | null
+    omit?: UserOmit<ExtArgs> | null
     /**
-     * Filter which Dollar to delete.
+     * Filter which User to delete.
      */
-    where: DollarWhereUniqueInput
+    where: UserWhereUniqueInput
   }
 
   /**
-   * Dollar deleteMany
+   * User deleteMany
    */
-  export type DollarDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which Dollars to delete
+     * Filter which Users to delete
      */
-    where?: DollarWhereInput
+    where?: UserWhereInput
     /**
-     * Limit how many Dollars to delete.
+     * Limit how many Users to delete.
      */
     limit?: number
   }
 
   /**
-   * Dollar without action
+   * User without action
    */
-  export type DollarDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Dollar
+     * Select specific fields to fetch from the User
      */
-    select?: DollarSelect<ExtArgs> | null
+    select?: UserSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Dollar
+     * Omit specific fields from the User
      */
-    omit?: DollarOmit<ExtArgs> | null
+    omit?: UserOmit<ExtArgs> | null
   }
 
 
@@ -1899,14 +1899,14 @@ export namespace Prisma {
   export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
-  export const DollarScalarFieldEnum: {
+  export const UserScalarFieldEnum: {
     id: 'id',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     value: 'value'
   };
 
-  export type DollarScalarFieldEnum = (typeof DollarScalarFieldEnum)[keyof typeof DollarScalarFieldEnum]
+  export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -1989,95 +1989,95 @@ export namespace Prisma {
    */
 
 
-  export type DollarWhereInput = {
-    AND?: DollarWhereInput | DollarWhereInput[]
-    OR?: DollarWhereInput[]
-    NOT?: DollarWhereInput | DollarWhereInput[]
-    id?: IntFilter<"Dollar"> | number
-    createdAt?: DateTimeFilter<"Dollar"> | Date | string
-    updatedAt?: DateTimeFilter<"Dollar"> | Date | string
-    value?: StringFilter<"Dollar"> | string
+  export type UserWhereInput = {
+    AND?: UserWhereInput | UserWhereInput[]
+    OR?: UserWhereInput[]
+    NOT?: UserWhereInput | UserWhereInput[]
+    id?: IntFilter<"User"> | number
+    createdAt?: DateTimeFilter<"User"> | Date | string
+    updatedAt?: DateTimeFilter<"User"> | Date | string
+    value?: StringFilter<"User"> | string
   }
 
-  export type DollarOrderByWithRelationInput = {
+  export type UserOrderByWithRelationInput = {
     id?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     value?: SortOrder
   }
 
-  export type DollarWhereUniqueInput = Prisma.AtLeast<{
+  export type UserWhereUniqueInput = Prisma.AtLeast<{
     id?: number
-    AND?: DollarWhereInput | DollarWhereInput[]
-    OR?: DollarWhereInput[]
-    NOT?: DollarWhereInput | DollarWhereInput[]
-    createdAt?: DateTimeFilter<"Dollar"> | Date | string
-    updatedAt?: DateTimeFilter<"Dollar"> | Date | string
-    value?: StringFilter<"Dollar"> | string
+    AND?: UserWhereInput | UserWhereInput[]
+    OR?: UserWhereInput[]
+    NOT?: UserWhereInput | UserWhereInput[]
+    createdAt?: DateTimeFilter<"User"> | Date | string
+    updatedAt?: DateTimeFilter<"User"> | Date | string
+    value?: StringFilter<"User"> | string
   }, "id">
 
-  export type DollarOrderByWithAggregationInput = {
+  export type UserOrderByWithAggregationInput = {
     id?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     value?: SortOrder
-    _count?: DollarCountOrderByAggregateInput
-    _avg?: DollarAvgOrderByAggregateInput
-    _max?: DollarMaxOrderByAggregateInput
-    _min?: DollarMinOrderByAggregateInput
-    _sum?: DollarSumOrderByAggregateInput
+    _count?: UserCountOrderByAggregateInput
+    _avg?: UserAvgOrderByAggregateInput
+    _max?: UserMaxOrderByAggregateInput
+    _min?: UserMinOrderByAggregateInput
+    _sum?: UserSumOrderByAggregateInput
   }
 
-  export type DollarScalarWhereWithAggregatesInput = {
-    AND?: DollarScalarWhereWithAggregatesInput | DollarScalarWhereWithAggregatesInput[]
-    OR?: DollarScalarWhereWithAggregatesInput[]
-    NOT?: DollarScalarWhereWithAggregatesInput | DollarScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter<"Dollar"> | number
-    createdAt?: DateTimeWithAggregatesFilter<"Dollar"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"Dollar"> | Date | string
-    value?: StringWithAggregatesFilter<"Dollar"> | string
+  export type UserScalarWhereWithAggregatesInput = {
+    AND?: UserScalarWhereWithAggregatesInput | UserScalarWhereWithAggregatesInput[]
+    OR?: UserScalarWhereWithAggregatesInput[]
+    NOT?: UserScalarWhereWithAggregatesInput | UserScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"User"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
+    value?: StringWithAggregatesFilter<"User"> | string
   }
 
-  export type DollarCreateInput = {
+  export type UserCreateInput = {
     createdAt?: Date | string
     updatedAt?: Date | string
     value: string
   }
 
-  export type DollarUncheckedCreateInput = {
+  export type UserUncheckedCreateInput = {
     id?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     value: string
   }
 
-  export type DollarUpdateInput = {
+  export type UserUpdateInput = {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     value?: StringFieldUpdateOperationsInput | string
   }
 
-  export type DollarUncheckedUpdateInput = {
+  export type UserUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     value?: StringFieldUpdateOperationsInput | string
   }
 
-  export type DollarCreateManyInput = {
+  export type UserCreateManyInput = {
     id?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     value: string
   }
 
-  export type DollarUpdateManyMutationInput = {
+  export type UserUpdateManyMutationInput = {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     value?: StringFieldUpdateOperationsInput | string
   }
 
-  export type DollarUncheckedUpdateManyInput = {
+  export type UserUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -2121,32 +2121,32 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
-  export type DollarCountOrderByAggregateInput = {
+  export type UserCountOrderByAggregateInput = {
     id?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     value?: SortOrder
   }
 
-  export type DollarAvgOrderByAggregateInput = {
+  export type UserAvgOrderByAggregateInput = {
     id?: SortOrder
   }
 
-  export type DollarMaxOrderByAggregateInput = {
-    id?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    value?: SortOrder
-  }
-
-  export type DollarMinOrderByAggregateInput = {
+  export type UserMaxOrderByAggregateInput = {
     id?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     value?: SortOrder
   }
 
-  export type DollarSumOrderByAggregateInput = {
+  export type UserMinOrderByAggregateInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    value?: SortOrder
+  }
+
+  export type UserSumOrderByAggregateInput = {
     id?: SortOrder
   }
 

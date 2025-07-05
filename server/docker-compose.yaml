@@ -3,7 +3,7 @@ services:
   api:
     build: .
     ports:
-      - "4000:5000"
+      - "3000:3000"
     volumes:
        - .:/src
     command: node dist/index.js

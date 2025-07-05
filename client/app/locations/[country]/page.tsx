@@ -2,7 +2,7 @@
 import { Button } from "@/component";
 import Header from "@/component/carRental/Header";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { MdLocationPin } from "react-icons/md";
 import { MdOutlineArrowDropDown, MdOutlineArrowDropUp } from "react-icons/md";
 import { BsAirplaneFill } from "react-icons/bs";
