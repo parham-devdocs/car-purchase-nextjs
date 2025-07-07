@@ -13,4 +13,7 @@ export interface User{
     username:string
     phoneNumber:string
     receiveEmails:boolean
+    refreshToken:string
+    driversAge:number
+    licenceNumber:number
 }

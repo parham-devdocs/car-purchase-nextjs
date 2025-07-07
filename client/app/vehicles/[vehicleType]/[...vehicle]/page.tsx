@@ -1,4 +1,3 @@
-"use client";
 import Reservation from "@/component/Reservation";
 import CarImage from "@/public/1567006637480.avif";
 import Image from "next/image";
@@ -7,7 +6,6 @@ import { IoMdPerson } from "react-icons/io";
 import { PiBagSimpleFill } from "react-icons/pi";
 import { FaCheck } from "react-icons/fa6";
 import VehicleTypes from "@/component/VehicleTypes";
-import { useEffect, useState } from "react";
 import useURLDecoder from "@/hooks/useURLDecoder";
 const carInfo = {
   automaticTranstion: true,

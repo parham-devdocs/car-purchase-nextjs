@@ -10,7 +10,7 @@ import { MdKeyboardDoubleArrowRight } from "react-icons/md";
 type CarProps = {
   type: string;
   name: string;
-  automatic: boolean | number;
+  automatic: boolean ;
   passengers: number;
   bags: number;
   electric?: boolean;
@@ -40,7 +40,7 @@ const cars: CarProps[] = [
   {
     type: "Car",
     name: "Ford Focus",
-    automatic: 6,
+    automatic: false,
     passengers: 5,
     bags: 3,
     electric: false,
