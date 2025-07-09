@@ -7,6 +7,7 @@ import path from "path";
 import connectToSequalize from "./db/connection";
 import sequalize from "./db/connection";
 import relations from "./db/relations";
+import cookieParser from "cookie-parser";
 // import { syncUserModel } from "./models/userModel";
 const app: Express = express();
 const PORT: number = parseInt(process.env.PORT || "3001", 10);
@@ -14,8 +15,10 @@ dotenv.config({ path: path.resolve(__dirname, "../.env") });
 
 app.use(express.json());
 app.use(cors());
+app.use(cookieParser())
 app.use("/api/auth", authRoutes);
 app.use("/api/vehicles", carRoutes);
+
 app.listen(PORT, async () => {
 
   relations()

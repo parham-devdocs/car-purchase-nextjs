@@ -17,7 +17,7 @@ export const UserModel = sequelize.define("User", {
     field: 'drivers_age' // maps `driversAge` to `drivers_age`
   },
   licenceNumber: {
-    type: DataTypes.STRING,
+    type: DataTypes.INTEGER,
     allowNull: false,
     unique: true,
     field: 'licence_number'
