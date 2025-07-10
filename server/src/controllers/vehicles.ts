@@ -36,7 +36,18 @@ export async function getVehicles(req: Request, res: Response) {
 }
 
 
-export function getSingleVehicle(req:Request,res:Response) {
+export async function getSingleVehicle(req:Request,res:Response) {
     const {id}=req.params 
-    res.send(id)
+    try {
+        const vehicle=await VehicleModel.findOne({where:{car_id:id}})
+        console.log(vehicle?.dataValues)
+                if (!vehicle) {
+            res.json({message:"no vehicle found" , data:[]})
+            return
+        }
+        res.send({ data:vehicle.dataValues});
+    } catch (error) {
+        res.json({error}).status(500)
+
+    }
 }
