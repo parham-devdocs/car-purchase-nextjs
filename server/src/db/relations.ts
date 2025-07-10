@@ -1,4 +1,4 @@
-import { CarModel } from "../models/carModel";
+import { VehicleModel } from "../models/carModel";
 import { ReservationModel } from "../models/reservationModel";
 import { UserModel } from "../models/userModel";
 
@@ -17,13 +17,13 @@ export default function relations() {
       });
       
       // Car hasOne Reservation
-      CarModel.hasOne(ReservationModel, {
+      VehicleModel.hasOne(ReservationModel, {
         foreignKey: 'car_id',
         // as: 'reservation'
       });
       
       // Reservation belongs to Car
-      ReservationModel.belongsTo(CarModel, {
+      ReservationModel.belongsTo(VehicleModel, {
         foreignKey: 'car_id',
         // as: 'car'
       });

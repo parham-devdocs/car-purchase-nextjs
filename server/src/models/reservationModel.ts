@@ -1,8 +1,6 @@
 import { DataTypes } from "sequelize";
-
 import sequalize from "../db/connection";
-import { CarModel } from "./carModel";
-import { UserModel } from "./userModel";
+
 export const ReservationModel=sequalize.define("Reservation",
   {
 reservation_id:{type:DataTypes.INTEGER,primaryKey:true,autoIncrement:true},

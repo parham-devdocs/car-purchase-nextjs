@@ -1,4 +1,4 @@
-import { VehicleType } from "./types/cars";
+import { VehicleType } from "./types/vehicle";
 
 export const allVehicles: { [key: string]: VehicleType[] } = {
   Car: [

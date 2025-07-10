@@ -7,11 +7,15 @@ export type VehicleOption =
   | "Sunroof"
   | "Leather Seats"
   | "Gasoline Vehicle";
-export interface VehicleType {
-  VehicleModel: string;
-  TransmissionType: string;
-  MaxPassengers: number;
-  NumberOfDoors: number;
-  LuggageCapacity: number;
+export  interface VehicleType {
+  model: string;
+  automaticTransmission:boolean;
+  maxPassengers: number;
+  numberOfDoors: number;
+  luggageCapacity: number;
+  image:string
+  type:string
+  quantity:number
   options: VehicleOption[];
 }
+
