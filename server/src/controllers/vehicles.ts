@@ -15,15 +15,24 @@ const {body}=req
       const newVehicle=  await VehicleModel.create({model:body.model,image:body.image, type:body.type,luggageCapacity:body.luggageCapacity,maxPassengers:body.maxPassengers,automaticTransmission:body.automaticTransmission,numberOfDoors:body.numberOfDoors,options:body.options,quantity:body.quantity})
       res.json({newVehicle})
     } catch (error) {
-  res.json({error}).status(httpErrors.BAD_REQUEST)
+  res.json({error}).status(500)
     }
 }
 
   
 export async function getVehicles(req: Request, res: Response) {
-  const vehicles=await VehicleModel.findAll()
-    res.send(vehicles);
-   
+    try {
+        const vehicles=await VehicleModel.findAll()
+        if (!vehicles) {
+            res.json({message:"no vehicle found" , data:[]})
+            return
+        }
+        res.send({message:"no vehicle found", data:vehicles});
+    } catch (error) {
+        res.json({error}).status(500)
+
+    }
+  
 }
 
 
