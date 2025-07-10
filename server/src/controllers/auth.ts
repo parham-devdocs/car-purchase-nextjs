@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { UserLogin, User } from "../types/user";
 import { decodeJWT, generateAccessToken, generateRefreshToken } from "../utils/jwt";
 import  {UserModel} from "../models/userModel";
+import httpErrors from "http-status-codes";
 import { hash } from "../utils/hash"
 export async function login(req: Request<any, any, UserLogin>, res: Response) {
   const { body } = req;
@@ -33,7 +34,17 @@ export async function register(req: Request<any, any, User>, res: Response) {
   const accessToken = generateAccessToken(body.username);
   const refreshToken = generateRefreshToken(body.username);
   const hashedPassword=await hash(body.password)
+
+
 try {
+  const existingUsername = await UserModel.findOne ({where:{username:body.username}}) 
+  const existingEmail=await UserModel.findOne ({where:{email:body.email}}) 
+  const existingLicenceNumber=await UserModel.findOne({where:{licenceNumber:body.licenceNumber}})
+
+  if (existingUsername || existingLicenceNumber || existingEmail) {
+   res.json({error:"user already exists"}).status(httpErrors.CONFLICT)
+   return
+  }
   const newUser= await UserModel.create({
     username:body.username,
     phoneNumber:body.phoneNumber,
