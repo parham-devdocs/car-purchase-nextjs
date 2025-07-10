@@ -12,7 +12,7 @@ maxPassengers:{type:DataTypes.INTEGER,allowNull:false},
 automaticTransmission:{type:DataTypes.BOOLEAN,allowNull:false},
 numberOfDoors:{type:DataTypes.INTEGER,allowNull:false},
 model:{type:DataTypes.STRING,allowNull:false},
-Options:{type:DataTypes.ARRAY(DataTypes.STRING),defaultValue:[]},
+options:{type:DataTypes.ARRAY(DataTypes.STRING),defaultValue:[]},
 quantity:{type:DataTypes.INTEGER,defaultValue:0},
   },{
     freezeTableName:true,

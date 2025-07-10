@@ -11,7 +11,7 @@ export function generateAccessToken(payload:string) {
         throw new Error ("jwt private key is undefined")
     }
     try {
-       const accessToken= jwt.sign({payload},privateKey,{ expiresIn: 60 * 60 })
+       const accessToken= jwt.sign({payload},privateKey,{ expiresIn: 60 * 60*3 })
          return accessToken
     } catch (error:any) {
         throw new Error(error)
