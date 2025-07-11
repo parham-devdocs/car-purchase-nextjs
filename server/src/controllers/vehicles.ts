@@ -73,3 +73,19 @@ export async function getSingleVehicle(req:Request,res:Response) {
 
     }
 }
+
+export async function updateVehicle(req:Request<any,any ,VehicleType>,res:Response) {
+    const body=req.body
+    const {id}=req.params
+    try {
+        const updatedVahicle=await VehicleModel.update(body,{where:{car_id:id}})
+        if (!updatedVahicle) {
+            res.json({message:"vehicle no found"})
+            return
+        }
+        res.json({message:"vehicle updated"})
+
+    } catch (error) {
+        res.json({error}).status(500)
+    }
+}
