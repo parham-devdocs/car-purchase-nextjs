@@ -8,8 +8,8 @@ car_id:{type:DataTypes.INTEGER,allowNull:false},
 user_id:{type:DataTypes.INTEGER,allowNull:false},
 pickupLocation:{type:DataTypes.STRING,allowNull:false},
 returnLocation:{type:DataTypes.STRING,allowNull:false},
-pickupDate:{type:DataTypes.DATE,allowNull:false},
-returnDate:{type:DataTypes.DATE,allowNull:false},
+pickupDate:{type:DataTypes.DATE,allowNull:false,unique:true},
+returnDate:{type:DataTypes.DATE,allowNull:false,unique:true},
 pickupTime:{type:DataTypes.TIME,allowNull:false},
 returnTime:{type:DataTypes.TIME,allowNull:false}
 

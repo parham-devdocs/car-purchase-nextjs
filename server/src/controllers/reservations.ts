@@ -7,12 +7,7 @@ export async function createReservation(req:Request<any,any ,Reservation>,res:Re
     const body=req.body
    
     try {
-        const carIdExists=await ReservationModel.findOne({where:{car_id:body.car_id}})
-        if ( carIdExists) {
-            
-            res.json({error:"reservation already exists"}).status(409)
-            return
-        }
+     
     
         const newReservation=await ReservationModel.create({...body})
         res.json({newReservation})

@@ -10,5 +10,5 @@ router.put("/:id",verifyAccessToken(),updateVehicle)
 router.get("/paginated",verifyAccessToken(),getPaginatedVehicles)
 router.post("/", verifyAccessToken(),validationMiddleware( createVehicleSchema ), createVehicle);
 router.get("/:id",verifyAccessToken(),getSingleVehicle)
-router.get("/:id/reservations",getUserByVehicleId)
+router.get("/:user_id/:car_id/user",verifyAccessToken(),getUserByVehicleId)
 export default router;

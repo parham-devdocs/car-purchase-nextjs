@@ -93,18 +93,27 @@ export async function updateVehicle(req:Request<any,any ,VehicleType>,res:Respon
 }
 
 export async function getUserByVehicleId(req:Request<any,any ,VehicleType>,res:Response) {
-    const {id}=req.params
+    const user_id = parseInt(req.params.user_id);
+const car_id = parseInt(req.params.car_id);
     try {
-        const reservations=await VehicleModel.findOne({where:{car_id:id},include:ReservationModel})
-        if (!reservations) {
-            res.json({message:"reservations not found"})
+        const vehicle=await VehicleModel.findOne({where:{car_id},include:ReservationModel})
+        if (!vehicle) {
+             res.status(404).json({ message: "Vehicle not found" });
             return
         }
-        res.json({reservations})
+        // const renter=vehicle.dataValues.Reservations.filter((r:any)=>{ return r.user_id===user_id})
+        const reservations = vehicle.dataValues.Reservations || [];
+
+// Filter by user_id
+const matchingReservation = reservations.find(
+  (reservation: any) => reservation.user_id === user_id
+);
+        res.json({vehicle:matchingReservation})
 
 
     } catch (error) {
-        
+        res.json({error}).status(500)
+
     }
 }
 

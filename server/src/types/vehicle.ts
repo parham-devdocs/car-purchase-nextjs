@@ -1,3 +1,5 @@
+import { Reservation } from "./reservation";
+
 export type VehicleOption =
   | "Cruise Control"
   | "AM/FM Radio"
@@ -17,5 +19,6 @@ export  interface VehicleType {
   type:string
   quantity:number
   options: VehicleOption[];
+  reservations?:Reservation[]
 }
 
