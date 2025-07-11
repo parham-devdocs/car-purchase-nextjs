@@ -3,7 +3,6 @@ import { ReservationModel } from "../models/reservationModel";
 import { UserModel } from "../models/userModel";
 
 export default function relations() {
-    console.log("relations")
     // Step 1: Create User
     UserModel.hasOne(ReservationModel, {
         foreignKey: 'user_id',
@@ -17,7 +16,7 @@ export default function relations() {
       });
       
       // Car hasOne Reservation
-      VehicleModel.hasOne(ReservationModel, {
+      VehicleModel.hasMany(ReservationModel, {
         foreignKey: 'car_id',
         // as: 'reservation'
       });
