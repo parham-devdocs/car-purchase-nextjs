@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getVehicles,getSingleVehicle, createVehicle, getPaginatedVehicles, updateVehicle, getUserByVehicleId, createReservation } from "../controllers/vehicles";
+import { getVehicles,getSingleVehicle, createVehicle, getPaginatedVehicles, updateVehicle, getUserByVehicleId } from "../controllers/vehicles";
 import { verifyAccessToken } from "../middlewares/verifyToken";
 import validationMiddleware from "../middlewares/validation";
 import { createVehicleSchema } from "../schemas/vehicle";
@@ -11,5 +11,4 @@ router.get("/paginated",verifyAccessToken(),getPaginatedVehicles)
 router.post("/", verifyAccessToken(),validationMiddleware( createVehicleSchema ), createVehicle);
 router.get("/:id",verifyAccessToken(),getSingleVehicle)
 router.get("/:id/reservations",getUserByVehicleId)
-router.post("/reservations/:car_id/:user_id",createReservation)
 export default router;

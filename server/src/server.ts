@@ -3,6 +3,7 @@ import cors from "cors";
 import authRoutes from "./routes/auth";
 import carRoutes from "./routes/vehicles";
 import userRoutes from "./routes/users";
+import reservationRoutes from "./routes/reservation";
 import dotenv from "dotenv";
 import path from "path";
 import connectToSequalize from "./db/connection";
@@ -19,7 +20,7 @@ app.use(cookieParser())
 app.use("/api/auth", authRoutes);
 app.use("/api/vehicles", carRoutes);
 app.use("/api/users",userRoutes );
-
+app.use("/api/reservation",reservationRoutes)
 app.listen(PORT, async () => {
 
   relations()
