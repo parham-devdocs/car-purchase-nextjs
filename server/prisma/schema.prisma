@@ -42,8 +42,7 @@ model User {
   phoneNumber   Int
   receiveEmails Boolean      @default(true)
   refreshToken  String?
-  reservationId Int?         @unique
-  reservation   Reservation? @relation(fields: [reservationId], references: [id])
+  reservation   Reservation[] @relation()
 }
 
 model Location {
@@ -57,23 +56,23 @@ model Location {
 }
 
 model Reservation {
-  id        Int      @id @default(autoincrement())
-  user      User?    @relation()
-  vehicleId Int
-  vehicle   Vehicle? @relation(fields: [vehicleId], references: [id])
+  id               Int      @id @default(autoincrement())
+  userId           Int      @unique  // Ensures only one reservation per user
+  user             User     @relation(fields: [userId], references: [id])
+  vehicleId        Int
+  vehicle          Vehicle? @relation(fields: [vehicleId], references: [id])
 
-  pickupLocationId Int      @unique
+  pickupLocationId Int
   pickupLocation   Location @relation("PickupLocationRelation", fields: [pickupLocationId], references: [id])
 
-  returnLocationId Int      @unique
+  returnLocationId Int
   returnLocation   Location @relation("ReturnLocationRelation", fields: [returnLocationId], references: [id])
 
-  returnTime String
-  returnDate String
-  pickupTime String
-  pickupDate String
+  returnTime       String
+  returnDate       String
+  pickupTime       String
+  pickupDate       String
 }
-
 enum VehicleType {
   Van
   Car

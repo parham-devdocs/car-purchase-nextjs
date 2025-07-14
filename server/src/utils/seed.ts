@@ -17,7 +17,7 @@ export async function seedDatabase() {
          returnTime:"00:38:00",
          pickupDate:"2024/5/2",
          pickupTime:"00:20:00",
-         pickupLocation:{connect:{id:1}},
+         pickupLocation:{connect:{id:2}},
          returnLocation:{connect:{id:1}},
          vehicle:{connect:{id:1}},
          user:{connect:{id:1}}
