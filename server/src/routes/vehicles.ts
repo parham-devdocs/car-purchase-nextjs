@@ -8,6 +8,6 @@ const router = Router();
 router.get("/", verifyAccessToken(), getVehicles);
 router.put("/:id",verifyAccessToken(),updateVehicle)
 router.get("/paginated",verifyAccessToken(),getPaginatedVehicles)
-router.post("/", verifyAccessToken(),validationMiddleware( createVehicleSchema ), createVehicle);
+router.post("/", createVehicle);
 router.get("/:id",verifyAccessToken(),getSingleVehicle)
 export default router;

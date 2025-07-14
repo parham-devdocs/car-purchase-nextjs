@@ -11,6 +11,8 @@ export type VehicleOption =
   | "Gasoline Vehicle";
 export  interface VehicleType {
   model: string;
+  location_id:number;
+  car_id:number,
   automaticTransmission:boolean;
   maxPassengers: number;
   numberOfDoors: number;

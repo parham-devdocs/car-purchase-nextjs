@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "PickupData" ALTER COLUMN "type" SET DATA TYPE TEXT;
