@@ -9,21 +9,19 @@ import locationRoutes from "./routes/location";
 import dotenv from "dotenv";
 import path from "path";
 import cookieParser from "cookie-parser";
-import { seedDatabase } from "./utils/seed";
 const app: Express = express();
-const prisma=new PrismaClient()
 const PORT: number = parseInt(process.env.PORT || "3001", 10);
 dotenv.config({ path: path.resolve(__dirname, "../.env") });
 
 app.use(express.json());
 app.use(cors());
 app.use(cookieParser())
-// app.use("/api/auth", authRoutes);
+app.use("/api/auth", authRoutes);
 // app.use("/api/vehicles", carRoutes);
 // app.use("/api/users",userRoutes );
 // app.use("/api/reservations",reservationRoutes)
 // app.use("/api/locations",locationRoutes)
-seedDatabase()
 app.listen(PORT, async () => {
+
   console.log(`Server is running at http://localhost:${PORT}`);
 });

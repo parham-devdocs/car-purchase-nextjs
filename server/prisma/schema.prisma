@@ -39,8 +39,9 @@ model User {
   licenceNumber Int
   firstName     String
   lastName      String
-  phoneNumber   Int
+  phoneNumber   String
   receiveEmails Boolean      @default(true)
+  role          String    @default("user")
   refreshToken  String?
   reservation   Reservation[] @relation()
 }

@@ -9,8 +9,10 @@ lastName:z.string({message:"last name is required"}),
    firstName:z.string({message:"first name is required"}),
   username:z.string({message:"username is required"}),
   phoneNumber:z.string({message:"phone number is required"}),
-  driversAge:z.number({message:"drivers age is required"}),
+  age:z.number({message:"drivers age is required"}),
  licenceNumber:z.number({message:"licence number is required "}),
  receiveEmails:z.boolean({message:"receive number"}),
 
 })
+
+

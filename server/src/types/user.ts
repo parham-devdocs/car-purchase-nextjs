@@ -14,6 +14,6 @@ export interface User{
     phoneNumber:string
     receiveEmails:boolean
     refreshToken:string
-    driversAge:number
+    age:number
     licenceNumber:number
 }

@@ -20,7 +20,7 @@ export const userRegisterSchema=z.object({
   password:z.string({message:"password is required"}).refine((value)=>passwordRegex.test(value)),
   receiveEmail:z.boolean({message:"this field is required"}).default(false),
   licenceNumber:z.number({message:"licence number is required"}).min(7,{message:"licence number is not valid"}),
-  driversAge:z.number({message:"drivers age is required"}).min(18,{message:"driver must not be under 18"}),
+  age:z.number({message:"drivers age is required"}).min(18,{message:"driver must not be under 18"}),
   refreshToken:z.string({message:"refresh is required"}).optional()
 
 })
