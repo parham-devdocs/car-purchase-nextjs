@@ -58,22 +58,21 @@ export async function getPaginatedVehicles(req: Request<any,any ,Vehicle>, res: 
   
 }
 
-// export async function getSingleVehicle(req:Request,res:Response) {
-//     const {id}=req.params 
+export async function getSingleVehicle(req:Request,res:Response) {
+    const {id}=req.params 
 
-//     try {
-//         const vehicle=await VehicleModel.findOne({where:{car_id:id}})
-//         console.log(vehicle?.dataValues)
-//                 if (!vehicle) {
-//             res.json({message:"no vehicle found" , data:[]})
-//             return
-//         }
-//         res.send({ data:vehicle.dataValues});
-//     } catch (error) {
-//         res.json({error}).status(500)
+    try {
+        const vehicle=await prisma.vehicle.findUnique({where:{id:Number(id)}})
+                if (!vehicle) {
+            res.json({message:"no vehicle found" , data:[]})
+            return
+        }
+        res.send({ data:vehicle});
+    } catch (error) {
+        res.json({error}).status(500)
 
-//     }
-// }
+    }
+}
 
 // export async function updateVehicle(req:Request<any,any ,VehicleType>,res:Response) {
 //     const body=req.body
