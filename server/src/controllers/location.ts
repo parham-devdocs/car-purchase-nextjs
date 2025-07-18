@@ -2,10 +2,9 @@ import {Request,Response } from "express";
 import { LocationType } from "../types/location";
 import prisma from "../utils/prismaClient";
 import { Prisma } from "@prisma/client";
+import groupBy from "../utils/groupData";
 export async function createLocation(req: Request<any, any, LocationType>, res: Response) {
     const { city, country, address, type, continent } = req.body;
-
-    console.log("Received data:", req.body);
 
     try {
         const newLocation = await prisma.location.create({
@@ -38,17 +37,7 @@ export async function getAllLocations(req:Request<any,any ,LocationType>,res:Res
             res.status(409).json({error:"no location found"})
             return
         }
-        const groupedByContinent = allLocations.reduce<{[key:string]:LocationType[]}>((acc, location) => {
-            const continent = location.continent;
-          
-            if (!acc[continent]) {
-              acc[continent] = []; // create a new array for this continent
-            }
-          
-            acc[continent].push(location); // add the location to the continent group
-          
-            return acc;
-          }, {});
+      const groupedByContinent= groupBy(allLocations,"continent")
 
         
         res.json({date:groupedByContinent})
@@ -163,4 +152,5 @@ const queryParameters:any={}
 
     }
 }
+
 

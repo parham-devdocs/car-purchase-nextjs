@@ -1,6 +1,7 @@
 import prisma from "../utils/prismaClient";
 import { Response, Request } from "express";
 import { Vehicle } from "../types/vehicle";
+import groupBy from "src/utils/groupData";
 interface PaginationQuery {
     page?: string;   // e.g., "1"
     limit?: string;  // e.g., "10"
@@ -30,18 +31,7 @@ export async function getVehicles(req: Request, res: Response) {
             res.json({message:"no vehicle found" , data:[]})
             return
         }
-        const groupedByContinent = vehicles.reduce<{[key:string]:Vehicle[]}>((acc, vehicle) => {
-          const type = vehicle.type
-        
-          if (!acc[type]) {
-            acc[type] = []; // create a new array for this continent
-          }
-        
-          acc[type].push(vehicle); 
-        
-          return acc;
-        }, {});
-
+        const groupedByContinent = groupBy(vehicles,"type")
         res.send({ data:groupedByContinent});
     } catch (error) {
         res.json({error}).status(500)
@@ -49,24 +39,24 @@ export async function getVehicles(req: Request, res: Response) {
     }
   
 }
-// export async function getPaginatedVehicles(req: Request<any,any ,VehicleType>, res: Response) {
-//     const {limit,page}=req.query as PaginationQuery
+export async function getPaginatedVehicles(req: Request<any,any ,Vehicle>, res: Response) {
+    const {limit,page}=req.query as PaginationQuery
 
-//     const  offset=(Number(page)-1) *Number(limit)
+    const  skip=(Number(page)-1) *Number(limit)
 
-//     try {
-//         const vehicles=await VehicleModel.findAll({offset:offset ,limit:Number(limit)})
-//         if (!vehicles) {
-//             res.json({message:"no vehicle found" , data:[]})
-//             return
-//         }
-//         res.send({ data:vehicles});
-//     } catch (error) {
-//         res.json({error}).status(500)
+    try {
+        const vehicles=await prisma.vehicle.findMany({skip ,take:Number(limit)})
+        if (!vehicles) {
+            res.json({message:"no vehicle found" , data:[]})
+            return
+        }
+        res.send({ data:vehicles});
+    } catch (error) {
+        res.json({error}).status(500)
 
-//     }
+    }
   
-// }
+}
 
 // export async function getSingleVehicle(req:Request,res:Response) {
 //     const {id}=req.params 
