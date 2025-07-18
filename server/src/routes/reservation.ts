@@ -4,10 +4,10 @@ import { Router } from "express";
 import { createReservation, getAllReservations,getReservationByVehicleIdAndUserId ,deleteReservationById, updateReservationById, getSingleReservationById} from "../controllers/reservations";
 import { verifyAccessToken } from "../middlewares/verifyToken";
 import validationMiddleware from "../middlewares/validation";
-import { craeteReservationModel } from "../schemas/reservation";
+import { createReservationModel } from "../schemas/reservation";
 const router = Router();
 
-router.post("/",verifyAccessToken(), validationMiddleware(craeteReservationModel), createReservation);
+// router.post("/",verifyAccessToken(), validationMiddleware(CraeteReservationModel), createReservation);
 router.get("/",verifyAccessToken(),getAllReservations)
 router.get("/:user_id/:car_id",verifyAccessToken(),getReservationByVehicleIdAndUserId)
 router.delete("/:reservation_id",deleteReservationById)
