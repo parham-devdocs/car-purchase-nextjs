@@ -1,26 +1,21 @@
 import { Reservation } from "./reservation";
 
-export type VehicleOption =
-  | "Cruise Control"
-  | "AM/FM Radio"
-  | "Air Conditioner"
-  | "2 Wheel Drive"
-  | "Bluetooth"
-  | "Sunroof"
-  | "Leather Seats"
-  | "Gasoline Vehicle";
-export  interface VehicleType {
+export type VehicleType = "Van" | "Car" | "Truck" | "SUV";
+export type VehicleOption = "CruiseControl" | "AirConditioner" | "RWD" | "BlueTooth" | "Sunroof" | "LeatherSeats" | "GasolineVehicle";
+
+export interface Vehicle {
   model: string;
-  location_id:number;
-  car_id:number,
-  automaticTransmission:boolean;
+  
+  automaticTransmission: boolean;
   maxPassengers: number;
   numberOfDoors: number;
   luggageCapacity: number;
-  image:string
-  type:string
-  quantity:number
-  options: VehicleOption[];
-  reservations?:Reservation[]
+  image: string;
+  type: VehicleType; 
+  numberPlate:number
+  pricePerDay: number;
+  available: boolean;
+  quantity: number;
+  options: string[];
+  reservations?: Reservation[];
 }
-

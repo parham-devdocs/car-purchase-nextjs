@@ -18,16 +18,17 @@ model Vehicle {
   model                 String           @unique
   type                  VehicleType      @default(Car)
   automaticTransmission Boolean          @default(true)
-  pricePerDay           Decimal
+  pricePerDay           Int
   quantity              Int
   available             Boolean
   maxPassengers         Int
+  numberPlate           Int             @unique
   numberOfDoors         Int
   luggageCapacity       Int
   image                 String
   reservationId         Int?             @unique
   reservations          Reservation[]
-  options               VehicleOptions[]
+  options               String[]
 }
 
 model User {
