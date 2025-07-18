@@ -48,12 +48,15 @@ model User {
 
 model Location {
   id                 Int           @id @default(autoincrement())
-  type               String
+  type               LocationTypes
   country            String
+  continent          String
   city               String
   address            String
   returnReservations Reservation[] @relation("ReturnLocationRelation")
   pickupReservations Reservation[] @relation("PickupLocationRelation")
+  @@unique([country, city, address])
+
 }
 
 model Reservation {
@@ -89,4 +92,9 @@ enum VehicleOptions {
   Sunroof
   LeatherSeats
   GasolineVehicle
+}
+
+enum LocationTypes {
+  Hotel
+  Airport
 }

@@ -3,15 +3,16 @@
 
 
 import { Router } from "express";
-import { createLocation} from "../controllers/location";
+import { createLocation, deleteLocationById, getAllLocations, getLoationBySearch, getLocationById, updateReservationById} from "../controllers/location";
 import { verifyAccessToken } from "../middlewares/verifyToken";
 import validationMiddleware from "../middlewares/validation";
-import { craeteReservationModel } from "../schemas/reservation";
+import {createLocationModel} from "../schemas/location";
 const router = Router();
 
-router.post("/", createLocation);
-// router.get("/",getAllReservations)
-// router.delete("/:location_id",deleteReservationById)
-// router.put("/:location_id",updateReservationById)
-// router.get("/:location_id",getSingleReservationById)
+router.post("/",verifyAccessToken(),validationMiddleware(createLocationModel), createLocation);
+router.get("/search",getLoationBySearch)
+router.get("/",verifyAccessToken(),getAllLocations)
+router.delete("/:id",deleteLocationById)
+router.get("/:id",getLocationById)
+router.put("/:id",updateReservationById)
 export default router;

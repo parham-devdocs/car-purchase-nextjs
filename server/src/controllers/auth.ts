@@ -4,37 +4,61 @@ import { decodeJWT, generateAccessToken, generateRefreshToken } from "../utils/j
 import prisma from "../utils/prismaClient";
 import httpErrors from "http-status-codes";
 import { hash ,compare} from "../utils/hash"
+
+
 export async function login(req: Request<any, any, UserLogin>, res: Response) {
   const { body } = req;
-  const accessToken = generateAccessToken(body.emailOrUsername);
-  const refreshToken = generateRefreshToken(body.emailOrUsername);
-  //////  saving refreshToken i data base
-try {
-  const user= await prisma.user.findFirst({where:{OR :[
-    { username: body.emailOrUsername },
-    { email: body.emailOrUsername }
-  ]}}) 
-if (user) {
-  const password=await compare(body.password,user?.password)
-  if (password) {
-    res
-    .cookie("accessToken", accessToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-    })
-    .send({ accessToken, refreshToken });
+
+  try {
+    // 1. Find user by email or username
+    const user = await prisma.user.findFirst({
+      where: {
+        OR: [
+          { username: body.emailOrUsername },
+          { email: body.emailOrUsername },
+        ],
+      },
+    });
+
+    // 2. Check if user exists
+    if (!user) {
+       res.status(401).json({ message: 'User does not exists' });
+       return
+    }
+
+    // 3. Validate password
+    const isPasswordValid = await compare(body.password, user.password);
+
+    if (!isPasswordValid) {
+     res.status(401).json({ message: 'Invalid credentials' });
+     return
+    }
+
+    // 4. Generate tokens
+    const accessToken = generateAccessToken(user.id.toString());
+    const refreshToken = generateRefreshToken(user.id.toString());
+
+    // 5. Save refresh token to the database
+    await prisma.user.update({
+      where: { id: user.id },
+      data: { refreshToken },
+    });
+
+    // 6. Set access token in cookie and respond
+     res
+      .cookie('refreshToken', refreshToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'strict',
+        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      })
+      .status(200)
+      .json({ accessToken });
+  } catch (error) {
+    console.error('Login error:', error);
+     res.status(500).json({ message: 'Server error' });
+     return
   }
-
-}
-
-  ////////
-
-} catch (error) {
-  
-}
-
 }
 
 export async function register(req: Request<any, any, User>, res: Response) {
@@ -76,7 +100,7 @@ try {
 
   .send({accessToken, newUser: newUser });
 } catch (error) {
-  console.error(error)
+res.status(500).json({message:"server error"})
 }
 
  
@@ -93,7 +117,7 @@ export async function auth(req: Request, res: Response) {
     res.json({ userRole });
   } catch (error) {
     console.log(error);
-    res.send(error);
+    res.status(500).json({message:"server error"})
   }
 
 }

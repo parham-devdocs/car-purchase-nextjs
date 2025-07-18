@@ -1,8 +1,10 @@
 
 
 export interface LocationType{
+id:number
 country:string
+continent:string
 city:string
 address:string
-type:string
+type:"Airport" | "Hotel"
 }
