@@ -125,21 +125,22 @@ return
 
 
 export async function getLoationBySearch(req:Request<any,any ,LocationType>,res:Response) {
-    const query=req.query 
-if (!query || !query.city || !query.country || !query.type ) {
+    const {city,country,type}=req.query 
+   
+if ( !city && !country && !type ) {
    res.status(400).json({error:"at least one query parameter must be provided"})   
    return 
 }
 const queryParameters:any={}
     try {
-        if (query.city) {
-            queryParameters.city=query.city
+        if (city) {
+            queryParameters.city=city
         }
-        if (query.country) {
-            queryParameters.country=query.country
+        if (country) {
+            queryParameters.country=country
         }
-        if (query.type) {
-            queryParameters.type=query.type
+        if (type) {
+            queryParameters.type=type
         }
             const foundLocation=await prisma.location.findFirst({where:queryParameters})
            if (foundLocation) {
@@ -154,3 +155,54 @@ const queryParameters:any={}
 }
 
 
+
+export async function getLocationsOfCityOrContinentOrCountry(req:Request<any,any ,LocationType>,res:Response) {
+    type LocationKeys= keyof Pick<LocationType,"city"| "continent"|"country">
+    const { city, country, continent, type } = req.query;
+const where:Prisma.LocationWhereInput={}
+if (typeof city === 'string') {
+    where.city = city;
+  }
+  
+  if (typeof country === 'string') {
+    where.country = country;
+  }
+  
+  if (typeof continent === 'string') {
+    where.continent = continent;
+  }
+  
+    // Validate that at least one query param is provided
+    if (!city && !country && !continent && !type) {
+       res.status(400).json({
+        error: "At least one of 'city', 'country', 'continent', or 'type' must be provided",
+      });
+      return
+    }
+
+    const validKeys: LocationKeys[] = ['city', 'country', 'continent'];
+    const queryKey = (Object.keys(req.query).find(key => validKeys.includes(key as LocationKeys)) as LocationKeys);
+     try {
+        if (!queryKey) {
+             res.status(400).json({
+              error: "Invalid query parameter — must be one of 'city', 'country', 'continent', or 'type'",
+            });
+            return
+          }
+         const allLocations= await prisma.location.findMany({where:{OR:[{country:where.country},{city:where.city},{continent:where.continent}]}})
+         if (!allLocations) {
+             res.status(409).json({error:"no location found"})
+             return
+         }
+       const groupedByContinent= groupBy(allLocations,queryKey)
+ 
+         
+            res.json({data:groupedByContinent})   
+     } catch (error) {
+        res.status(500).json({error:"server error"})   
+
+     }
+     
+
+
+  }

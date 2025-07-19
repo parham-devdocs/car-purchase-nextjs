@@ -1,7 +1,7 @@
 import prisma from "../utils/prismaClient";
 import { Response, Request } from "express";
 import { Vehicle } from "../types/vehicle";
-import groupBy from "src/utils/groupData";
+import groupBy from "../utils/groupData";
 interface PaginationQuery {
     page?: string;   // e.g., "1"
     limit?: string;  // e.g., "10"
@@ -74,20 +74,19 @@ export async function getSingleVehicle(req:Request,res:Response) {
     }
 }
 
-// export async function updateVehicle(req:Request<any,any ,VehicleType>,res:Response) {
-//     const body=req.body
-//     const {id}=req.params
-//     try {
-//         const updatedVahicle=await VehicleModel.update(body,{where:{car_id:id}})
-//         if (!updatedVahicle) {
-//             res.json({message:"vehicle no found"})
-//             return
-//         }
-//         res.json({message:"vehicle updated"})
+export async function updateVehicle(req:Request<any,any ,Vehicle>,res:Response) {
+    const body=req.body
+    const {id}=req.params
+    try {
+        const updatedVahicle=await prisma.vehicle.update({where:{id:Number(id)},data:body})
+        if (!updatedVahicle) {
+            res.json({message:"vehicle no found"})
+            return
+        }
+        res.json({message:"vehicle updated"})
 
-//     } catch (error) {
-//         res.json({error}).status(500)
-//     }
-// }
-
+    } catch (error) {
+        res.json({error}).status(500)
+    }
+}
 
