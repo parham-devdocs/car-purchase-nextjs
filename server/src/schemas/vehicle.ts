@@ -3,8 +3,13 @@ import { z } from 'zod';
 
 export const createVehicleSchema=z.object({
   model:z.string({message:"model is required"}),
-  type:z.enum(["Van","SUV","Truck","Car"]),
+  vehicleType:z.enum(["Van","SUV","Truck","Car"]),
   image:z.string().optional(),
+  locationType:z.any(),
+  country:z.string({message:"country is required"}),
+  continent:z.string({message:"continent is required"}),
+  city:z.string({message:"city is required"}),
+  address:z.string({message:"address is required"}),
    automaticTransmission:z.boolean({message:"transmission type must be either manual or automatic"}),
   maxPassengers:z.number({message:"max passengers is required"}).min(0,{message:"a vehicle must have at least one door"}),
   numberOfDoors:z.number({message:"number of doors is required"}).min(2,{message:"lastname must have at least 3 characters"}),

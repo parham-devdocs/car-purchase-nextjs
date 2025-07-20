@@ -1,16 +1,17 @@
 
 
 import { Router } from "express";
-import { createReservation, getAllReservations,getReservationByVehicleIdAndUserId ,deleteReservationById, updateReservationById, getSingleReservationById} from "../controllers/reservations";
+import { createReservation,getAllReservations,getReservationByVehicleId,getSingleReservationById,deleteReservationById,updateReservationById,getReservationRelatedToUser} from "../controllers/reservations";
 import { verifyAccessToken } from "../middlewares/verifyToken";
 import validationMiddleware from "../middlewares/validation";
 import { createReservationModel } from "../schemas/reservation";
 const router = Router();
 
-// router.post("/",verifyAccessToken(), validationMiddleware(CraeteReservationModel), createReservation);
-router.get("/",verifyAccessToken(),getAllReservations)
-router.get("/:user_id/:car_id",verifyAccessToken(),getReservationByVehicleIdAndUserId)
-router.delete("/:reservation_id",deleteReservationById)
-router.put("/:reservation_id",updateReservationById)
-router.get("/:reservation_id",getSingleReservationById)
+router.post("/", createReservation);
+router.get("/",getAllReservations)
+router.get("/user/:id",getReservationRelatedToUser)
+router.get("/:id",verifyAccessToken(),getReservationByVehicleId)
+router.delete("/:id",deleteReservationById)
+router.put("/:id",updateReservationById)
+router.get("/:id",getSingleReservationById)
 export default router;

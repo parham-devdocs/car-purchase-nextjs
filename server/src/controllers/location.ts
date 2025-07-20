@@ -4,7 +4,7 @@ import prisma from "../utils/prismaClient";
 import { Prisma } from "@prisma/client";
 import groupBy from "../utils/groupData";
 export async function createLocation(req: Request<any, any, LocationType>, res: Response) {
-    const { city, country, address, type, continent } = req.body;
+    const { city, country, address,locationType, continent } = req.body;
 
     try {
         const newLocation = await prisma.location.create({
@@ -12,7 +12,7 @@ export async function createLocation(req: Request<any, any, LocationType>, res: 
                 city,
                 country,
                 address,
-                type,
+                locationType,
                 continent, 
             }
         });
@@ -98,7 +98,7 @@ export async function getLocationById(req: Request<{ id: string }>, res: Respons
 
 export async function updateReservationById(req:Request<any,any ,LocationType>,res:Response) {
     const { id } = req.params
-    const {city,country,type,address}=req.body
+    const {city,country,locationType,address}=req.body
     const modifiedNumber=Number(id)
     
     try {
@@ -106,7 +106,7 @@ export async function updateReservationById(req:Request<any,any ,LocationType>,r
             where: { id:modifiedNumber },
           });
           if (location) {
-            const updatedLocation=await prisma.location.update({where:{id:modifiedNumber},data:{address,city,country,type}})
+            const updatedLocation=await prisma.location.update({where:{id:modifiedNumber},data:{address,city,country,locationType}})
             console.log(updatedLocation)
             if (updatedLocation) {
                 res.json({message:"location updated", data:location})
@@ -158,7 +158,7 @@ const queryParameters:any={}
 
 export async function getLocationsOfCityOrContinentOrCountry(req:Request<any,any ,LocationType>,res:Response) {
     type LocationKeys= keyof Pick<LocationType,"city"| "continent"|"country">
-    const { city, country, continent, type } = req.query;
+    const { city, country, continent, locationType } = req.query;
 const where:Prisma.LocationWhereInput={}
 if (typeof city === 'string') {
     where.city = city;
@@ -173,7 +173,7 @@ if (typeof city === 'string') {
   }
   
     // Validate that at least one query param is provided
-    if (!city && !country && !continent && !type) {
+    if (!city && !country && !continent && !locationType) {
        res.status(400).json({
         error: "At least one of 'city', 'country', 'continent', or 'type' must be provided",
       });

@@ -3,7 +3,7 @@
 
 
 import { Router } from "express";
-import { createLocation, deleteLocationById, getAllLocations, getLoationBySearch, getLocationById, getLocationsOfCityOrContinentOrCountry, updateReservationById} from "../controllers/location";
+import { createLocation,getAllLocations,getLoationBySearch,getLocationById,getLocationsOfCityOrContinentOrCountry,deleteLocationById,updateReservationById} from "../controllers/location";
 import { verifyAccessToken } from "../middlewares/verifyToken";
 import validationMiddleware from "../middlewares/validation";
 import {createLocationModel} from "../schemas/location";

@@ -7,19 +7,57 @@ interface PaginationQuery {
     limit?: string;  // e.g., "10"
   }
   export async function createVehicle(req: Request<any, any, Vehicle>, res: Response) {
-    const {luggageCapacity,image,type,maxPassengers,model,automaticTransmission,numberOfDoors,available,options,quantity,pricePerDay,numberPlate}=req.body
-    console.log(req.body)
+const {maxPassengers,model,vehicleType,locationType,image,luggageCapacity,numberOfDoors,numberPlate,quantity,address,automaticTransmission,available,pricePerDay,options,city,continent,country}=req.body
     try {
-        const vehicleAlreadyExists=await prisma.vehicle.findFirst({where:{model}})
-        if (vehicleAlreadyExists) {
-            res.status(409).json({message:"vehicle already exists",data:[]})
-            return
+      // 1. Check if vehicle already exists by model
+      const vehicleAlreadyExists = await prisma.vehicle.findFirst({
+        where: { model }
+      });
+  
+      if (vehicleAlreadyExists) {
+         res.status(409).json({ message: "Vehicle already exists", data: null });
+         return
+      }
+      // 2. Find or create the location
+        const newLocation = await prisma.location.create({
+          data: {
+            city,
+            continent,
+            country,
+            address,
+            locationType
+
+          }
+        });
+      const newVehicle = await prisma.vehicle.create({
+        data: {
+          image,
+          luggageCapacity,
+          numberPlate,
+          pricePerDay,
+          numberOfDoors,
+          quantity,
+          available,
+          options,
+          automaticTransmission,
+          maxPassengers,
+          model,
+        vehicleType,
+          location: {
+            connect:{id:newLocation.id}
+          }
+        },
+        include: {
+          location: true // Optional: include the location relation in the response
         }
-const newVehicle= await prisma.vehicle.create({data:{image,luggageCapacity,numberPlate,pricePerDay,numberOfDoors,quantity,available,options,automaticTransmission,maxPassengers,model,type}})
-res.json( newVehicle)
-    } catch (error:any) {
-                res.json({error:error.message}).status(500)
-          
+      });
+  
+      res.status(201).json({ message: "Vehicle created successfully", data: newVehicle });
+  return
+    } catch (error: any) {
+      console.error(error);
+       res.status(500).json({ error: error.message });
+       return
     }
   }
 
@@ -31,7 +69,7 @@ export async function getVehicles(req: Request, res: Response) {
             res.json({message:"no vehicle found" , data:[]})
             return
         }
-        const groupedByContinent = groupBy(vehicles,"type")
+        const groupedByContinent = groupBy(vehicles,"vehicleType")
         res.send({ data:groupedByContinent});
     } catch (error) {
         res.json({error}).status(500)
@@ -90,3 +128,32 @@ export async function updateVehicle(req:Request<any,any ,Vehicle>,res:Response) 
     }
 }
 
+export async function searchForVehicle(req:Request<any,any ,Vehicle>,res:Response) {
+
+  const {luggageCapacity,maxPassengers,vehicleType}=req.query as any
+    if ( !luggageCapacity&& !maxPassengers && !vehicleType ) {
+      res.status(400).json({error:"at least one query parameter must be provided"})   
+      return 
+   }
+   
+   const queryParameters:any={}
+       try {
+           if (luggageCapacity) {
+               queryParameters.luggageCapacity=Number(luggageCapacity)
+           }
+           if (maxPassengers) {
+               queryParameters.maxPassengers=Number(maxPassengers)
+           }
+           if (vehicleType) {
+               queryParameters.vehicleType=vehicleType
+           }
+           console.log(queryParameters)
+           const filteredVehicles=await prisma.vehicle.findMany({where:queryParameters})
+           res.json({data:filteredVehicles})
+  } catch (error:any) {
+    res.json({error:error.message}).status(500)
+
+  
+
+  
+  }}

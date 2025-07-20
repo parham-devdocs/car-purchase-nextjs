@@ -1,13 +1,14 @@
 
 
 export interface Reservation{
-    car_id:string
-    user_id:string
-    pickupLocation:string
-    returnLocation?:string
-    pickupDate:Date
-    returnDate:Date
-    pickupTime:string
-    returnTime:string
-    driverAge:number
+    pickupLocation:number
+    returnLocation:number
+    returnTime :string
+    returnDate :string
+    pickupTime :string
+    pickupDate :string
+    user :number
+    vehicle:number
+
+
 }
