@@ -40,20 +40,18 @@ export function decodeJWT(token: string, tokenType: "access" | "refresh"): JwtPa
     const privateKey = tokenType === "refresh"
         ? process.env.JWT_REFRESH_TOKEN
         : process.env.JWT_ACCESS_TOKEN
-
     if (!privateKey) {
         throw new Error(`Missing private key for ${tokenType} token`);
     }
 
     try {
         const decoded = jwt.verify(token, privateKey) as JwtPayloadWithUsername;
-        // console.log(decoded.payload)
-        console.log(decoded.username)
+       
         if (!decoded) {
           throw new Error ("token in not decoced successfully")
             
         }
-        return decoded.username; // This will be a JwtPayload or string depending on how the token was created
+        return decoded.payload; // This will be a JwtPayload or string depending on how the token was created
     } catch (error) {
         throw new Error(`Invalid token: ${(error as Error).message}`);
     }

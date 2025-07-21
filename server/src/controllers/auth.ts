@@ -39,12 +39,10 @@ export async function login(req: Request<any, any, UserLogin>, res: Response) {
     const refreshToken = generateRefreshToken(user.id.toString());
 
     // 5. Save refresh token to the database
-    await prisma.user.update({
+   const updatedUser= await prisma.user.update({
       where: { id: user.id },
       data: { refreshToken },
     });
-
-    // 6. Set access token in cookie and respond
      res
       .cookie('refreshToken', refreshToken, {
         httpOnly: true,
@@ -53,7 +51,7 @@ export async function login(req: Request<any, any, UserLogin>, res: Response) {
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
       })
       .status(200)
-      .json({ accessToken });
+      .json({ accessToken ,refreshToken});
   } catch (error) {
     console.error('Login error:', error);
      res.status(500).json({ message: 'Server error' });
@@ -106,7 +104,7 @@ res.status(500).json({message:"server error"})
  
 }
 
-export async function auth(req: Request, res: Response) {
+export async function auth(req: Request<any, any, User>, res: Response) {
 
   try {
     let userRole;
@@ -121,3 +119,54 @@ export async function auth(req: Request, res: Response) {
   }
 
 }
+export async function logout(req: Request<any,any,User>, res: Response) {
+  try {
+    const accessToken = req.cookies.accessToken;
+
+    if (!accessToken) {
+       res.status(403).json({ message: "User not logged in" });
+      return
+    }
+
+    // Decode the access token (make sure this returns the expected payload)
+    const decodedToken = decodeJWT(accessToken, "access") as string
+    if (!decodedToken) {
+       res.status(401).json({ message: "Invalid access token" });
+       return
+    }
+
+  const user = await prisma.user.findUnique({
+    where: {username:decodedToken },
+    // select: { refreshToken: true, id: true }, // Only get necessary fields
+  });
+
+
+    if (!user) {
+       res.status(404).json({ message: "User not found" });
+       return
+    }
+
+    if (!user.refreshToken) {
+       res.status(200).json({ message: "User already logged out" });
+       return
+    }
+
+    const updatedUser = await prisma.user.update({
+      where: { username:decodedToken },
+      data: { refreshToken: null }, 
+    });
+res.clearCookie("accessToken")
+     res.status(200).json({
+      message: "User successfully logged out",
+      updatedUser,
+    });
+    return
+  } catch (error: any) {
+    console.error("Logout error:", error);
+   res.status(500).json({ message: "Internal server error", error: error.message });
+   return
+  }
+}
+
+
+
