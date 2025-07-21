@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { UserLogin, User } from "../types/user";
-import { decodeJWT, generateAccessToken, generateRefreshToken } from "../utils/jwt";
+import { decodeJWT,generateAccessToken, generateRefreshToken } from "../utils/jwt";
 import prisma from "../utils/prismaClient";
 import httpErrors from "http-status-codes";
 import { hash ,compare} from "../utils/hash"
@@ -43,6 +43,13 @@ export async function login(req: Request<any, any, UserLogin>, res: Response) {
       where: { id: user.id },
       data: { refreshToken },
     });
+    res
+    .cookie('accessToken', accessToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    })
      res
       .cookie('refreshToken', refreshToken, {
         httpOnly: true,
@@ -90,6 +97,12 @@ try {
   }})
   res
   .cookie("accessToken", accessToken, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+  })
+  res.cookie("refreshToken",refreshToken, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "strict",
@@ -170,3 +183,30 @@ res.clearCookie("accessToken")
 
 
 
+export async function refreshToken(req: Request<any, any, User>, res: Response) {
+  const refreshToken=req.cookies.refreshToken
+  if (!refreshToken) {
+    res.status(404).json({ message: "User not found" });
+return
+  }
+  const user=await prisma.user.findFirst({where:{refreshToken},select:{username:true,refreshToken:true}})
+  if (user && user?.refreshToken && user?.refreshToken===refreshToken) {
+    const generatedAccessToken= generateAccessToken(user?.username)
+    const generatedRefreshToken=generateRefreshToken(user.username)
+    const updatedUser=await prisma.user.update({where:{username:user.username},data:{refreshToken:generatedRefreshToken}})
+    res.cookie("accessToken", generatedAccessToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    })
+    res.cookie("refreshToken",generatedRefreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    })
+    res.json({message:"refresh token and access token refreshedz",refreshToken:generatedRefreshToken})
+  }
+
+}
