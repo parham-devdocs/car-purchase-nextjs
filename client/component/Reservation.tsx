@@ -13,8 +13,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { format } from "date-fns";
-import axiosInstance from "@/axios";
-import {useRouter } from "next/navigation";
+import axiosInstance from "@/utils/axios";
+import { useRouter } from "next/navigation";
 
 export default function Reservation({
   title = "Rent a Car with Alamo and Drive Happy",
@@ -63,9 +63,14 @@ function ReservationForm({
   title?: string;
   pickUpLocation?: string;
 }) {
-  const [pickupDate, setPickupDate] = useState(format(new Date(), "yyyy-MM-dd"));
-  const [returnDate, setReturnDate] = useState(format(new Date(), "yyyy-MM-dd"));
-  const FormSchema = z.object({pickUp: z.string({ message: "pick up location is required" }),
+  const [pickupDate, setPickupDate] = useState(
+    format(new Date(), "yyyy-MM-dd")
+  );
+  const [returnDate, setReturnDate] = useState(
+    format(new Date(), "yyyy-MM-dd")
+  );
+  const FormSchema = z.object({
+    pickUp: z.string({ message: "pick up location is required" }),
     returnLocation: z
       .string({ message: "return Location is not valid" })
       .optional(),
@@ -79,34 +84,32 @@ function ReservationForm({
     formState: { errors },
   } = useForm<IFormInput>({
     resolver: zodResolver(FormSchema),
-    defaultValues:{pickUp:pickUpLocation||""}
+    defaultValues: { pickUp: pickUpLocation || "" },
   });
   type IFormInput = z.infer<typeof FormSchema>;
-const axios=axiosInstance()
+  const axios = axiosInstance();
   const [hasDifferentLocation, setHasDifferentLocation] = useState(false);
-  const router=useRouter()
+  const router = useRouter();
 
-
-  const onSubmit = async (e:any) => {
-
+  const onSubmit = async (e: any) => {
     try {
-      const res= await  axios.get("/auth")
-      axios.post("/reservation",{...e,pickupDate,returnDate})
+      const res = await axios.get("/auth");
+      axios.post("/reservation", { ...e, pickupDate, returnDate });
 
-    if (res.status === 401) {
-      router.push("/sign-up");
-      return; 
+      if (res.status === 401) {
+        router.push("/sign-up");
+        return;
+      }
+
+      return;
+    } catch (error: any) {
+      if (error.response?.status == 401) {
+        return router.push("/sign-up");
+      } else {
+        console.log(error.message);
+      }
     }
-
-return
-    } catch (error:any) {
-      if (error.response?.status==401) { return router.push("/sign-up")}
-      else{ console.log(error.message)}
-    }
-
-
   };
-
 
   return (
     <form
@@ -115,13 +118,9 @@ return
     >
       {/* Pick-up Location */}
       <div className="w-full relative">
-        <Input
-          label="Pick-up Location"
-          color="white"
-          {...register("pickUp")}/>
+        <Input label="Pick-up Location" color="white" {...register("pickUp")} />
         {errors.pickUp && (
           <p className="text-red-400 text-sm mt-1">{errors.pickUp.message}</p>
-        
         )}
         <button
           type="button"
@@ -140,7 +139,7 @@ return
             label="Return Location"
             color="white"
             {...register("returnLocation")}
-            />
+          />
         </div>
       )}
 

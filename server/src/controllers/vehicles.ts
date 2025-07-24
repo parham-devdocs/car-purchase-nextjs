@@ -77,7 +77,7 @@ export async function getVehicles(req: Request, res: Response) {
     }
   
 }
-export async function getPaginatedVehicles(req: Request<any,any ,Vehicle>, res: Response) {
+export async function getPaginatedVehicles(req:Request,res:Response) {
     const {limit,page}=req.query as PaginationQuery
 
     const  skip=(Number(page)-1) *Number(limit)

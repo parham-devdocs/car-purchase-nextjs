@@ -15,5 +15,5 @@ export interface User{
     receiveEmails:boolean
     refreshToken:string
     age:number
-    licenceNumber:number
+    licenseNumber:number
 }

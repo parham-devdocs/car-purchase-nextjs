@@ -1,47 +1,68 @@
-import Link from "next/link";
-import Button from "./Button";
-import { IoMdArrowDropdown } from "react-icons/io";
-import Input from "./textInput";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { formLoginSchema } from "@/utils/validationSchemas"; // your schema import
+import Link from "next/link";
+import Input from "@/component/textInput";
+import { IoMdArrowDropdown } from "react-icons/io";
+import Button from "./Button";
+import axiosInstance from "@/utils/axios";
+import { ToastContainer, toast } from "react-toastify";
 
-export function SignInDropDown() {
-  const FormSchema = z.object({
-    email: z
-      .string({ message: "email is required" })
-      .email("Invalid email. Email must be a valid email address"),
-    password: z
-      .string({ message: "password is required" })
-      .min(3, "Password must not be lesser than 3 characters")
-      .max(16, "Password must not be greater than 16 characters"),
-  });
+// ... inside your component
+export default function LoginDropdown() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<IFormInput>({
-    resolver: zodResolver(FormSchema),
+  } = useForm({
+    resolver: zodResolver(formLoginSchema),
   });
+  
+  const onSubmit =async (data:any) => {
+    try {
+      const res = await axiosInstance().post("/auth/login", {
+        emailOrUsername:data.emailOrUsername,
+        password:data.password
+      });
+    
+      res.status === 200 && toast.success("successful login");
 
-  type IFormInput = z.infer<typeof FormSchema>;
-  function onSubmit() {
-    console.log("submitted");
-  }
+    } catch (error: any) {
+      if (error.response) {
+        const serverMessage = error.response.data?.message;
+        const status=error.response.status
+        
+          if (status==401) {
+            toast.error(  "User does not exist" );
+
+            return
+         }
+     else{
+      toast.error( serverMessage );
+
+     }
+      } else if (error.request) {
+        toast.error("No response from server. Check your connection.");
+      } else {
+        toast.error("An unexpected error occurred.");
+      }
+    }
+  };
   
   return (
     <form
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={handleSubmit(onSubmit)} // Use handleSubmit from react-hook-form
       className="
-                border-t-8 border-b-8 border-blue-600 dark:border-violet-500 px-8 py-5 w-[400px] absolute 
-                lg:-left-40 -left-72 top-14 shadow-lg backdrop-blur-md bg-white/30
-            "
+        border-t-8 border-b-8 border-blue-600 dark:border-violet-500 px-8 py-5 w-[400px] absolute 
+        lg:-left-40 -left-72 top-14 shadow-lg backdrop-blur-md bg-white/30
+      "
     >
+      <ToastContainer/>
       <IoMdArrowDropdown
         size={23}
         className="absolute right-7 -top-7 text-blue-600 dark:text-violet-500"
       />
-
+  
       <div className="flex gap-6 flex-col text-center">
         <h2 className="text-2xl text-blue-900 font-bold">Alamo Insiders</h2>
         <p className="text-blue-900 text-sm font-bold -mt-6">
@@ -50,30 +71,28 @@ export function SignInDropDown() {
             Join now
           </Link>
         </p>
-
+  
         <Input
-        color=" text-violet-800"
+          color="text-violet-800"
           label="Email Address or Username"
           required
-          {...register("email")}
-          onChangeHandler={(e)=>console.log(e.target.value)}
+          {...register("emailOrUsername")}
         />
-        {errors?.email?.message && (
-          <p className="text-red-700 mb-4">{errors.email.message}</p>
+        {errors?.emailOrUsername?.message && (
+          <p className="text-red-700 mb-4">{errors.emailOrUsername?.message}</p>
         )}
-
+  
         <Input
-        color=" text-violet-800"
+          color="text-violet-800"
           label="Password"
           required
           type="password"
           {...register("password")}
-          onChangeHandler={(e)=>console.log(e.target.value)}
-
         />
         {errors?.password?.message && (
           <p className="text-red-700 mb-4">{errors.password.message}</p>
         )}
+        
         <div className="flex gap-3 items-center justify-center">
           <input
             type="checkbox"
@@ -84,8 +103,8 @@ export function SignInDropDown() {
             Stay signed in
           </label>
         </div>
-
-        <Button label="Sign In" className="h-16 text-xl font-bold" />
+  
+        <Button type="submit"   label="Sign In" className="h-16 text-xl font-bold" />
       </div>
     </form>
   );

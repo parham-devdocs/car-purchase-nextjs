@@ -6,7 +6,7 @@ import { createVehicleSchema } from "../schemas/vehicle";
 const router = Router();
 
 router.get("/",verifyAccessToken(), getVehicles);
-router.get("/paginated",()=>{console.log("dke")})
+router.get("/paginated",verifyAccessToken(),getPaginatedVehicles)
 router.get("/search",verifyAccessToken(),searchForVehicle)
 router.put("/:id",verifyAccessToken(),updateVehicle)
 router.post("/",validationMiddleware(createVehicleSchema), createVehicle);

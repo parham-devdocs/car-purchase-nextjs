@@ -10,10 +10,10 @@ import {createLocationModel} from "../schemas/location";
 const router = Router();
 
 router.post("/",verifyAccessToken(),validationMiddleware(createLocationModel), createLocation);
-router.get("/search",getLoationBySearch)
-router.get("/relatedLocations",getLocationsOfCityOrContinentOrCountry)
+router.get("/search",verifyAccessToken(),getLoationBySearch)
+router.get("/relatedLocations",verifyAccessToken(),getLocationsOfCityOrContinentOrCountry)
 router.get("/",verifyAccessToken(),getAllLocations)
-router.delete("/:id",deleteLocationById)
-router.get("/:id",getLocationById)
-router.put("/:id",updateReservationById)
+router.delete("/:id",verifyAccessToken(),deleteLocationById)
+router.get("/:id",verifyAccessToken(),getLocationById)
+router.put("/:id",verifyAccessToken(),updateReservationById)
 export default router;

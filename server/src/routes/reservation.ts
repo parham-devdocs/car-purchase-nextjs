@@ -7,11 +7,11 @@ import validationMiddleware from "../middlewares/validation";
 import { createReservationModel } from "../schemas/reservation";
 const router = Router();
 
-router.post("/", createReservation);
-router.get("/",getAllReservations)
-router.get("/user/:id",getReservationRelatedToUser)
+router.post("/",verifyAccessToken(), createReservation);
+router.get("/",verifyAccessToken(),getAllReservations)
+router.get("/user/:id",verifyAccessToken(),getReservationRelatedToUser)
 router.get("/:id",verifyAccessToken(),getReservationByVehicleId)
-router.delete("/:id",deleteReservationById)
-router.put("/:id",updateReservationById)
-router.get("/:id",getSingleReservationById)
+router.delete("/:id",verifyAccessToken(),deleteReservationById)
+router.put("/:id",verifyAccessToken(),updateReservationById)
+router.get("/:id",verifyAccessToken(),getSingleReservationById)
 export default router;

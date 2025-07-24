@@ -14,7 +14,7 @@ import { TbHandClick } from "react-icons/tb";
 import { RxRotateCounterClockwise } from "react-icons/rx";
 import { useParams } from "next/navigation";
 
-interface Props {
+interface Props  {
   params: {
     location: string;
   };
@@ -39,12 +39,9 @@ const services = [
     Icon: RxRotateCounterClockwise,
   },
 ];
-const Page = ({ params }:Props) => {
+const Page =async ({ params }:Props) => {
   const { decodedURL } = useURLDecoder(params.location) 
   const [dropDown, setDropDown] = useState("");
-  const {location}=useParams()
-  console.log(location)
-  console.log("oiefh")
   return (
     <div>
       <Reservation

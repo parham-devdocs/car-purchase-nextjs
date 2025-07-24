@@ -15,11 +15,10 @@ const vehicleFilters: VehicleType[] = [
   {
     category: "Passengers",
     options: ["2 +", "3 +", "4 +", "5 +", "6 +", "7 +", "8 +", "10 +", "12 +", "15 +"],
-  },
-  {
-    category: "Drive",
-    options: ["2 Wheel Drive", "4 Wheel Drive"],
-  },
+  },{
+    category: "Luggage",
+    options: ["1 ", "2", "3", "5 +", "6 +", "7 +", "8 +", "10 +", "12 +", "15 +"],
+  }
 ];
 
 const Filters = ({
@@ -33,7 +32,7 @@ const Filters = ({
   type?: boolean;
   passengers?: boolean;
   onCloseHandler?:()=>void
-  drive?: boolean;
+  luggage?: boolean;
 }) => {
   const [filters, setFilters] = useState<VehicleType[] | null>(null);
   const [cars, setCars] = useState<string[]>([]);
@@ -44,7 +43,7 @@ const Filters = ({
     const selectedFilters = vehicleFilters.filter((item) => {
       if (item.category === "Vehicle Type" && type) return true;
       if (item.category === "Passengers" && passengers) return true;
-      if (item.category === "Drive" && drive) return true;
+      if (item.category === "Luggage" && drive) return true;
       return false;
     });
 

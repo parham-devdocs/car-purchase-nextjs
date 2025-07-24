@@ -68,6 +68,8 @@ export async function login(req: Request<any, any, UserLogin>, res: Response) {
 
 export async function register(req: Request<any, any, User>, res: Response) {
   const { body } = req;
+
+  console.log(body)
   const accessToken = generateAccessToken(body.username);
   const refreshToken = generateRefreshToken(body.username);
   const hashedPassword=await hash(body.password)
@@ -76,10 +78,10 @@ export async function register(req: Request<any, any, User>, res: Response) {
 try {
   const existingUsername = await prisma.user.findFirst({where:{username:body.username}}) 
   const existingEmail=await prisma.user.findFirst ({where:{email:body.email}}) 
-  const existingLicenceNumber=await prisma.user.findFirst({where:{licenceNumber:body.licenceNumber}})
+  const existingLicenceNumber=await prisma.user.findFirst({where:{licenceNumber:body.licenseNumber}})
 
   if (existingUsername || existingLicenceNumber || existingEmail) {
-   res.json({error:"user already exists"}).status(httpErrors.CONFLICT)
+   res.status(409).json({error:"user already exists"})
    return
   }
  
@@ -89,7 +91,7 @@ try {
     password:hashedPassword,
     email:body.email,
     age:body.age,
-    licenceNumber:body.licenceNumber,
+    licenceNumber:body.licenseNumber,
     firstName:body.firstName,
     lastName:body.lastName,
      refreshToken:refreshToken,

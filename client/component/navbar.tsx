@@ -8,7 +8,7 @@ import { BsPerson } from 'react-icons/bs';
 import { Button, Input } from "./index";
 import { CgClose, CgMenu } from 'react-icons/cg';
 import Menu from './menu';
-import { SignInDropDown } from './signInDropDown';
+import SignInDropDown from './signInDropDown';
 import ToggleButton from './lightModeToggleButton';
 const Logo = '/alamo_site_logo.png';
 type LinkItem = {
@@ -174,7 +174,7 @@ const toggleSidebar=()=>{
               <SignInDropDown />
             ) : (
               <ul className="absolute top-full right-0 mt-1  shadow-lg rounded-md py-2 min-w-[200px] z-10">
-                <DropDownMenu items={item.items || []} direction={openIndex.type} />
+                <DropDownMenu items={item.items || []} direction={openIndex.type}  />
               </ul>
             )}
           </>
