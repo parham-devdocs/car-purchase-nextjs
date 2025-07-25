@@ -47,7 +47,7 @@ export default function Page() {
       receiveEmails,
     });
     try {
-      const res = await axiosInstance().post("/auth/register", {
+      const res = await axiosInstance.post("/auth/register", {
         firstName: data.firstName,
         lastName: data.lastName,
         age: data.age,

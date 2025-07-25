@@ -5,225 +5,79 @@ import { FaFilter } from "react-icons/fa";
 import Filters from '@/component/filters';
 import { useEffect, useMemo, useState } from 'react';
 import CarCard from '@/component/carCard';
-type CarProps = {
-  type: string;
-  name: string;
-  automatic: boolean | number;
-  passengers: number;
-  bags: number;
-  electric?: boolean;
-  doors?: number;
-};
-
-// === Cars ===
-const cars: CarProps[] = [
-  {
-    type: "Car",
-    name: "Toyota Corolla",
-    automatic: true,
-    passengers: 5,
-    bags: 3,
-    electric: false,
-    doors: 4
-  },
-  {
-    type: "Car",
-    name: "Honda Civic",
-    automatic: false,
-    passengers: 5,
-    bags: 2,
-    electric: false,
-    doors: 4
-  },
-  {
-    type: "Car",
-    name: "Ford Focus",
-    automatic: 6,
-    passengers: 5,
-    bags: 3,
-    electric: false,
-    doors: 4
-  },
-  {
-    type: "Car",
-    name: "Tesla Model 3",
-    automatic: true,
-    passengers: 5,
-    bags: 2,
-    electric: true,
-    doors: 4
-  },
-  {
-    type: "Car",
-    name: "Mazda 3",
-    automatic: true,
-    passengers: 5,
-    bags: 3,
-    electric: false,
-    doors: 4
-  }
-];
-
-// === Trucks ===
-const trucks: CarProps[] = [
-  {
-    type: "Truck",
-    name: "Ford F-150",
-    automatic: true,
-    passengers: 5,
-    bags: 2,
-    electric: false,
-    doors: 4
-  },
-  {
-    type: "Truck",
-    name: "Chevrolet Silverado",
-    automatic: 8,
-    passengers: 5,
-    bags: 3,
-    electric: false,
-    doors: 4
-  },
-  {
-    type: "Truck",
-    name: "Ram 1500",
-    automatic: true,
-    passengers: 5,
-    bags: 2,
-    electric: false,
-    doors: 4
-  },
-  {
-    type: "Truck",
-    name: "Toyota Tundra",
-    automatic: 10,
-    passengers: 5,
-    bags: 2,
-    electric: false,
-    doors: 4
-  },
-  {
-    type: "Truck",
-    name: "Rivian R1T",
-    automatic: true,
-    passengers: 5,
-    bags: 4,
-    electric: true,
-    doors: 4
-  }
-];
-
-// === SUVs ===
-const suvs: CarProps[] = [
-  {
-    type: "SUV",
-    name: "Honda CR-V",
-    automatic: true,
-    passengers: 5,
-    bags: 5,
-    electric: false,
-    doors: 4
-  },
-  {
-    type: "SUV",
-    name: "Jeep Grand Cherokee",
-    automatic: true,
-    passengers: 5,
-    bags: 4,
-    electric: false,
-    doors: 4
-  },
-  {
-    type: "SUV",
-    name: "Subaru Outback",
-    automatic: true,
-    passengers: 5,
-    bags: 4,
-    electric: false,
-    doors: 4
-  },
-  {
-    type: "SUV",
-    name: "Tesla Model Y",
-    automatic: true,
-    passengers: 5,
-    bags: 5,
-    electric: true,
-    doors: 4
-  },
-  {
-    type: "SUV",
-    name: "BMW X5",
-    automatic: true,
-    passengers: 5,
-    bags: 4,
-    electric: false,
-    doors: 4
-  }
-];
-
-// === Vans ===
-const vans: CarProps[] = [
-  {
-    type: "Van",
-    name: "Chrysler Pacifica",
-    automatic: true,
-    passengers: 7,
-    bags: 6,
-    electric: true,
-    doors: 4
-  },
-  {
-    type: "Van",
-    name: "Toyota Sienna",
-    automatic: true,
-    passengers: 7,
-    bags: 5,
-    electric: true,
-    doors: 4
-  },
-  {
-    type: "Van",
-    name: "Honda Odyssey",
-    automatic: true,
-    passengers: 8,
-    bags: 6,
-    electric: false,
-    doors: 4
-  },
-  {
-    type: "Van",
-    name: "Mercedes-Benz Sprinter",
-    automatic: 5,
-    passengers: 3,
-    bags: 4,
-    electric: false,
-    doors: 4
-  },
-  {
-    type: "Van",
-    name: "Ford Transit Connect",
-    automatic: false,
-    passengers: 2,
-    bags: 3,
-    electric: false,
-    doors: 4
-  }
-];
+import getAllCookies from '@/utils/gettAllCookies';
+import axiosInstance from '@/utils/axios';
+import { ToastContainer, toast } from "react-toastify";
 
 
 
+type VehicleTypes= "Car"| "SUV" | "Truck"|"Van"
+
+type VehicleType=  {
+        "model": string,
+        "vehicleType":VehicleTypes
+        "automaticTransmission": boolean,
+        "pricePerDay": number,
+        "quantity": number,
+        "available": boolean,
+        "maxPassengers": number,
+        "numberPlate": number,
+        "numberOfDoors": number,
+        "luggageCapacity": number,
+        "image": string,
+        "options":string[]
+} 
 const page = () => {
   const [isFilterSidebarShown, setIsFilterSidebarShown] = useState<boolean>(false)
   const [totalVehicleNumber,setTotalVehicleNumber]=useState<number>(0)
   const [country,setCountry]=useState<string>("")
+  const [cars, setCars] = useState<VehicleType[]>([])        // Fixed type
+  const [vans, setVans] = useState<VehicleType[]>([])        // Fixed type
+  const [trucks, setTrucks] = useState<VehicleType[]>([])    // Fixed type
+  const [suvs, setSUVs] = useState<VehicleType[]>([])   
+
+  useEffect(() => {
+    async function fetchVehicles() {
+      try {
+        const response = await axiosInstance.get("/vehicles");
+        
+        if (response.data && typeof response.data === 'object') {
+          Object.entries(response.data.data).forEach(([key, vehicleList]) => {
+            // Make sure vehicleList is an array before processing
+            if (Array.isArray(vehicleList)) {
+              switch (key) {
+                case "Car":
+                  setCars(vehicleList);
+                  break;
+                case "SUV":
+                  setSUVs(vehicleList);
+                  break;
+                case "Truck":
+                  setTrucks(vehicleList);
+                  break;
+                case "Van":
+                  setVans(vehicleList);
+                  break;
+                default:
+                  break;
+              }
+            }
+          });
+        }
+      } catch (error: any) {
+        console.log(error.message);
+        toast.error(error.message);
+      }
+    }
+    fetchVehicles();
+  }, []);
   useEffect(() => {
     const total = trucks.length + cars.length + vans.length + suvs.length;
     setTotalVehicleNumber(total);
   }, [trucks, cars, vans, suvs]);
   return (
     <div className=" mt-32 min-h-screen h-auto ">
-
+<ToastContainer/>
       {/* Backdrop overlay */}
       
       {isFilterSidebarShown && (
@@ -244,7 +98,7 @@ const page = () => {
 
         <div className='lg:flex w-full gap-5 items-start mt-5'>
           <div className='w-56 min-h-96 xl:flex hidden rounded-sm'>
-            <Filters type passengers drive onCloseHandler={()=>setIsFilterSidebarShown(false)} />
+            <Filters type passengers  onCloseHandler={()=>setIsFilterSidebarShown(false)} />
           </div>
 
           <div className='flex-1 min-h-96 h-auto bg-blue-800 dark:bg-gray-800 py-3 rounded-sm'>
@@ -270,37 +124,45 @@ const page = () => {
               <div className="w-full flex flex-col">
   {/* Cars Section */}
   <section className="my-8">
-    <h4 className="text-yellow-300 text-left ml-10 mb-4 text-xl">Cars ({cars.length})</h4>
-    <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-5 px-10 w-full max-w-7xl">
-      {cars.map((car, index) => (
+  <h4 className="text-yellow-300 text-left ml-10 mb-4 text-xl">Cars ({cars.length})</h4>
+  <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-5 px-10 w-full max-w-7xl">
+   
+  {cars.map((car, index) => (
         <CarCard
           key={index}
-          passengers={car.passengers}
-          name={car.name}
-          automatic={car.automatic}
-          bags={car.bags}
-          type={car.type}
-          doors={car.doors}
+          passengers={car.maxPassengers}
+          name={car.model}
+          automatic={car.automaticTransmission}
+          bags={car.luggageCapacity}
+          type={car.vehicleType}
+          doors={car.numberOfDoors}
         />
       ))}
-    </div>
-  </section>
+
+  </div>
+</section>
 
   {/* Trucks Section */}
   <section className="my-8">
     <h4 className="text-yellow-300 text-left ml-10 mb-4 text-xl">Trucks ({trucks.length})</h4>
     <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-5 px-10 w-full max-w-7xl">
-      {trucks.map((truck, index) => (
-        <CarCard
-          key={index}
-          passengers={truck.passengers}
-          name={truck.name}
-          automatic={truck.automatic}
-          bags={truck.bags}
-          type={truck.type}
-          doors={truck.doors}
-        />
-      ))}
+  {/* Trucks Section */}
+<section className="my-8">
+  <h4 className="text-yellow-300 text-left ml-10 mb-4 text-xl">Trucks ({trucks.length})</h4>
+  <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-5 px-10 w-full max-w-7xl">
+    {trucks.map((truck, index) => (
+      <CarCard
+        key={index}
+        passengers={truck.maxPassengers}
+        name={truck.model}
+        automatic={truck.automaticTransmission}
+        bags={truck.luggageCapacity}
+        type={truck.vehicleType}
+        doors={truck.numberOfDoors}
+      />
+    ))}
+  </div>
+</section>
     </div>
   </section>
 
@@ -311,12 +173,12 @@ const page = () => {
       {vans.map((van, index) => (
         <CarCard
           key={index}
-          passengers={van.passengers}
-          name={van.name}
-          automatic={van.automatic}
-          bags={van.bags}
-          type={van.type}
-          doors={van.doors}
+          passengers={van.maxPassengers}
+          name={van.model}
+          automatic={van.automaticTransmission}
+          bags={van.luggageCapacity}
+          type={van.vehicleType}
+          doors={van.numberOfDoors}
         />
       ))}
     </div>
@@ -329,12 +191,12 @@ const page = () => {
       {suvs.map((suv, index) => (
         <CarCard
           key={index}
-          passengers={suv.passengers}
-          name={suv.name}
-          automatic={suv.automatic}
-          bags={suv.bags}
-          type={suv.type}
-          doors={suv.doors}
+          passengers={suv.maxPassengers}
+          name={suv.model}
+          automatic={suv.automaticTransmission}
+          bags={suv.luggageCapacity}
+          type={suv.vehicleType}
+          doors={suv.numberOfDoors}
         />
       ))}
     </div>
@@ -353,7 +215,7 @@ const page = () => {
           isFilterSidebarShown ? 'w-56 opacity-100' : 'w-0 opacity-0'
         }`}
       >
-        <Filters isTogglable type passengers drive onCloseHandler={ ()=>setIsFilterSidebarShown(false)}   />
+        <Filters isTogglable type passengers onCloseHandler={ ()=>setIsFilterSidebarShown(false)}   />
       </div>
 
     </div>

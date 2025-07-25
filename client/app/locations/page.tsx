@@ -9,9 +9,10 @@ import NorthAmerica from "../../public/map-north-america.svg";
 import Globe from "../../public/globe-central-america-caribbean.svg";
 import Header from "@/component/carRental/Header";
 import { Button } from "@/component";
-import { Ref, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { IoIosArrowForward } from "react-icons/io";
 import Link from "next/link";
+export const dynamic = 'force-dynamic'
 const countries={
     NorthAmerica: {countries:["USA", "Canada", "Mexico", "Cuba", "Jamaica"],image:NorthAmerica,totalLocations:100},
     Europe: {countries:["Germany", "France", "Italy", "Spain", "Poland"],image:Europe,totalLocations:51},

@@ -17,15 +17,17 @@ export default function LoginDropdown() {
   } = useForm({
     resolver: zodResolver(formLoginSchema),
   });
-  
+
   const onSubmit =async (data:any) => {
     try {
-      const res = await axiosInstance().post("/auth/login", {
+      const res = await axiosInstance.post("/auth/login", {
         emailOrUsername:data.emailOrUsername,
         password:data.password
-      });
+      })
     
       res.status === 200 && toast.success("successful login");
+      localStorage.setItem("role",res.data.role)
+      
 
     } catch (error: any) {
       if (error.response) {
@@ -48,7 +50,7 @@ export default function LoginDropdown() {
       }
     }
   };
-  
+
   return (
     <form
       onSubmit={handleSubmit(onSubmit)} // Use handleSubmit from react-hook-form
@@ -104,7 +106,7 @@ export default function LoginDropdown() {
           </label>
         </div>
   
-        <Button type="submit"   label="Sign In" className="h-16 text-xl font-bold" />
+        <Button type="submit"    label="Sign In" className="h-16 text-xl font-bold" />
       </div>
     </form>
   );

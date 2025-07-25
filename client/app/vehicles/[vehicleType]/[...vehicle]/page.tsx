@@ -26,7 +26,7 @@ const page = ({
   children?: React.ReactNode;
 }) => {
   const { decodedURL } = useURLDecoder(params.vehicle);
-
+   
   return (
     <div className="md:px-12 lg:px-24 space-y-16  ">
       <Reservation bgImage={false} title={`${decodedURL} Car Rental`} />
