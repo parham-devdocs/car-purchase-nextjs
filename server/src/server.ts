@@ -14,7 +14,12 @@ const PORT: number = parseInt(process.env.PORT || "3001", 10);
 dotenv.config({ path: path.resolve(__dirname, "../.env") });
 
 app.use(express.json());
-app.use(cors());
+// Server-side (Express example)
+app.use(cors({
+  origin: 'http://localhost:3000', 
+  credentials: true, 
+  exposedHeaders: ['X-Total-Count'] 
+}));
 app.use(cookieParser())
 app.use("/api/auth", authRoutes);
 app.use("/api/vehicles", carRoutes);

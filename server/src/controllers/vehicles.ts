@@ -127,33 +127,57 @@ export async function updateVehicle(req:Request<any,any ,Vehicle>,res:Response) 
         res.json({error}).status(500)
     }
 }
-
-export async function searchForVehicle(req:Request<any,any ,Vehicle>,res:Response) {
-
-  const {luggageCapacity,maxPassengers,vehicleType}=req.query as any
-    if ( !luggageCapacity&& !maxPassengers && !vehicleType ) {
-      res.status(400).json({error:"at least one query parameter must be provided"})   
-      return 
-   }
-   
-   const queryParameters:any={}
-       try {
-           if (luggageCapacity) {
-               queryParameters.luggageCapacity=Number(luggageCapacity)
-           }
-           if (maxPassengers) {
-               queryParameters.maxPassengers=Number(maxPassengers)
-           }
-           if (vehicleType) {
-               queryParameters.vehicleType=vehicleType
-           }
-           console.log(queryParameters)
-           const filteredVehicles=await prisma.vehicle.findMany({where:queryParameters})
-           res.json({data:filteredVehicles})
-  } catch (error:any) {
-    res.json({error:error.message}).status(500)
-
+export async function searchForVehicle(req: Request<any, any, Vehicle>, res: Response) {
+  const { luggageCapacity, maxPassengers, vehicleType, country, city, continent } = req.query as any;
   
+  if (!luggageCapacity && !maxPassengers && !vehicleType && !country && !city && !continent) {
+    res.status(400).json({ error: "at least one query parameter must be provided" });
+    return;
+  }
 
+  const queryParameters: any = {};
   
-  }}
+  try {
+    // Handle direct vehicle fields
+    if (luggageCapacity) {
+      queryParameters.luggageCapacity = Number(luggageCapacity);
+    }
+    if (maxPassengers) {
+      queryParameters.maxPassengers = Number(maxPassengers);
+    }
+    if (vehicleType) {
+      queryParameters.vehicleType = vehicleType;
+    }
+
+    // Handle location-based filtering using relation
+    const locationFilter: any = {};
+    if (country) {
+      locationFilter.country = country;
+    }
+    if (city) {
+      locationFilter.city = city;
+    }
+    if (continent) {
+      locationFilter.continent = continent;
+    }
+
+    // If we have location filters, add them to the query
+    if (Object.keys(locationFilter).length > 0) {
+      queryParameters.location = locationFilter;
+    }
+
+    const filteredVehicles = await prisma.vehicle.findMany({
+      where: {location:locationFilter},
+      include: {
+        location: true // Include location data if needed
+      }
+    });
+    
+    const groupedByContinent = groupBy(filteredVehicles, "vehicleType");
+    res.json({ data: groupedByContinent });
+    
+  } catch (error: any) {
+    console.error("Search error:", error);
+    res.status(500).json({ error: error.message });
+  }
+}

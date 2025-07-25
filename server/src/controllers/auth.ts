@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import { UserLogin, User } from "../types/user";
 import { decodeJWT,generateAccessToken, generateRefreshToken } from "../utils/jwt";
 import prisma from "../utils/prismaClient";
-import httpErrors from "http-status-codes";
 import { hash ,compare} from "../utils/hash"
 
 
@@ -45,20 +44,18 @@ export async function login(req: Request<any, any, UserLogin>, res: Response) {
     });
     res
     .cookie('accessToken', accessToken, {
-      httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     })
      res
       .cookie('refreshToken', refreshToken, {
-        httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'strict',
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
       })
       .status(200)
-      .json({ accessToken ,refreshToken});
+      .json({ message:"login successful",accessToken});
   } catch (error) {
     console.error('Login error:', error);
      res.status(500).json({ message: 'Server error' });
@@ -111,7 +108,7 @@ try {
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
   })
 
-  .send({accessToken, newUser: newUser });
+  .send({ message:"login successful"});
 } catch (error) {
 res.status(500).json({message:"server error"})
 }
@@ -123,14 +120,19 @@ export async function auth(req: Request<any, any, User>, res: Response) {
 
   try {
     let userRole;
-    const userCookies=req.cookies.accessToken
-   const decodedToken= decodeJWT(userCookies,"access") as string
-    userRole=await prisma.user.findFirst({where:{username:decodedToken},select:{role:true}})
-
-    res.json({ userRole });
+    console.log(req.headers.authorization)
+    const userCookies=req.headers.authorization
+    const token=userCookies?.substring(7)
+    if (token) {
+      const decodedToken= decodeJWT(token,"access") as string
+      userRole=await prisma.user.findFirst({where:{id:+decodedToken},select:{role:true}})
+  res.json({userRole:userRole?.role})
+  return
+    }
+    throw new Error("no authorizaion header set")
   } catch (error) {
     console.log(error);
-    res.status(500).json({message:"server error"})
+    res.status(500).json({message:error})
   }
 
 }
