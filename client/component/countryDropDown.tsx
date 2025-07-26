@@ -8,8 +8,8 @@ const CountryDropDown = ({onChangeHandler}:{onChangeHandler:(value:string)=>void
   const [country, setCountry] = useState("United States");
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null); // 👈 Ref for dropdown container
-
   const countryList = [
+    "All countries",
     "United States",
     "Canada",
     "Mexico",

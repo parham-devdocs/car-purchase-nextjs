@@ -98,7 +98,7 @@ const page = () => {
 
         <div className='lg:flex w-full gap-5 items-start mt-5'>
           <div className='w-56 min-h-96 xl:flex hidden rounded-sm'>
-            <Filters type passengers  onCloseHandler={()=>setIsFilterSidebarShown(false)} />
+            <Filters onChangeHandler={(vehicleType, numberOfPassengers, luggageCapacity)=>{console.log(luggageCapacity)}} filters={["capacity of luggage","type of vehicle"]} />
           </div>
 
           <div className='flex-1 min-h-96 h-auto bg-blue-800 dark:bg-gray-800 py-3 rounded-sm'>
@@ -215,7 +215,7 @@ const page = () => {
           isFilterSidebarShown ? 'w-56 opacity-100' : 'w-0 opacity-0'
         }`}
       >
-        <Filters isTogglable type passengers onCloseHandler={ ()=>setIsFilterSidebarShown(false)}   />
+        <Filters isTogglable filters={["capacity of luggage","number of passengers"]} onChangeHandler={(vehicleType, numberOfPassengers, luggageCapacity)=>{console.log(luggageCapacity)}}   />
       </div>
 
     </div>

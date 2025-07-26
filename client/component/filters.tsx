@@ -3,119 +3,91 @@ import { AiFillCloseSquare } from 'react-icons/ai';
 import Checkbox from './checkBox';
 
 type VehicleType = {
-  category: string;
-  options: string[];
+  category: Filters;
+  options: (string | number)[];
 };
+
+type Filters = "number of passengers" | "type of vehicle" | "capacity of luggage";
 
 const vehicleFilters: VehicleType[] = [
   {
-    category: "Vehicle Type",
+    category: "type of vehicle",
     options: ["Cars", "SUVs", "Trucks", "Vans"],
   },
   {
-    category: "Passengers",
-    options: ["2 +", "3 +", "4 +", "5 +", "6 +", "7 +", "8 +", "10 +", "12 +", "15 +"],
-  },{
-    category: "Luggage",
-    options: ["1 ", "2", "3", "5 +", "6 +", "7 +", "8 +", "10 +", "12 +", "15 +"],
-  }
+    category: "number of passengers",
+    options: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+  },
+  {
+    category: "capacity of luggage",
+    options: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+  },
 ];
 
 const Filters = ({
-  isTogglable = false, // <-- fixed typo
-  onCloseHandler,
-  type = false,
-  passengers = false,
-  drive = false,
+  isTogglable = false,
+  filters,
+  onChangeHandler
 }: {
   isTogglable?: boolean;
-  type?: boolean;
-  passengers?: boolean;
-  onCloseHandler?:()=>void
-  luggage?: boolean;
+  filters: Filters[];
+  onChangeHandler: (vehicleType: string | null, numberOfPassengers: number | null, luggageCapacity: number | null) => void;
 }) => {
-  const [filters, setFilters] = useState<VehicleType[] | null>(null);
-  const [cars, setCars] = useState<string[]>([]);
-  const [passengersNumber, setPassengersNumber] = useState<string | null>(null); // <-- now single value
-  const [driveCondition, setDriveCondition] = useState<string[]>([]);
 
-  useEffect(() => {
-    const selectedFilters = vehicleFilters.filter((item) => {
-      if (item.category === "Vehicle Type" && type) return true;
-      if (item.category === "Passengers" && passengers) return true;
-      if (item.category === "Luggage" && drive) return true;
-      return false;
-    });
+  const [vehicleType, setVehicleType] = useState<string | null>(null);
+  const [numberOfPassengers, setNumberOfPassengers] = useState<number | null>(null);
+  const [luggageCapacity, setLuggageCapacity] = useState<number | null>(null);
 
-    setFilters(selectedFilters);
-  }, [type, passengers, drive]);
-
-  const handleCheckboxChange = (
-    category: string,
-    value: string,
-    currentState: string[] | string | null,
-    setState: React.Dispatch<React.SetStateAction<any>>
-  ) => {
-    if (category === "Passengers") {
-      // Only allow one selection for passengers
-      setState(value === passengersNumber ? null : value);
-    } else {
-      // Multi-select for other categories
-      if (Array.isArray(currentState)) {
-        if (currentState.includes(value)) {
-          setState(currentState.filter((item) => item !== value));
-        } else {
-          setState([...currentState, value]);
-        }
-      }
+  function changeHandler(item: string | number, filter: Filters) {
+    if (filter === "capacity of luggage") {
+      setVehicleType(null)
+      setLuggageCapacity(item as number);
+    } else if (filter === "number of passengers") {
+      setNumberOfPassengers(item as number);
+    } else if (filter === "type of vehicle") {  // Fixed this condition
+      setVehicleType(item as string);
     }
-  };
+    // Don't call onChangeHandler here - let useEffect handle it
+  }
+
+  // Reset all filters
+  function resetFilters() {
+    setVehicleType(null);
+    setNumberOfPassengers(null);
+    setLuggageCapacity(null);
+  }
+   
+ 
+  // Notify parent when any filter changes
+  useEffect(() => {
+    onChangeHandler(vehicleType, numberOfPassengers, luggageCapacity);
+    console.log(luggageCapacity)
+  }, [vehicleType, numberOfPassengers, luggageCapacity, onChangeHandler]); // Added onChangeHandler to dependencies
 
   return (
     <div className='w-full py-4 px-4 space-y-7 bg-blue-800 dark:bg-gray-800 rounded-sm pointer-events-auto opacity-100'>
-      <div className='flex justify-between text-white text-2xl items-center'>
-        Filters
-           {isTogglable &&  <AiFillCloseSquare className="cursor-pointer text-white w-6 h-6" size={20} onClick={onCloseHandler } />        } 
-      </div>
-
-      <h4 className='text-white text-xl'>Filter</h4>
-
-      {filters?.map((item, index) => (
-        <div key={index} className='flex flex-col'>
-          <h4 className='text-white font-semibold text-xl'>{item.category}</h4>
-          {item.options.map((option, idx) => (
-            <div key={idx} className='mt-2'>
-              <Checkbox
-                id={option}
-                label={option}
-                checked={
-                  item.category === "Vehicle Type"
-                    ? cars.includes(option)
-                    : item.category === "Passengers"
-                    ? passengersNumber === option
-                    : driveCondition.includes(option)
-                }
-                onChangeHandler={() =>
-                  handleCheckboxChange(
-                    item.category,
-                    option,
-                    item.category === "Vehicle Type"
-                      ? cars
-                      : item.category === "Passengers"
-                      ? passengersNumber
-                      : driveCondition,
-                    item.category === "Vehicle Type"
-                      ? setCars
-                      : item.category === "Passengers"
-                      ? setPassengersNumber
-                      : setDriveCondition
-                  )
-                }
-              />
+      {/* Optional: Add a reset button */}
+      <button onClick={resetFilters}>Reset All Filters</button>
+      
+      {vehicleFilters.map((filter, index) => {
+        if (filters.includes(filter.category)) {
+          return (
+            <div key={index}>
+              <p>{filter.category}</p>
+              {filter.options.map((item, index) => {
+                return (
+                  <Checkbox 
+                    key={index} 
+                    label={item.toString()} 
+                    onChangeHandler={() => changeHandler(item, filter.category)}
+                  />
+                );
+              })}
             </div>
-          ))}
-        </div>
-      ))}
+          );
+        }
+        return null;
+      })}
     </div>
   );
 };
