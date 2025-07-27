@@ -63,7 +63,53 @@ const {maxPassengers,model,vehicleType,locationType,image,luggageCapacity,number
 
   
 export async function getVehicles(req: Request, res: Response) {
-    try {
+  try {
+    if (req.query.luggageCapacity || req.query.maxPassengers || req.query.vehicleType || req.query.country || req.query.city || req.query.continent) {
+      const { luggageCapacity, maxPassengers, vehicleType, country, city, continent } = req.query as any;
+      console.log(req.query)
+ 
+      const queryParameters: any = {};
+      
+        // Handle direct vehicle fields
+        if (luggageCapacity) {
+          queryParameters.luggageCapacity = Number(luggageCapacity);
+        }
+        if (maxPassengers) {
+          queryParameters.maxPassengers = Number(maxPassengers);
+        }
+        if (vehicleType) {
+          queryParameters.vehicleType = vehicleType;
+        }
+        // Handle location-based filtering using relation
+        const locationFilter: any = {};
+        if (country) {
+          locationFilter.country = country;
+        }
+        if (city) {
+          locationFilter.city = city;
+        }
+        if (continent) {
+          locationFilter.continent = continent;
+        }
+    
+        // If we have location filters, add them to the query
+        if (Object.keys(locationFilter).length > 0) {
+          queryParameters.location = locationFilter;
+        }
+    
+        const filteredVehicles = await prisma.vehicle.findMany({
+          where: queryParameters,
+          include: {
+            location: true // Include location data if needed
+          }
+        });
+        
+        const groupedByContinent = groupBy(filteredVehicles, "vehicleType");
+        res.json({ data: groupedByContinent });
+    }
+   
+  else{
+ 
         const vehicles=await prisma.vehicle.findMany()
         if (!vehicles) {
             res.json({message:"no vehicle found" , data:[]})
@@ -71,11 +117,11 @@ export async function getVehicles(req: Request, res: Response) {
         }
         const groupedByContinent = groupBy(vehicles,"vehicleType")
         res.send({ data:groupedByContinent});
-    } catch (error) {
-        res.json({error}).status(500)
+  }}
+  catch(error:any){
+    res.json({error:"server error"}).status(500)
 
-    }
-  
+  }
 }
 export async function getPaginatedVehicles(req:Request,res:Response) {
     const {limit,page}=req.query as PaginationQuery
