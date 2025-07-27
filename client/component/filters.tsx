@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { AiFillCloseSquare } from 'react-icons/ai';
 import Checkbox from './checkBox';
 
 type VehicleType = {
   category: Filters;
   options: (string | number)[];
 };
-
+type VehicleTypes= "Car"| "SUV" | "Truck"|"Van"
 type Filters = "number of passengers" | "type of vehicle" | "capacity of luggage";
 
 const vehicleFilters: VehicleType[] = [
   {
     category: "type of vehicle",
-    options: ["Cars", "SUVs", "Trucks", "Vans"],
+    options: ["Car", "SUV", "Truck", "Van"], // Fixed to match VehicleTypes
   },
   {
     category: "number of passengers",
@@ -31,63 +30,74 @@ const Filters = ({
 }: {
   isTogglable?: boolean;
   filters: Filters[];
-  onChangeHandler: (vehicleType: string | null, numberOfPassengers: number | null, luggageCapacity: number | null) => void;
+  onChangeHandler: (vehicleType: VehicleTypes | null, numberOfPassengers: number | null, luggageCapacity: number | null) => void;
 }) => {
 
-  const [vehicleType, setVehicleType] = useState<string | null>(null);
-  const [numberOfPassengers, setNumberOfPassengers] = useState<number | null>(null);
-  const [luggageCapacity, setLuggageCapacity] = useState<number | null>(null);
+  const [selectedFilters, setSelectedFilters] = useState<Record<Filters, string | number | null>>({
+    "type of vehicle": null,
+    "number of passengers": null,
+    "capacity of luggage": null,
+  });
 
   function changeHandler(item: string | number, filter: Filters) {
-    if (filter === "capacity of luggage") {
-      setVehicleType(null)
-      setLuggageCapacity(item as number);
-    } else if (filter === "number of passengers") {
-      setNumberOfPassengers(item as number);
-    } else if (filter === "type of vehicle") {  // Fixed this condition
-      setVehicleType(item as string);
-    }
-    // Don't call onChangeHandler here - let useEffect handle it
+    setSelectedFilters(prev => ({
+      ...prev,
+      [filter]: prev[filter] === item ? null : item,
+    }));
   }
 
-  // Reset all filters
   function resetFilters() {
-    setVehicleType(null);
-    setNumberOfPassengers(null);
-    setLuggageCapacity(null);
+    setSelectedFilters({
+      "type of vehicle": null,
+      "number of passengers": null,
+      "capacity of luggage": null,
+    });
   }
-   
- 
-  // Notify parent when any filter changes
-  useEffect(() => {
-    onChangeHandler(vehicleType, numberOfPassengers, luggageCapacity);
-    console.log(luggageCapacity)
-  }, [vehicleType, numberOfPassengers, luggageCapacity, onChangeHandler]); // Added onChangeHandler to dependencies
 
+  useEffect(() => {
+    onChangeHandler(
+      selectedFilters["type of vehicle"] as VehicleTypes | null,
+      selectedFilters["number of passengers"] as number | null,
+      selectedFilters["capacity of luggage"] as number | null
+    );
+  }, [selectedFilters, onChangeHandler]);
+ 
   return (
-    <div className='w-full py-4 px-4 space-y-7 bg-blue-800 dark:bg-gray-800 rounded-sm pointer-events-auto opacity-100'>
-      {/* Optional: Add a reset button */}
-      <button onClick={resetFilters}>Reset All Filters</button>
+    <div className='w-full py-6 px-6 space-y-8 bg-gradient-to-br from-blue-600 to-indigo-700 dark:from-gray-800 dark:to-gray-900 rounded-xl shadow-xl pointer-events-auto opacity-100 border border-blue-500/20'>
+      <div className='flex justify-between items-center pb-2 border-b border-blue-400/30'>
+        <h3 className='text-xl font-bold text-white'>Filters</h3>
+        <button 
+          onClick={resetFilters}
+          className='px-4 py-2 text-sm font-medium text-blue-100 hover:text-white bg-blue-500/20 hover:bg-blue-500/30 rounded-lg transition-all duration-200 backdrop-blur-sm border border-blue-400/30'
+        >
+          Reset All
+        </button>
+      </div>
       
-      {vehicleFilters.map((filter, index) => {
-        if (filters.includes(filter.category)) {
-          return (
-            <div key={index}>
-              <p>{filter.category}</p>
-              {filter.options.map((item, index) => {
-                return (
-                  <Checkbox 
-                    key={index} 
-                    label={item.toString()} 
-                    onChangeHandler={() => changeHandler(item, filter.category)}
-                  />
-                );
-              })}
-            </div>
-          );
-        }
-        return null;
-      })}
+      <div className='space-y-8'>
+        {vehicleFilters.map((filter, index) => {
+          if (filters.includes(filter.category)) {
+            return (
+              <div key={index} className='space-y-3'>
+                <h4 className='text-lg font-semibold text-blue-100 capitalize border-l-4 border-blue-300 pl-3 py-1'>
+                  {filter.category}
+                </h4>
+                <div className='grid grid-cols-2 gap-3'>
+                  {filter.options.map((item, idx) => {
+                   return <Checkbox 
+                      isChecked={selectedFilters[filter.category] === item}
+                      key={idx} 
+                      label={item.toString()} 
+                      onChangeHandler={() => changeHandler(item, filter.category)}
+                    />
+          })}
+                </div>
+              </div>
+            );
+          }
+          return null;
+        })}
+      </div>
     </div>
   );
 };

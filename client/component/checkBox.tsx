@@ -7,7 +7,8 @@ type CheckboxProps = {
   defaultChecked?: boolean;
   id?: string | number;
   label?: string | number;
-  onChangeHandler:(isChecked:boolean)=>void
+  isChecked?: boolean 
+  onChangeHandler: (isChecked: boolean) => void
 };
 
 const Checkbox = ({
@@ -15,21 +16,29 @@ const Checkbox = ({
   defaultChecked = false,
   id,
   label,
+  isChecked,
   onChangeHandler
 }: CheckboxProps) => {
   const generatedId = String(id || label || "checkbox");
-  const [checked, setChecked] = useState(defaultChecked);
+  
+  // Only use local state if isChecked prop is not provided (uncontrolled component)
+  const [localChecked, setLocalChecked] = useState(defaultChecked);
+  
+  // Determine which checked state to use
+  const checked = isChecked !== undefined ? isChecked : localChecked;
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const isChecked = event.target.checked;
-    setChecked(isChecked);
-    onChangeHandler(isChecked)
+    const newChecked = event.target.checked;
+    
+    // If controlled component (isChecked provided), only call onChangeHandler
+    if (isChecked !== undefined) {
+      onChangeHandler(newChecked);
+    } else {
+      // If uncontrolled component, update local state and call onChangeHandler
+      setLocalChecked(newChecked);
+      onChangeHandler(newChecked);
+    }
   };
-
-  // Optional: for debugging
-  useEffect(() => {
-    console.log("Checked:", checked);
-  }, [checked]);
 
   return (
     <div className="flex items-center">

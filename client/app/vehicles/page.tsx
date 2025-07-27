@@ -35,12 +35,16 @@ const page = () => {
   const [vans, setVans] = useState<VehicleType[]>([])        // Fixed type
   const [trucks, setTrucks] = useState<VehicleType[]>([])    // Fixed type
   const [suvs, setSUVs] = useState<VehicleType[]>([])   
-
+  const [numberOfPassengers,setNumberOfPassengers]=useState<number | null>()
+  const [luggageCapacity,setLuggageCapacity]=useState<number | null>()
+  const [vehicleType,setVehicleType]=useState<VehicleTypes |null>()
+ 
   useEffect(() => {
     async function fetchVehicles() {
       try {
-        const response = await axiosInstance.get("/vehicles");
-        
+      const cookies=getAllCookies()
+        const response = await axiosInstance.get("/vehicles",{headers:{"Authorization":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjoiMTQiLCJpYXQiOjE3NTM1NjM0MTAsImV4cCI6MTc1MzU3NDIxMH0.6vfctoy8XQYvkMsyQYNgH5iFg492A3AQ_DwnyCKjNew"}});
+        console.log(cookies)
         if (response.data && typeof response.data === 'object') {
           Object.entries(response.data.data).forEach(([key, vehicleList]) => {
             // Make sure vehicleList is an array before processing
@@ -75,6 +79,23 @@ const page = () => {
     const total = trucks.length + cars.length + vans.length + suvs.length;
     setTotalVehicleNumber(total);
   }, [trucks, cars, vans, suvs]);
+
+  function onFilterChange(vehicleType:VehicleTypes|null, numberOfPassengers:number|null, luggageCapacity:number|null) {
+    if (vehicleType) {
+      setVehicleType(vehicleType)
+    }
+    else if (numberOfPassengers){
+      setNumberOfPassengers(numberOfPassengers)
+    }
+    else if (luggageCapacity){
+      setLuggageCapacity(luggageCapacity)
+
+    }
+    console.log(vehicleType,luggageCapacity,numberOfPassengers ,country)
+  }
+useEffect(()=>{
+  console.log(vehicleType,luggageCapacity,numberOfPassengers,country)
+},[vehicleType,luggageCapacity,numberOfPassengers])
   return (
     <div className=" mt-32 min-h-screen h-auto ">
 <ToastContainer/>
@@ -98,7 +119,7 @@ const page = () => {
 
         <div className='lg:flex w-full gap-5 items-start mt-5'>
           <div className='w-56 min-h-96 xl:flex hidden rounded-sm'>
-            <Filters onChangeHandler={(vehicleType, numberOfPassengers, luggageCapacity)=>{console.log(luggageCapacity)}} filters={["capacity of luggage","type of vehicle"]} />
+            <Filters onChangeHandler={(vehicleType, numberOfPassengers, luggageCapacity)=>{onFilterChange(vehicleType,numberOfPassengers,luggageCapacity)}} filters={["capacity of luggage","type of vehicle","number of passengers"]} />
           </div>
 
           <div className='flex-1 min-h-96 h-auto bg-blue-800 dark:bg-gray-800 py-3 rounded-sm'>
@@ -215,7 +236,7 @@ const page = () => {
           isFilterSidebarShown ? 'w-56 opacity-100' : 'w-0 opacity-0'
         }`}
       >
-        <Filters isTogglable filters={["capacity of luggage","number of passengers"]} onChangeHandler={(vehicleType, numberOfPassengers, luggageCapacity)=>{console.log(luggageCapacity)}}   />
+        <Filters isTogglable filters={["capacity of luggage","number of passengers","type of vehicle"]} onChangeHandler={(vehicleType, numberOfPassengers, luggageCapacity)=>{onFilterChange(vehicleType,numberOfPassengers,luggageCapacity)}}   />
       </div>
 
     </div>
