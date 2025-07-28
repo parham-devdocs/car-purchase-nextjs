@@ -13,20 +13,31 @@ import { ToastContainer, toast } from "react-toastify";
 
 type VehicleTypes= "Car"| "SUV" | "Truck"|"Van"
 
-type VehicleType=  {
-        "model": string,
-        "vehicleType":VehicleTypes
-        "automaticTransmission": boolean,
-        "pricePerDay": number,
-        "quantity": number,
-        "available": boolean,
-        "maxPassengers": number,
-        "numberPlate": number,
-        "numberOfDoors": number,
-        "luggageCapacity": number,
-        "image": string,
-        "options":string[]
-} 
+type LocationType = {
+  locationType: "Airport" | "Hotel";
+  country: string;
+  city: string;
+  continent: string;
+  address: string;
+};
+
+type VehicleType = {
+  id: number;
+  model: string;
+  vehicleType: VehicleTypes;
+  automaticTransmission: boolean;
+  pricePerDay: number;
+  quantity: number;
+  available: boolean;
+  maxPassengers: number;
+  numberPlate: number;
+  numberOfDoors: number;
+  luggageCapacity: number;
+  image: string;
+  reservationId: number | null;
+  options: string[];
+  location?: LocationType | null; // populated after enrichment
+};
 const page = () => {
   const [isFilterSidebarShown, setIsFilterSidebarShown] = useState<boolean>(false)
   const [totalVehicleNumber,setTotalVehicleNumber]=useState<number>(0)
@@ -41,10 +52,21 @@ const page = () => {
  
   useEffect(() => {
     async function fetchVehicles() {
+setCars([])
+setSUVs([])
+setTrucks([])
+setVans([])
+
+    
       try {
       const cookies=getAllCookies()
-        const response = await axiosInstance.get("/vehicles",{headers:{"Authorization":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjoiMTQiLCJpYXQiOjE3NTM1NjM0MTAsImV4cCI6MTc1MzU3NDIxMH0.6vfctoy8XQYvkMsyQYNgH5iFg492A3AQ_DwnyCKjNew"}});
-        console.log(cookies)
+      const queries:any=[]
+      if (country || country!=="All countries") queries.push(`country=${encodeURIComponent(country)}`)
+      if (numberOfPassengers) queries.push(`maxPassengers=${encodeURIComponent(numberOfPassengers)}`)
+      if (luggageCapacity) queries.push(`luggageCapacity=${encodeURIComponent(luggageCapacity)}`)
+      if (vehicleType) queries.push(`vehicleType=${encodeURIComponent(vehicleType)}`)
+const stringQueries=queries.join("&")
+        const response = await axiosInstance.get(`/vehicles?${stringQueries}`,{headers:{"Authorization":cookies["accessToken"]}});
         if (response.data && typeof response.data === 'object') {
           Object.entries(response.data.data).forEach(([key, vehicleList]) => {
             // Make sure vehicleList is an array before processing
@@ -65,37 +87,34 @@ const page = () => {
                 default:
                   break;
               }
+              
             }
           });
+          console.log(cars)
         }
       } catch (error: any) {
-        console.log(error.message);
         toast.error(error.message);
       }
     }
     fetchVehicles();
-  }, []);
+  }, [country,numberOfPassengers,luggageCapacity,vehicleType]);
   useEffect(() => {
     const total = trucks.length + cars.length + vans.length + suvs.length;
     setTotalVehicleNumber(total);
   }, [trucks, cars, vans, suvs]);
 
-  function onFilterChange(vehicleType:VehicleTypes|null, numberOfPassengers:number|null, luggageCapacity:number|null) {
-    if (vehicleType) {
-      setVehicleType(vehicleType)
-    }
-    else if (numberOfPassengers){
-      setNumberOfPassengers(numberOfPassengers)
-    }
-    else if (luggageCapacity){
-      setLuggageCapacity(luggageCapacity)
-
-    }
-    console.log(vehicleType,luggageCapacity,numberOfPassengers ,country)
+  function onFilterChange(
+    newVehicleType: VehicleTypes | null,
+    newNumberOfPassengers: number | null,
+    newLuggageCapacity: number | null
+  ) {
+    setVehicleType(newVehicleType);
+    setNumberOfPassengers(newNumberOfPassengers);
+    setLuggageCapacity(newLuggageCapacity);
   }
-useEffect(()=>{
-  console.log(vehicleType,luggageCapacity,numberOfPassengers,country)
-},[vehicleType,luggageCapacity,numberOfPassengers])
+
+
+
   return (
     <div className=" mt-32 min-h-screen h-auto ">
 <ToastContainer/>
@@ -164,10 +183,7 @@ useEffect(()=>{
 </section>
 
   {/* Trucks Section */}
-  <section className="my-8">
-    <h4 className="text-yellow-300 text-left ml-10 mb-4 text-xl">Trucks ({trucks.length})</h4>
-    <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-5 px-10 w-full max-w-7xl">
-  {/* Trucks Section */}
+
 <section className="my-8">
   <h4 className="text-yellow-300 text-left ml-10 mb-4 text-xl">Trucks ({trucks.length})</h4>
   <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-5 px-10 w-full max-w-7xl">
@@ -184,8 +200,6 @@ useEffect(()=>{
     ))}
   </div>
 </section>
-    </div>
-  </section>
 
   {/* Vans Section */}
   <section className="my-8">
