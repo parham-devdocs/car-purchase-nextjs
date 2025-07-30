@@ -3,90 +3,89 @@ import { Button } from '@/component'
 import CountryDropDown from "../../../component/countryDropDown";
 import { FaFilter } from "react-icons/fa";
 import Filters from '@/component/filters';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import CarCard from '@/component/carCard';
 import Link from 'next/link';
 import { MdKeyboardDoubleArrowRight } from "react-icons/md";
-type CarProps = {
-  type: string;
-  name: string;
-  automatic: boolean ;
-  passengers: number;
-  bags: number;
-  electric?: boolean;
-  doors?: number;
+import { toast } from 'react-toastify';
+import axiosInstance from '@/utils/axios';
+import getAllCookies from '@/utils/gettAllCookies';
+import { useParams } from 'next/navigation';
+
+type VehicleTypes= "Car"| "SUV" | "Truck"|"Van"
+
+
+type LocationType = {
+  locationType: "Airport" | "Hotel";
+  country: string;
+  city: string;
+  continent: string;
+  address: string;
 };
 
-// === Cars ===
-const cars: CarProps[] = [
-  {
-    type: "Car",
-    name: "Toyota Corolla",
-    automatic: true,
-    passengers: 5,
-    bags: 3,
-    electric: false,
-    doors: 4
-  },
-  {
-    type: "Car",
-    name: "Honda Civic",
-    automatic: false,
-    passengers: 5,
-    bags: 2,
-    electric: false,
-    doors: 4
-  },
-  {
-    type: "Car",
-    name: "Ford Focus",
-    automatic: false,
-    passengers: 5,
-    bags: 3,
-    electric: false,
-    doors: 4
-  },
-  {
-    type: "Car",
-    name: "Tesla Model 3",
-    automatic: true,
-    passengers: 5,
-    bags: 2,
-    electric: true,
-    doors: 4
-  },
-  {
-    type: "Car",
-    name: "Mazda 3",
-    automatic: true,
-    passengers: 5,
-    bags: 3,
-    electric: false,
-    doors: 4
-  }
-];
+type VehicleType = {
+  id: number;
+  model: string;
+  vehicleType: VehicleTypes;
+  automaticTransmission: boolean;
+  pricePerDay: number;
+  quantity: number;
+  available: boolean;
+  maxPassengers: number;
+  numberPlate: number;
+  numberOfDoors: number;
+  luggageCapacity: number;
+  image: string;
+  reservationId: number | null;
+  options: string[];
+  location?: LocationType | null; // populated after enrichment
+};
 
-
-
-
-
-const page = ({ params }: { params: { vehicleType: string }, children: React.ReactNode }) => {
+const page = () => {
+  const params = useParams<{ vehicleType: string}>()
   const [isFilterSidebarShown, setIsFilterSidebarShown] = useState<boolean>(false)
   const [totalVehicleNumber,setTotalVehicleNumber]=useState<number>(0)
   const [country,setCountry]=useState<string>("")
-  console.log(params.vehicleType)
+  const [numberOfPassengers,setNumberOfPassengers]=useState<number | null>()
+  const [luggageCapacity,setLuggageCapacity]=useState<number | null>()
+ const [vehicles,setVehicles]=useState<VehicleType[] | []>([])
+  useEffect(() => {
+    async function fetchVehicles() {
+setVehicles([])
+      try {
+      const cookies=getAllCookies()
 
+      const queries:any=[]
+      if (country && country!=="All countries") queries.push(`country=${encodeURIComponent(country)}`)
+      if (numberOfPassengers) queries.push(`maxPassengers=${encodeURIComponent(numberOfPassengers)}`)
+      if (luggageCapacity) queries.push(`luggageCapacity=${encodeURIComponent(luggageCapacity)}`)
+const stringQueries=queries.join("&")
+        const response = await axiosInstance.get(`/vehicles${stringQueries}?vehicleType=${params.vehicleType}`,{headers:{"Authorization":cookies["accessToken"]}});
+     setVehicles(response.data.data[params.vehicleType])
+     console.log(response.config.url)
+      } catch (error: any) {
+        toast.error(error.message);
+      }
+    }
+    fetchVehicles();
+  }, [params.vehicleType,luggageCapacity,numberOfPassengers,country]);
+  function onFilterChange(vehicleType:string | null,numberOfPassengers:number | null,luggageCapacity:number | null) {
+    setNumberOfPassengers(numberOfPassengers)
+    setLuggageCapacity(luggageCapacity)
+  }
   const Filter=()=>{
     switch (params.vehicleType) {
-      case "cars":
-               return     <Filters  passengers  onCloseHandler={()=>setIsFilterSidebarShown(false)} />
+      case "Car":
+               return     <Filters   filters={["number of passengers","capacity of luggage"]}  onChangeHandler={(vehicleType, numberOfPassengers, luggageCapacity)=>{onFilterChange(vehicleType,numberOfPassengers,luggageCapacity)}}/>
 
-        case "truck":
-         return <Filters  passengers drive  onCloseHandler={()=>setIsFilterSidebarShown(false)} />
+        case "Truck":
+         return   <Filters   filters={["capacity of luggage"]}  onChangeHandler={(vehicleType, numberOfPassengers, luggageCapacity)=>{onFilterChange(vehicleType,numberOfPassengers,luggageCapacity)}}/>
 
         case "SUV":
-       return   <Filters  passengers drive  onCloseHandler={()=>setIsFilterSidebarShown(false)} />
-
+       return   <Filters   filters={["number of passengers","capacity of luggage"]}  onChangeHandler={(vehicleType, numberOfPassengers, luggageCapacity)=>{onFilterChange(vehicleType,numberOfPassengers,luggageCapacity)}}/>
+       
+       case "Van":
+       return <Filters   filters={["number of passengers","capacity of luggage"]}  onChangeHandler={(vehicleType, numberOfPassengers, luggageCapacity)=>{onFilterChange(vehicleType,numberOfPassengers,luggageCapacity)}}/>
          default :
          return null
         
@@ -94,9 +93,9 @@ const page = ({ params }: { params: { vehicleType: string }, children: React.Rea
    
   }
   useEffect(() => {
-    const total =  cars.length 
+    const total =  vehicles.length
     setTotalVehicleNumber(total);
-  }, [ cars]);
+  }, [ vehicles]);
   return (
     <div className=" mt-32 min-h-screen h-auto ">
 
@@ -146,17 +145,17 @@ const page = ({ params }: { params: { vehicleType: string }, children: React.Rea
               <div className="w-full flex flex-col">
   {/* Cars Section */}
   <section className="my-8">
-    <h4 className="text-yellow-300 text-left ml-10 mb-4 text-xl">Cars ({cars.length})</h4>
+    <h4 className="text-yellow-300 text-left ml-10 mb-4 text-xl">{params.vehicleType} ({totalVehicleNumber})</h4>
     <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-5 px-10 w-full max-w-7xl">
-      {cars.map((car, index) => (
+      {vehicles.map((vehicle, index) => (
         <CarCard
           key={index}
-          passengers={car.passengers}
-          name={car.name}
-          automatic={car.automatic}
-          bags={car.bags}
-          type={car.type}
-          doors={car.doors}
+          passengers={vehicle.maxPassengers}
+          name={vehicle.model}
+          automatic={vehicle.automaticTransmission}
+          bags={vehicle.luggageCapacity }
+          type={vehicle.vehicleType}
+          doors={vehicle.numberOfDoors}
         />
       ))}
     </div>
@@ -177,8 +176,8 @@ const page = ({ params }: { params: { vehicleType: string }, children: React.Rea
           isFilterSidebarShown ? 'w-56 opacity-100' : 'w-0 opacity-0'
         }`}
       >
-        <Filters isTogglable type passengers drive onCloseHandler={ ()=>setIsFilterSidebarShown(false)}   />
-      </div>
+        <Filter/>
+     </div>
 
     </div>
   )

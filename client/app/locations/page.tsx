@@ -12,20 +12,51 @@ import { Button } from "@/component";
 import { useEffect, useRef, useState } from "react";
 import { IoIosArrowForward } from "react-icons/io";
 import Link from "next/link";
+import axiosInstance from "@/utils/axios";
 export const dynamic = 'force-dynamic'
-const countries={
-    NorthAmerica: {countries:["USA", "Canada", "Mexico", "Cuba", "Jamaica"],image:NorthAmerica,totalLocations:100},
-    Europe: {countries:["Germany", "France", "Italy", "Spain", "Poland"],image:Europe,totalLocations:51},
-    Asia: {countries:["Japan", "India", "China", "Thailand", "South Korea"],image:Asia,totalLocations:57},
-    Africa: {countries:["Egypt", "Kenya", "Morocco", "Nigeria", "South Africa"],image:CentralAfrica,totalLocations:175},
-    MiddleEast:{countries:["iran","iraq"],image:MiddleEast,totalLocations:12},
-    SouthAmerica: {countries:["Brazil", "Argentina", "Chile", "Peru"],image:SouthAmerica,totalLocations:18}
-  }
+type CountryType={
+  countries:string[]
+  totaLocations:number
+}
 
+function setContinentPic(continent:string) {
+  switch (continent) {
+    case "Europe":
+      return Europe
+      break;
+  
+    case "North America":
+         return NorthAmerica
+         break;
+    case "Central Africa":
+          return CentralAfrica
+          break;
+    case "Asia":
+          return Asia
+          break;
+    case "Middle East":
+          return MiddleEast
+          break;
+   case "South America":
+          return SouthAmerica
+          break;
+    default: null
+      break;
+  }
+}
 const page = () => {
   const [regionModal,setRegionModal]=useState<null | string>(null)
-  const ref=useRef<HTMLElement>(null)
+  const [countries, setCountries] = useState<{ [key: string]: CountryType[] }>({})
+    const ref=useRef<HTMLElement>(null)
+useEffect(()=>{
+ async function fetchLocations() {
+  const response=await axiosInstance.get("/locations")
+  console.log(response.data)
+setCountries(()=>response.data.data)
 
+  }
+  fetchLocations()
+},[])
   
     useEffect(() => {
       
@@ -40,7 +71,7 @@ const page = () => {
         document.removeEventListener("mousedown", handleClickOutside);
       };
     }, [regionModal]);
-
+useEffect(()=>{console.log(countries)},[countries])
   return (
     <div >
     <Header headerTitle="1,100+ Car Rental Locations Worldwide" />
@@ -52,14 +83,23 @@ const page = () => {
       <div className=" flex justify-center">
       <div className="flex flex-col justify-center  lg:flex-row lg:flex-wrap gap-5">
         {Object.entries(countries).map(([continent,obj])=>{
+        
   return (
   <div className=" relative rounded-md bg-blue-600 dark:bg-gray-800 hover:bg-violet-500 transition-colors duration-500 cursor-pointer " onClick={()=>setRegionModal(continent)} >
-    <Image src={obj.image} alt="continent" className=" rounded-md border-[3px] border-violet-500" />
+    {obj.map((c,index)=>{
+      return (
+        <div key={index}>
+<Image src={setContinentPic(continent)} alt="continent" className=" rounded-md border-[3px] border-violet-500" />
     <div className=" w-full h-fit my-3 mx-4 dark:text-white">
     <h3 className=" font-bold text-xl dark:text-white">{continent}</h3>
-    <h3 className=" font-semibold text-[20px] dark:text-white">{obj.countries.length} countries</h3>
+    <h3 className=" font-semibold text-[20px] dark:text-white">{obj.length} countries</h3>
     </div>
- {regionModal=== continent && <CountryDropDown countries={obj.countries} totalLocations={obj.totalLocations} rigion={continent} ref={ref}/>}
+ {regionModal=== continent && <CountryDropDown countries={c.countries} totalLocations={obj.length} rigion={continent} ref={ref}/>}
+        </div>
+
+      )
+    })}
+    
  </div>)
 })}
       </div>

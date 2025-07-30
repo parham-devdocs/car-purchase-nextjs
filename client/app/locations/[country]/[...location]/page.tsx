@@ -39,7 +39,8 @@ const services = [
     Icon: RxRotateCounterClockwise,
   },
 ];
-const Page =async ({ params }:Props) => {
+const Page =async () => {
+  const params={location:"Iran"}
   const { decodedURL } = useURLDecoder(params.location) 
   const [dropDown, setDropDown] = useState("");
   return (

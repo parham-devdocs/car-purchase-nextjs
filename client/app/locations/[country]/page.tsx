@@ -9,11 +9,9 @@ import { BsAirplaneFill } from "react-icons/bs";
 import { FaBuilding } from "react-icons/fa";
 import Reservation from "@/component/Reservation";
 import axiosInstance from "@/utils/axios";
-export default function CountryPage({
-  params,
-}: {
-  params: { country: string };
-}) {
+import { useParams } from "next/navigation";
+export default function CountryPage() {
+  const params = useParams<{ country:string }>()
   const [locations, setLocations] = useState([
     { name: "Gulf Shores International Airport (GUF)", type: "airport" },
     { name: "Omni Orlando Resort at ChampionsGate", type: "building" },

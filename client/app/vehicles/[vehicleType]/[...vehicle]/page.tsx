@@ -22,11 +22,10 @@ const carInfo = {
 const page = ({
   params,
 }: {
-  params: { vehicle: string };
-  children?: React.ReactNode;
+  params: any;
 }) => {
   const { decodedURL } = useURLDecoder(params.vehicle);
-   
+   console.log(decodedURL)
   return (
     <div className="md:px-12 lg:px-24 space-y-16  ">
       <Reservation bgImage={false} title={`${decodedURL} Car Rental`} />
@@ -96,3 +95,5 @@ const page = ({
 };
 
 export default page;
+
+

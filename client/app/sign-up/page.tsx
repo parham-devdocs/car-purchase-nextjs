@@ -248,7 +248,7 @@ export default function Page() {
           <Checkbox
             onChangeHandler={(e) => setReceiveEmails(() => !receiveEmails)}
             id="receiving-emails"
-            checked={receiveEmails}
+            isChecked={receiveEmails}
           />
           <div className="text-sm dark:text-white">
             <div className="block">
@@ -278,7 +278,7 @@ export default function Page() {
             <Checkbox
               onChangeHandler={(e) => setPolicies(() => !policies)}
               id="terms"
-              checked={policies}
+              isChecked={policies}
             />
             <p className="text-sm dark:text-white">
               I accept{" "}

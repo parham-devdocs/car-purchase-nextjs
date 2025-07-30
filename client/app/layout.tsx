@@ -4,7 +4,6 @@ import "./globals.css";
 import { Navbar } from "@/component";
 import Footer from "@/component/footer";
 import ReduxWrapper from "@/redux/ReduxWrapper";
-import { appWithTranslation } from "next-i18next";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

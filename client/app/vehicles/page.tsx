@@ -1,9 +1,9 @@
 "use client"
 import { Button } from '@/component'
 import CountryDropDown from "../../component/countryDropDown";
-import { FaFilter } from "react-icons/fa";
+import { FaCar, FaExclamationCircle, FaFilter } from "react-icons/fa";
 import Filters from '@/component/filters';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import CarCard from '@/component/carCard';
 import getAllCookies from '@/utils/gettAllCookies';
 import axiosInstance from '@/utils/axios';
@@ -60,13 +60,15 @@ setVans([])
     
       try {
       const cookies=getAllCookies()
+
       const queries:any=[]
-      if (country || country!=="All countries") queries.push(`country=${encodeURIComponent(country)}`)
+      if (country && country!=="All countries") queries.push(`country=${encodeURIComponent(country)}`)
       if (numberOfPassengers) queries.push(`maxPassengers=${encodeURIComponent(numberOfPassengers)}`)
       if (luggageCapacity) queries.push(`luggageCapacity=${encodeURIComponent(luggageCapacity)}`)
       if (vehicleType) queries.push(`vehicleType=${encodeURIComponent(vehicleType)}`)
 const stringQueries=queries.join("&")
         const response = await axiosInstance.get(`/vehicles?${stringQueries}`,{headers:{"Authorization":cookies["accessToken"]}});
+        console.log(response.data)
         if (response.data && typeof response.data === 'object') {
           Object.entries(response.data.data).forEach(([key, vehicleList]) => {
             // Make sure vehicleList is an array before processing
@@ -119,7 +121,6 @@ const stringQueries=queries.join("&")
     <div className=" mt-32 min-h-screen h-auto ">
 <ToastContainer/>
       {/* Backdrop overlay */}
-      
       {isFilterSidebarShown && (
         <div 
           className="fixed inset-0 bg-transparent bg-opacity-50 z-40 backdrop-brightness-75"
@@ -164,77 +165,104 @@ const stringQueries=queries.join("&")
               <div className="w-full flex flex-col">
   {/* Cars Section */}
   <section className="my-8">
-  <h4 className="text-yellow-300 text-left ml-10 mb-4 text-xl">Cars ({cars.length})</h4>
-  <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-5 px-10 w-full max-w-7xl">
-   
-  {cars.map((car, index) => (
-        <CarCard
-          key={index}
-          passengers={car.maxPassengers}
-          name={car.model}
-          automatic={car.automaticTransmission}
-          bags={car.luggageCapacity}
-          type={car.vehicleType}
-          doors={car.numberOfDoors}
-        />
-      ))}
-
+  {/* Show Not Found if no vehicles */}
+{totalVehicleNumber === 0 ? (
+  <div className="flex flex-col items-center justify-center py-16 text-center">
+    <VehicleNotFound />
+    <h3 className="text-white text-xl mt-4">No vehicles match your filters</h3>
+    <p className="text-gray-300">Try adjusting your search criteria.</p>
   </div>
-</section>
+) : (
+  <>
+    {/* Cars Section */}
+    {cars.length > 0 && (
+      <section className="my-8">
+        <h4 className="text-yellow-300 text-left ml-10 mb-4 text-xl">
+          Cars ({cars.length})
+        </h4>
+        <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-5 px-10 w-full max-w-7xl">
+          {cars.map((car, index) => (
+            <CarCard
+              key={index}
+              passengers={car.maxPassengers}
+              name={car.model}
+              automatic={car.automaticTransmission}
+              bags={car.luggageCapacity}
+              type={car.vehicleType}
+              doors={car.numberOfDoors}
+            />
+          ))}
+        </div>
+      </section>
+    )}
 
-  {/* Trucks Section */}
+    {/* Trucks Section */}
+    {trucks.length > 0 && (
+      <section className="my-8">
+        <h4 className="text-yellow-300 text-left ml-10 mb-4 text-xl">
+          Trucks ({trucks.length})
+        </h4>
+        <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-5 px-10 w-full max-w-7xl">
+          {trucks.map((truck, index) => (
+            <CarCard
+              key={index}
+              passengers={truck.maxPassengers}
+              name={truck.model}
+              automatic={truck.automaticTransmission}
+              bags={truck.luggageCapacity}
+              type={truck.vehicleType}
+              doors={truck.numberOfDoors}
+            />
+          ))}
+        </div>
+      </section>
+    )}
 
-<section className="my-8">
-  <h4 className="text-yellow-300 text-left ml-10 mb-4 text-xl">Trucks ({trucks.length})</h4>
-  <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-5 px-10 w-full max-w-7xl">
-    {trucks.map((truck, index) => (
-      <CarCard
-        key={index}
-        passengers={truck.maxPassengers}
-        name={truck.model}
-        automatic={truck.automaticTransmission}
-        bags={truck.luggageCapacity}
-        type={truck.vehicleType}
-        doors={truck.numberOfDoors}
-      />
-    ))}
-  </div>
-</section>
+    {/* Vans Section */}
+    {vans.length > 0 && (
+      <section className="my-8">
+        <h4 className="text-yellow-300 text-left ml-10 mb-4 text-xl">
+          Vans ({vans.length})
+        </h4>
+        <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-5 px-10 w-full max-w-7xl">
+          {vans.map((van, index) => (
+            <CarCard
+              key={index}
+              passengers={van.maxPassengers}
+              name={van.model}
+              automatic={van.automaticTransmission}
+              bags={van.luggageCapacity}
+              type={van.vehicleType}
+              doors={van.numberOfDoors}
+            />
+          ))}
+        </div>
+      </section>
+    )}
 
-  {/* Vans Section */}
-  <section className="my-8">
-    <h4 className="text-yellow-300 text-left ml-10 mb-4 text-xl">Vans ({vans.length})</h4>
-    <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-5 px-10 w-full max-w-7xl">
-      {vans.map((van, index) => (
-        <CarCard
-          key={index}
-          passengers={van.maxPassengers}
-          name={van.model}
-          automatic={van.automaticTransmission}
-          bags={van.luggageCapacity}
-          type={van.vehicleType}
-          doors={van.numberOfDoors}
-        />
-      ))}
-    </div>
-  </section>
-
-  {/* SUVs Section */}
-  <section className="my-8">
-    <h4 className="text-yellow-300 text-left ml-10 mb-4 text-xl">SUVs ({suvs.length})</h4>
-    <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-5 px-10 w-full max-w-7xl">
-      {suvs.map((suv, index) => (
-        <CarCard
-          key={index}
-          passengers={suv.maxPassengers}
-          name={suv.model}
-          automatic={suv.automaticTransmission}
-          bags={suv.luggageCapacity}
-          type={suv.vehicleType}
-          doors={suv.numberOfDoors}
-        />
-      ))}
-    </div>
+    {/* SUVs Section */}
+    {suvs.length > 0 && (
+      <section className="my-8">
+        <h4 className="text-yellow-300 text-left ml-10 mb-4 text-xl">
+          SUVs ({suvs.length})
+        </h4>
+        <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-5 px-10 w-full max-w-7xl">
+          {suvs.map((suv, index) => (
+            <CarCard
+              key={index}
+              passengers={suv.maxPassengers}
+              name={suv.model}
+              automatic={suv.automaticTransmission}
+              bags={suv.luggageCapacity}
+              type={suv.vehicleType}
+              doors={suv.numberOfDoors}
+            />
+          ))}
+        </div>
+      </section>
+    )}
+  </>
+)}
   </section>
 </div>
 
@@ -272,3 +300,12 @@ const FilterButton = ({ horizontal = true, onClickHandler }: { horizontal?: bool
     </button>
   );
 };
+
+
+
+function VehicleNotFound() {
+  return  <div className="relative flex items-center justify-center">
+  <FaCar className="text-white text-6xl md:text-8xl drop-shadow-lg animate-bounce-slow" />
+  <FaExclamationCircle className="absolute -top-2 -right-2 text-yellow-300 text-2xl md:text-3xl animate-ping" />
+</div>
+}

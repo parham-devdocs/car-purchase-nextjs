@@ -19,7 +19,7 @@ function blurHandler() {
     setIsFocused(false)
 }
 const toDay=new Date()
-const renderDayContents = (day, date) => {
+const renderDayContents = (day:number, date:Date) => {
   const tooltipText = `Tooltip for date: ${date}`;
   return (
     <span

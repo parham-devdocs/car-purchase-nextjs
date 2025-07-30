@@ -87,20 +87,12 @@ function ReservationForm({
     defaultValues: { pickUp: pickUpLocation || "" },
   });
   type IFormInput = z.infer<typeof FormSchema>;
-  const axios = axiosInstance();
   const [hasDifferentLocation, setHasDifferentLocation] = useState(false);
   const router = useRouter();
 
   const onSubmit = async (e: any) => {
     try {
-      const res = await axios.get("/auth");
-      axios.post("/reservation", { ...e, pickupDate, returnDate });
-
-      if (res.status === 401) {
-        router.push("/sign-up");
-        return;
-      }
-
+    
       return;
     } catch (error: any) {
       if (error.response?.status == 401) {

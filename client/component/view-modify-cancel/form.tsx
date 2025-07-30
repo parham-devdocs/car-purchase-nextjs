@@ -42,7 +42,7 @@ const Form = ({action}:{action:"cancel"|"modify"|"view"}) => {
     <div className=" flex flex-col gap-8">
   <div className=' flex lg:flex-row flex-col bg-transparent lg:gap-24 gap-8  relative'>
         <div className=" flex flex-col flex-1/2 gap-3 w-full max-w-md">
-        <Input label=" reservation Number" type="number" color=" text-stone-200 dark:text-violet-500" onChangeHandler={(e:string)=>setReservaionNumber(e)} />
+        <Input label=" reservation Number" type="number" color=" text-stone-200 dark:text-violet-500" onChange={(e)=>setReservaionNumber(Number(e.target.value))} />
         <Button label={action} fn={tabSwitchHandler }/>
 
 

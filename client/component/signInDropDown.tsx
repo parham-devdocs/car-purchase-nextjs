@@ -7,6 +7,7 @@ import { IoMdArrowDropdown } from "react-icons/io";
 import Button from "./Button";
 import axiosInstance from "@/utils/axios";
 import { ToastContainer, toast } from "react-toastify";
+import setCookie from "@/utils/setCookie";
 
 // ... inside your component
 export default function LoginDropdown() {
@@ -25,7 +26,7 @@ export default function LoginDropdown() {
         password:data.password
       })
     
-      res.status === 200 && toast.success("successful login");
+      res.status === 200 && toast.success("successful login") && setCookie("accessToken",res.data.accessToken) && console.log(document.cookie)
       localStorage.setItem("role",res.data.role)
       
 
