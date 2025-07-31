@@ -12,8 +12,6 @@ import { FaCheck } from "react-icons/fa6";
 import { IoCloudyNightSharp } from "react-icons/io5";
 import { TbHandClick } from "react-icons/tb";
 import { RxRotateCounterClockwise } from "react-icons/rx";
-import { useParams } from "next/navigation";
-
 interface Props  {
   params: {
     location: string;

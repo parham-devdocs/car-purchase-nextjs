@@ -31,8 +31,15 @@ export async function createLocation(req: Request<any, any, LocationType>, res: 
 }
 
 export async function getAllLocations(req:Request<any,any ,LocationType>,res:Response) {
+  
     try {
         const allLocations= await prisma.location.findMany()
+        const numberOfLocationsInNorthAmerica=await prisma.location.count({where:{continent:"North America"}})
+        const numberOfLocationsInCentralAfrica=await prisma.location.count({where:{continent:"Central Africa"}})
+        const numberOfLocationsInAsia=await prisma.location.count({where:{continent:"Asia"}})
+        const numberOfLocationsInMiddleEast=await prisma.location.count({where:{continent:"Middle East"}})
+        const numberOfLocationsInSouthAmerica=await prisma.location.count({where:{continent:"South America"}})
+
         if (!allLocations) {
             res.status(409).json({error:"no location found"})
             return
@@ -40,7 +47,7 @@ export async function getAllLocations(req:Request<any,any ,LocationType>,res:Res
       const groupedByContinent= groupBy(allLocations,"continent")
 
         
-        res.json({date:groupedByContinent})
+        res.json({locations:groupedByContinent,numberOfLocationsInAsia,numberOfLocationsInCentralAfrica,numberOfLocationsInMiddleEast,numberOfLocationsInNorthAmerica,numberOfLocationsInSouthAmerica})
         return
        
     } catch (error) {
@@ -56,7 +63,7 @@ export async function deleteLocationById(req: Request<{ id: string }>, res: Resp
   const { id } = req.params
    const modifiedNumber=Number(id)
   try {
-    const location = await prisma.location.findUnique({
+    const location = await prisma.location.findFirst({
       where: { id:modifiedNumber },
     });
 
@@ -65,15 +72,15 @@ export async function deleteLocationById(req: Request<{ id: string }>, res: Resp
      return
     }
 
-    await prisma.location.delete({
+  const deletedLocation=  await prisma.location.delete({
       where: { id:modifiedNumber },
     });
 
      res.status(200).json({ message: 'Location deleted successfully' });
      return
-  } catch (error) {
+  } catch (error:any) {
     console.error(error); // Log the error for debugging
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error:error.message });
 
   }
 }
@@ -206,3 +213,6 @@ if (typeof city === 'string') {
 
 
   }
+
+
+ 

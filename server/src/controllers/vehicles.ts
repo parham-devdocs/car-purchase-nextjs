@@ -110,7 +110,7 @@ export async function getVehicles(req: Request, res: Response) {
    
   else{
  
-        const vehicles=await prisma.vehicle.findMany()
+        const vehicles=await prisma.vehicle.findMany({include:{location:true}})
         if (!vehicles) {
             res.json({message:"no vehicle found" , data:[]})
             return

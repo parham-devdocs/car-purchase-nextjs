@@ -10,41 +10,18 @@ import { FaBuilding } from "react-icons/fa";
 import Reservation from "@/component/Reservation";
 import axiosInstance from "@/utils/axios";
 import { useParams } from "next/navigation";
+type CountryType={
+  "id": 1,
+  "locationType": "Hotel" | "Airport",
+  "country": string,
+  "city": string,
+  "continent": string,
+  "address": string
+}
 export default function CountryPage() {
   const params = useParams<{ country:string }>()
-  const [locations, setLocations] = useState([
-    { name: "Gulf Shores International Airport (GUF)", type: "airport" },
-    { name: "Omni Orlando Resort at ChampionsGate", type: "building" },
-    { name: "Los Angeles International Airport (LAX)", type: "airport" },
-    { name: "New York John F. Kennedy Airport (JFK)", type: "airport" },
-    { name: "Chicago O'Hare International Airport (ORD)", type: "airport" },
-    { name: "Miami International Airport (MIA)", type: "airport" },
-    { name: "Dallas/Fort Worth International Airport (DFW)", type: "airport" },
-    { name: "Denver International Airport (DEN)", type: "airport" },
-    { name: "San Francisco International Airport (SFO)", type: "airport" },
-    { name: "Seattle-Tacoma International Airport (SEA)", type: "airport" },
-    { name: "Phoenix Sky Harbor International Airport (PHX)", type: "airport" },
-    { name: "Philadelphia International Airport (PHL)", type: "airport" },
-    { name: "Orlando International Airport (MCO)", type: "airport" },
-    { name: "Boston Logan International Airport (BOS)", type: "airport" },
-    {
-      name: "Minneapolis-Saint Paul International Airport (MSP)",
-      type: "airport",
-    },
-    { name: "Las Vegas McCarran International Airport (LAS)", type: "airport" },
-    { name: "Detroit Metropolitan Airport (DTW)", type: "airport" },
-    {
-      name: "Atlanta Hartsfield-Jackson International Airport (ATL)",
-      type: "airport",
-    },
-    { name: "Charlotte Douglas International Airport (CLT)", type: "airport" },
-    {
-      name: "Honolulu Daniel K. Inouye International Airport (HNL)",
-      type: "airport",
-    },
-    { name: "Washington Dulles International Airport (IAD)", type: "airport" },
-  ]);
-
+  const [locations, setLocations] = useState<CountryType[]>([]);
+  const []=useState<CountryType[]>()
   const [states, setStates] = useState([
     "Alabama", // Gulf Shores
     "Florida", // Orlando
