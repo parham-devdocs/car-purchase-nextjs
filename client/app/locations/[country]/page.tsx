@@ -2,7 +2,7 @@
 import { Button } from "@/component";
 import Header from "@/component/carRental/Header";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MdLocationPin } from "react-icons/md";
 import { MdOutlineArrowDropDown, MdOutlineArrowDropUp } from "react-icons/md";
 import { BsAirplaneFill } from "react-icons/bs";
@@ -13,45 +13,29 @@ import { useParams } from "next/navigation";
 type CountryType={
   "id": 1,
   "locationType": "Hotel" | "Airport",
+  "name":string
   "country": string,
   "city": string,
   "continent": string,
   "address": string
 }
-export default function CountryPage() {
+export default  function CountryPage() {
   const params = useParams<{ country:string }>()
   const [locations, setLocations] = useState<CountryType[]>([]);
-  const []=useState<CountryType[]>()
-  const [states, setStates] = useState([
-    "Alabama", // Gulf Shores
-    "Florida", // Orlando
-    "California", // Los Angeles
-    "New York", // New York City
-    "Illinois", // Chicago
-    "Florida", // Miami
-    "Texas", // Dallas
-    "Colorado", // Denver
-    "California", // San Francisco
-    "Washington", // Seattle
-    "Arizona", // Phoenix
-    "Pennsylvania", // Philadelphia
-    "Florida", // Orlando
-    "Massachusetts", // Boston
-    "Minnesota", // Minneapolis
-    "Nevada", // Las Vegas
-    "Michigan", // Detroit
-    "Georgia", // Atlanta
-    "North Carolina", // Charlotte
-    "Hawaii", // Honolulu
-    "Virginia", // Washington D.C.
-  ]);
-  const [isRentalLocationModalOpen, setIsRentalLocationModalOpen] =
-    useState(false);
+  const [isRentalLocationModalOpen, setIsRentalLocationModalOpen] =useState(false);
   const [isCityModalOpen, setIsCityModalOpen] = useState(false);
+   useEffect(()=>{
+   async function fetchData() {
+      const response=await axiosInstance.get("/locations")
+      setLocations(response.data.locations)
 
+    }
+    fetchData()
+   },[params])
+   useEffect(()=>{console.log(locations)},[locations])
   return (
     <div>
-      <Header headerTitle={`${params.country} Car Rental`} />
+      <Header headerTitle={`${decodeURI(params.country)} Car Rental`} />
       <div className="bg-blue-900 dark:bg-black transition-all duration-500 pt-7 pb-6 px-4 space-y-10">
         <div className="max-w-7xl mx-auto flex flex-col lg:flex-row lg:justify-between gap-4 items-center text-white">
           <h3 className="font-bold text-2xl lg:text-xl">Browse Locations</h3>
@@ -70,9 +54,7 @@ export default function CountryPage() {
           >
             <div className="flex items-center gap-2">
               <MdLocationPin className="text-2xl font-bold text-red-500" />
-              <span className="font-bold text-xl ">
-                Rental Locations ({locations.length})
-              </span>
+             
             </div>
             <div className="flex items-center gap-1 text-yellow-600">
               <span>View All</span>
@@ -96,13 +78,13 @@ export default function CountryPage() {
               maxHeight: isRentalLocationModalOpen ? "20rem" : "0",
             }}
           >
-            <ul className="w-full grid grid-cols-1 sm:grid-cols-2 gap-2 dark:bg-gray-800  rounded-md p-3 shadow-lg z-10">
+            {/* <ul className="w-full grid grid-cols-1 sm:grid-cols-2 gap-2 dark:bg-gray-800  rounded-md p-3 shadow-lg z-10">
               {locations.map((loc, index) => (
                 <li
                   key={index}
                   className="py-1 px-2 flex items-center gap-2 text-violet-700 hover:text-violet-900 hover:bg-gray-200 dark:text-violet-300  rounded-sm cursor-pointer"
                 >
-                  {loc.type === "airport" ? (
+                  {loc.locationType === "Airport" ? (
                     <BsAirplaneFill className="text-blue-500" />
                   ) : (
                     <FaBuilding className="text-green-500" />
@@ -112,7 +94,7 @@ export default function CountryPage() {
                   </Link>
                 </li>
               ))}
-            </ul>
+            </ul> */}
           </div>
 
           {/* States or Cities */}
@@ -122,9 +104,7 @@ export default function CountryPage() {
           >
             <div className="flex items-center gap-2">
               <MdLocationPin className="text-2xl font-bold text-red-500" />
-              <span className="font-bold text-xl">
-                States or Cities ({states.length})
-              </span>
+            
             </div>
             <div className="flex items-center gap-1 text-yellow-600">
               <span>View All</span>
@@ -150,23 +130,23 @@ export default function CountryPage() {
               opacity: isCityModalOpen ? 1 : 0,
             }}
           >
-            <ul className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-2 dark:bg-gray-800 bg-white dark:bg-gray-800rounded-md p-3 shadow-lg z-10">
-              {states.map((state, index) => (
+            {/* <ul className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-2 dark:bg-gray-800 bg-white dark:bg-gray-800rounded-md p-3 shadow-lg z-10">
+              {locations.map((loc, index) => (
                 <li
                   key={index}
                   className="py-1 px-2 flex w-fit gap-1 text-violet-700 hover:text-violet-900 hover:bg-gray-200 dark:text-violet-300  rounded-sm cursor-pointer"
                 >
-                  <Link href={`/locations/${params.country}/${state}`}>
-                    {state}
+                  <Link href={`/locations/${params.country}/${loc.name}`}>
+                    {loc.name}
                   </Link>
                 </li>
               ))}
-            </ul>
+            </ul> */}
           </div>
         </div>
       </div>
       <Reservation
-        title={`${params.country} Car Rental`}
+        title={`${decodeURI(params.country)} Car Rental`}
         pickUpLocation={params.country}
       />
     </div>

@@ -1,8 +1,10 @@
-import {  z} from "zod";
+import {z} from "zod";
 
 export const createLocationModel=z.object({
+    name:z.string({message:"name is required"}),
     city:z.string({message:"city is required"}),
     country:z.string({message:"country is required"}),
+    continent:z.string({message:"continent is required"}),
     locationType:z.enum(["Airport","Hotel"],{message:"type must be either hotel or airport"}),
     address:z.string({message:"city is required"})
 })

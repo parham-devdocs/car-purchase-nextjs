@@ -7,7 +7,7 @@ interface PaginationQuery {
     limit?: string;  // e.g., "10"
   }
   export async function createVehicle(req: Request<any, any, Vehicle>, res: Response) {
-const {maxPassengers,model,vehicleType,locationType,image,luggageCapacity,numberOfDoors,numberPlate,quantity,address,automaticTransmission,available,pricePerDay,options,city,continent,country}=req.body
+const {maxPassengers,model,vehicleType,locationType,image,luggageCapacity,name,numberOfDoors,numberPlate,quantity,address,automaticTransmission,available,pricePerDay,options,city,continent,country}=req.body
     try {
       // 1. Check if vehicle already exists by model
       const vehicleAlreadyExists = await prisma.vehicle.findFirst({
@@ -21,6 +21,7 @@ const {maxPassengers,model,vehicleType,locationType,image,luggageCapacity,number
       // 2. Find or create the location
         const newLocation = await prisma.location.create({
           data: {
+            name,
             city,
             continent,
             country,

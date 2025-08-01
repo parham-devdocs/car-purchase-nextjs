@@ -4,29 +4,31 @@ import prisma from "../utils/prismaClient";
 import { Prisma } from "@prisma/client";
 import groupBy from "../utils/groupData";
 export async function createLocation(req: Request<any, any, LocationType>, res: Response) {
-    const { city, country, address,locationType, continent } = req.body;
-
+  console.log(req.body)
+    const { city, country, address,locationType, continent ,name} = req.body;
+console.log(continent)
     try {
         const newLocation = await prisma.location.create({
             data: {
+              name,
                 city,
                 country,
                 address,
                 locationType,
-                continent, 
+                continent
             }
         });
 
         res.json({ message: "Location created", data: newLocation });
 
-    } catch (error) {
+    } catch (error:any) {
         if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2002") {
              res.status(409).json({ error: "Location already exists" });
              return
         }
 
         console.error("Server error:", error);
-         res.status(500).json({ error: "Server error" });
+         res.status(500).json({ error: error.message });
     }
 }
 
@@ -39,6 +41,8 @@ export async function getAllLocations(req:Request<any,any ,LocationType>,res:Res
         const numberOfLocationsInAsia=await prisma.location.count({where:{continent:"Asia"}})
         const numberOfLocationsInMiddleEast=await prisma.location.count({where:{continent:"Middle East"}})
         const numberOfLocationsInSouthAmerica=await prisma.location.count({where:{continent:"South America"}})
+        const numberOfLocationsInEurope=await prisma.location.count({where:{continent:"Europe"}})
+
 
         if (!allLocations) {
             res.status(409).json({error:"no location found"})
@@ -214,5 +218,16 @@ if (typeof city === 'string') {
 
   }
 
+
+  export default async function getLocationsInCountry(req:Request<any,any ,LocationType>,res:Response) {
+    const {country}=req.params
+  try {
+    const locationsInCountry=await prisma.location.findMany({where:{country}})
+    res.json({data:locationsInCountry})
+  } catch (error) {
+    res.status(500).json({error:"server error"})   
+
+  }
+  }
 
  

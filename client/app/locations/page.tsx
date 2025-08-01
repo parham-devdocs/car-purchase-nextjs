@@ -13,7 +13,6 @@ import { useEffect, useRef, useState } from "react";
 import { IoIosArrowForward } from "react-icons/io";
 import Link from "next/link";
 import axiosInstance from "@/utils/axios";
-import { date, number } from "zod";
 export const dynamic = 'force-dynamic'
 
 type CountryType={
@@ -26,13 +25,27 @@ type CountryType={
 }
 
 type NumberOfLocations={
-  numberOfLocationsInAsia: number
-  numberOfLocationsInCentralAfrica: number
-  numberOfLocationsInNorthAmerica: number
-  numberOfLocationsInSouthAmerica: number
-  numberOfLocationsInMiddleEast: number
+  numberOfLocationsInAsia: number | 0
+  numberOfLocationsInCentralAfrica: number | 0
+  numberOfLocationsInNorthAmerica: number | 0
+  numberOfLocationsInSouthAmerica: number | 0
+  numberOfLocationsInMiddleEast: number | 0
+  numberOfLocationsInEurope: number | 0
 }
 
+function getLocationCount(region: string, counts: NumberOfLocations): number {
+  const map: Record<string, keyof NumberOfLocations> = {
+    "Asia": "numberOfLocationsInAsia",
+    "North America": "numberOfLocationsInNorthAmerica",
+    "South America": "numberOfLocationsInSouthAmerica",
+    "Central Africa": "numberOfLocationsInCentralAfrica",
+    "Middle East": "numberOfLocationsInMiddleEast",
+    "Europe": "numberOfLocationsInEurope",
+  };
+
+  const key = map[region];
+  return key ? counts[key] : 0;
+}
 // Renamed: setContinentPic → getMapForRegion
 function getMapForRegion(continent: string) {
   switch (continent) {
@@ -68,7 +81,13 @@ const page = () => {
   const [regionCountries, setRegionCountries] = useState<{ [key: string]: CountryType[] }>({})
 
   // Renamed: numberOfLocations → locationCounts
-  const [locationCounts, setLocationCounts] = useState<NumberOfLocations | null>(null)
+  const [locationCounts, setLocationCounts] = useState<NumberOfLocations >( {
+    numberOfLocationsInAsia: 0,
+    numberOfLocationsInCentralAfrica: 0,
+    numberOfLocationsInNorthAmerica: 0,
+    numberOfLocationsInSouthAmerica: 0,
+    numberOfLocationsInMiddleEast: 0, // Fixed typo: was using NorthAmerica twice
+    numberOfLocationsInEurope:0})
 
   // Renamed: ref → dropdownRef
   const dropdownRef = useRef<HTMLElement>(null)
@@ -76,7 +95,7 @@ const page = () => {
   useEffect(() => {
     async function fetchLocations() {
       const response = await axiosInstance.get("/locations")
-
+console.log(response.data.data)
       // Fixed: was incorrectly mapping North/South America
       setLocationCounts({
         numberOfLocationsInAsia: response.data.numberOfLocationsInAsia,
@@ -84,6 +103,7 @@ const page = () => {
         numberOfLocationsInNorthAmerica: response.data.numberOfLocationsInNorthAmerica,
         numberOfLocationsInSouthAmerica: response.data.numberOfLocationsInSouthAmerica,
         numberOfLocationsInMiddleEast: response.data.numberOfLocationsInMiddleEast, // Fixed typo: was using NorthAmerica twice
+        numberOfLocationsInEurope:response.data.numberOfLocationsInEurope
       })
 
       setRegionCountries(response.data.locations)
@@ -134,7 +154,7 @@ const page = () => {
                         {selectedRegion === region && (
                           <CountryDropDown
                             countries={countries}
-                            totalLocations={countries.length}
+                            totalLocations={getLocationCount(region, locationCounts) }
                             region={region}
                             ref={dropdownRef}
                           />
