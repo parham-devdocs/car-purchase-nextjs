@@ -74,13 +74,10 @@ function getMapForRegion(continent: string) {
 }
 
 const page = () => {
-  // Renamed: regionModal → selectedRegion
   const [selectedRegion, setSelectedRegion] = useState<null | string>(null)
 
-  // Renamed: countries → regionCountries (to clarify it's grouped by region)
   const [regionCountries, setRegionCountries] = useState<{ [key: string]: CountryType[] }>({})
 
-  // Renamed: numberOfLocations → locationCounts
   const [locationCounts, setLocationCounts] = useState<NumberOfLocations >( {
     numberOfLocationsInAsia: 0,
     numberOfLocationsInCentralAfrica: 0,
@@ -89,14 +86,11 @@ const page = () => {
     numberOfLocationsInMiddleEast: 0, // Fixed typo: was using NorthAmerica twice
     numberOfLocationsInEurope:0})
 
-  // Renamed: ref → dropdownRef
   const dropdownRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
     async function fetchLocations() {
       const response = await axiosInstance.get("/locations")
-console.log(response.data.data)
-      // Fixed: was incorrectly mapping North/South America
       setLocationCounts({
         numberOfLocationsInAsia: response.data.numberOfLocationsInAsia,
         numberOfLocationsInCentralAfrica: response.data.numberOfLocationsInCentralAfrica,

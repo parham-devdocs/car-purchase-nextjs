@@ -26,8 +26,8 @@ export default  function CountryPage() {
   const [isCityModalOpen, setIsCityModalOpen] = useState(false);
    useEffect(()=>{
    async function fetchData() {
-      const response=await axiosInstance.get("/locations")
-      setLocations(response.data.locations)
+      const response=await axiosInstance.get(`/locations/country/${params.country}`)
+      setLocations(response.data.data)
 
     }
     fetchData()
@@ -54,7 +54,8 @@ export default  function CountryPage() {
           >
             <div className="flex items-center gap-2">
               <MdLocationPin className="text-2xl font-bold text-red-500" />
-             
+              <h3 className="font-bold text-yellow-600">location names</h3>
+
             </div>
             <div className="flex items-center gap-1 text-yellow-600">
               <span>View All</span>
@@ -69,7 +70,9 @@ export default  function CountryPage() {
                   size={30}
                 />
               )}
+
             </div>
+
           </div>
 
           <div
@@ -78,7 +81,8 @@ export default  function CountryPage() {
               maxHeight: isRentalLocationModalOpen ? "20rem" : "0",
             }}
           >
-            {/* <ul className="w-full grid grid-cols-1 sm:grid-cols-2 gap-2 dark:bg-gray-800  rounded-md p-3 shadow-lg z-10">
+
+            <ul className="w-full grid grid-cols-1 sm:grid-cols-2 gap-2 dark:bg-gray-800  rounded-md p-3 shadow-lg z-10">
               {locations.map((loc, index) => (
                 <li
                   key={index}
@@ -94,7 +98,7 @@ export default  function CountryPage() {
                   </Link>
                 </li>
               ))}
-            </ul> */}
+            </ul>
           </div>
 
           {/* States or Cities */}
@@ -104,7 +108,8 @@ export default  function CountryPage() {
           >
             <div className="flex items-center gap-2">
               <MdLocationPin className="text-2xl font-bold text-red-500" />
-            
+              <h3 className="font-bold text-yellow-600">city namess</h3>
+
             </div>
             <div className="flex items-center gap-1 text-yellow-600">
               <span>View All</span>
@@ -130,24 +135,24 @@ export default  function CountryPage() {
               opacity: isCityModalOpen ? 1 : 0,
             }}
           >
-            {/* <ul className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-2 dark:bg-gray-800 bg-white dark:bg-gray-800rounded-md p-3 shadow-lg z-10">
+            <ul className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-2 dark:bg-gray-800 bg-white dark:bg-gray-800rounded-md p-3 shadow-lg z-10">
               {locations.map((loc, index) => (
                 <li
                   key={index}
                   className="py-1 px-2 flex w-fit gap-1 text-violet-700 hover:text-violet-900 hover:bg-gray-200 dark:text-violet-300  rounded-sm cursor-pointer"
                 >
-                  <Link href={`/locations/${params.country}/${loc.name}`}>
-                    {loc.name}
+                  <Link href={`/locations/${params.country}/${loc.city}`}>
+                    {loc.city}
                   </Link>
                 </li>
               ))}
-            </ul> */}
+            </ul>
           </div>
         </div>
       </div>
       <Reservation
         title={`${decodeURI(params.country)} Car Rental`}
-        pickUpLocation={params.country}
+        pickUpLocation={`${decodeURI(params.country)}`}
       />
     </div>
   );
