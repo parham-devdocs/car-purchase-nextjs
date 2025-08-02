@@ -1,7 +1,6 @@
 "use client";
 import Image from "next/image";
 import BgImage from "@/public/mvt649_mb_bwest (2).png";
-import Input from "./textInput";
 import { BiMinusCircle, BiPlusCircle } from "react-icons/bi";
 import { useState } from "react";
 import SelectInput from "./selectInput";
@@ -15,6 +14,7 @@ import { useForm } from "react-hook-form";
 import { format } from "date-fns";
 import axiosInstance from "@/utils/axios";
 import { useRouter } from "next/navigation";
+import ReservationDropDown from "./reservationDropDown";
 
 export default function Reservation({
   title = "Rent a Car with Alamo and Drive Happy",
@@ -72,8 +72,7 @@ function ReservationForm({
   const FormSchema = z.object({
     pickUp: z.string({ message: "pick up location is required" }),
     returnLocation: z
-      .string({ message: "return Location is not valid" })
-      .optional(),
+      .string({ message: "return Location is not valid" }),
     pickUpTime: z.string({ message: "time is required" }),
     returnTime: z.string({ message: "time is required" }),
     driverAge: z.string({ message: "driver age is required" }),
@@ -87,20 +86,10 @@ function ReservationForm({
     defaultValues: { pickUp: pickUpLocation || "" },
   });
   type IFormInput = z.infer<typeof FormSchema>;
-  const [hasDifferentLocation, setHasDifferentLocation] = useState(false);
-  const router = useRouter();
 
-  const onSubmit = async (e: any) => {
-    try {
-    
-      return;
-    } catch (error: any) {
-      if (error.response?.status == 401) {
-        return router.push("/sign-up");
-      } else {
-        console.log(error.message);
-      }
-    }
+  const onSubmit = (data: IFormInput) => {
+    console.log("Form Data:", data); // Check if returnLocation appears
+    // ...
   };
 
   return (
@@ -110,30 +99,24 @@ function ReservationForm({
     >
       {/* Pick-up Location */}
       <div className="w-full relative">
-        <Input label="Pick-up Location" color="white" {...register("pickUp")} />
+        <ReservationDropDown {...register("pickUp")} id="pickupLocation" label="pickup location" />
+        {/* <Input label="Pick-up Location" color="white" {...register("pickUp")} /> */}
         {errors.pickUp && (
           <p className="text-red-400 text-sm mt-1">{errors.pickUp.message}</p>
         )}
-        <button
-          type="button"
-          onClick={() => setHasDifferentLocation((prev) => !prev)}
-          className="flex text-sm md:text-xl mt-2 items-center gap-1 text-white absolute top-3 right-4"
-        >
-          {hasDifferentLocation ? <BiMinusCircle /> : <BiPlusCircle />}
-          {hasDifferentLocation ? "remove return" : "different return"}
-        </button>
+      
+         
       </div>
 
       {/* Return Location (conditional) */}
-      {hasDifferentLocation && (
-        <div className="w-full relative">
-          <Input
-            label="Return Location"
-            color="white"
-            {...register("returnLocation")}
-          />
+      <div className="w-full relative">
+        <ReservationDropDown {...register("returnLocation")} id="returnLocation" label="return location" />
+        {/* <Input label="Pick-up Location" color="white" {...register("pickUp")} /> */}
+        {errors.returnLocation && (
+          <p className="text-red-400 text-sm mt-1">{errors.returnLocation.message}</p>
+        )}
         </div>
-      )}
+    
 
       {/* Dates & Times */}
       <div className="flex flex-col lg:flex-row gap-4">
@@ -197,7 +180,7 @@ function ReservationForm({
               </p>
             )}
           </div>
-          <Button type="submit" label="Go" className="h-full mt-3.5" />
+          <Button type="submit" fn={()=>{console.log() }} label="Go" className="h-full mt-3.5" />
         </div>
       </div>
     </form>
