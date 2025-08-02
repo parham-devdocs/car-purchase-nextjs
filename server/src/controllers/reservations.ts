@@ -3,11 +3,15 @@ import { Reservation } from "../types/reservation";
 import { Request,Response } from "express";
 import {VehicleType} from "../types/vehicle";
 import prismaClient from "../utils/prismaClient";
+import { decodeJWT } from "../utils/jwt";
 export async function createReservation(req:Request<any,any ,Reservation>,res:Response) {
-    const {returnDate,returnTime,returnLocation,pickupDate,pickupLocation,pickupTime,vehicle,user}=req.body
-   
+    const {returnDate,returnTime,returnLocation,pickupDate,pickupLocation,pickupTime,vehicle}=req.body
+   const cookie=req.cookies["accessToken"]
+   const decodedToken=decodeJWT(cookie,"access") as any
+
+
     try {
-        const userHasAlreadyAReservation=await Prisma.reservation.findFirst({where:{userId:user}})
+        const userHasAlreadyAReservation=await Prisma.reservation.findFirst({where:{user:decodedToken}})
         if (userHasAlreadyAReservation) {
             res.status(403).json({message:"user has already a reservation"})
             return
@@ -16,7 +20,7 @@ export async function createReservation(req:Request<any,any ,Reservation>,res:Re
         console.log(vehicleIsAvailableAtPickupLocation)
         const newReservation = await Prisma.reservation.create({
             data: {
-              user:{connect:{id:user}}, // must match an existing User.id
+              user:{connect:{username:decodedToken}}, // must match an existing User.id
               vehicle: {connect:{id:vehicle}}, // assuming this is a valid vehicle ID or will be set later
           
               pickupLocation: {

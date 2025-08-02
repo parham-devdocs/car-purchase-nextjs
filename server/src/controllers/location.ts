@@ -5,12 +5,12 @@ import { Prisma } from "@prisma/client";
 import groupBy from "../utils/groupData";
 export async function createLocation(req: Request<any, any, LocationType>, res: Response) {
   console.log(req.body)
-    const { city, country, address,locationType, continent ,name} = req.body;
+    const { city, country, address,locationType, continent ,locationName} = req.body;
 console.log(continent)
     try {
         const newLocation = await prisma.location.create({
             data: {
-              name,
+              locationName,
                 city,
                 country,
                 address,

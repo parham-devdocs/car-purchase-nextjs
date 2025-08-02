@@ -3,7 +3,7 @@ import { LocationType } from "./location";
 export type VehicleType = "Van" | "Car" | "Truck" | "SUV";
 export type VehicleOption = "CruiseControl" | "AirConditioner" | "RWD" | "BlueTooth" | "Sunroof" | "LeatherSeats" | "GasolineVehicle";
 
-export interface Vehicle extends LocationType {
+export interface Vehicle  {
   model: string;
   automaticTransmission: boolean;
   maxPassengers: number;
@@ -16,5 +16,6 @@ export interface Vehicle extends LocationType {
   available: boolean;
   quantity: number;
   city:string
+  locationId?:number
   options: string[];
 }

@@ -2,7 +2,7 @@
 
 export interface LocationType{
 id:number
-name:string
+locationName:string
 country:string
 continent:string
 city:string

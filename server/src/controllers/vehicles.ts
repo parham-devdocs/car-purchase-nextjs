@@ -7,8 +7,9 @@ interface PaginationQuery {
     limit?: string;  // e.g., "10"
   }
   export async function createVehicle(req: Request<any, any, Vehicle>, res: Response) {
-const {maxPassengers,model,vehicleType,locationType,image,luggageCapacity,name,numberOfDoors,numberPlate,quantity,address,automaticTransmission,available,pricePerDay,options,city,continent,country}=req.body
-    try {
+const {maxPassengers,model,vehicleType,locationId,image,luggageCapacity,numberOfDoors,numberPlate,quantity,automaticTransmission,available,pricePerDay,options}=req.body
+console.log(locationId)
+try {
       // 1. Check if vehicle already exists by model
       const vehicleAlreadyExists = await prisma.vehicle.findFirst({
         where: { model }
@@ -18,18 +19,11 @@ const {maxPassengers,model,vehicleType,locationType,image,luggageCapacity,name,n
          res.status(409).json({ message: "Vehicle already exists", data: null });
          return
       }
-      // 2. Find or create the location
-        const newLocation = await prisma.location.create({
-          data: {
-            name,
-            city,
-            continent,
-            country,
-            address,
-            locationType
-
-          }
-        });
+      const locationIsAvailable=await prisma.location.findFirst({where:{id:locationId}})
+      if (!locationIsAvailable) {  
+        res.status(404).json({ message: "location does not exist", data: null });
+      return 
+    }
       const newVehicle = await prisma.vehicle.create({
         data: {
           image,
@@ -45,16 +39,18 @@ const {maxPassengers,model,vehicleType,locationType,image,luggageCapacity,name,n
           model,
         vehicleType,
           location: {
-            connect:{id:newLocation.id}
+            connect:{id:locationId}
           }
         },
         include: {
           location: true // Optional: include the location relation in the response
         }
       });
-  
       res.status(201).json({ message: "Vehicle created successfully", data: newVehicle });
-  return
+      return
+     
+  
+    
     } catch (error: any) {
       console.error(error);
        res.status(500).json({ error: error.message });

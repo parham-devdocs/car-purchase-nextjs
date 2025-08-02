@@ -53,7 +53,7 @@ model User {
 
 model Location {
   id           Int      @id @default(autoincrement())
-  name           String   @unique
+  locationName String   @unique
   locationType LocationTypes
   country      String
   city         String
