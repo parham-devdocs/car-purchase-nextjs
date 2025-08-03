@@ -71,8 +71,7 @@ function ReservationForm({
   );
   const FormSchema = z.object({
     pickUp: z.string({ message: "pick up location is required" }),
-    returnLocation: z
-      .string({ message: "return Location is not valid" }),
+    returnLocation: z.string({ message: "return Location is not valid" }),
     pickUpTime: z.string({ message: "time is required" }),
     returnTime: z.string({ message: "time is required" }),
     driverAge: z.string({ message: "driver age is required" }),
