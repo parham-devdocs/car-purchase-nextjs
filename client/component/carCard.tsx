@@ -15,12 +15,13 @@ type CarProps={
   bags:number
   electric?:boolean
   doors?:number
+  id:number
   
 }
 
-const CarCard = ({type,name,automatic,passengers,bags,electric,doors}:CarProps) => {
+const CarCard = ({type,name,automatic,passengers,bags,electric,doors,id}:CarProps) => {
   return (
-    <Link className=' h-96 w-full  bg-white dark:bg-neutral-900 rounded-md flex  items-center justify-center ' href={`/vehicles/${type}/${name}`}>
+    <Link className=' h-96 w-full  bg-white dark:bg-neutral-900 rounded-md flex  items-center justify-center ' href={`/vehicles/${type}/${id}`}>
         <div className=' w-72 flex flex-col items-center justify-center '>
             <div className=" flex flex-col items-center gap-2 text-center">
                 <p className=" text-blue-950 dark:text-stone-400 text-2xl font-bold">{type}</p>

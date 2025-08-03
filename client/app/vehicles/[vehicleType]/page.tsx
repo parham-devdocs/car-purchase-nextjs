@@ -149,6 +149,7 @@ const stringQueries=queries.join("&")
     <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-5 px-10 w-full max-w-7xl">
       {vehicles.map((vehicle, index) => (
         <CarCard
+        id={vehicle.id}
           key={index}
           passengers={vehicle.maxPassengers}
           name={vehicle.model}

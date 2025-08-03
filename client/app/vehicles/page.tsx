@@ -183,6 +183,7 @@ const stringQueries=queries.join("&")
         <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-5 px-10 w-full max-w-7xl">
           {cars.map((car, index) => (
             <CarCard
+            id={car.id}
               key={index}
               passengers={car.maxPassengers}
               name={car.model}
@@ -205,6 +206,7 @@ const stringQueries=queries.join("&")
         <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-5 px-10 w-full max-w-7xl">
           {trucks.map((truck, index) => (
             <CarCard
+            id={truck.id}
               key={index}
               passengers={truck.maxPassengers}
               name={truck.model}
@@ -227,6 +229,7 @@ const stringQueries=queries.join("&")
         <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-5 px-10 w-full max-w-7xl">
           {vans.map((van, index) => (
             <CarCard
+            id={van.id}
               key={index}
               passengers={van.maxPassengers}
               name={van.model}
@@ -249,6 +252,7 @@ const stringQueries=queries.join("&")
         <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-5 px-10 w-full max-w-7xl">
           {suvs.map((suv, index) => (
             <CarCard
+            id={suv.id}
               key={index}
               passengers={suv.maxPassengers}
               name={suv.model}
