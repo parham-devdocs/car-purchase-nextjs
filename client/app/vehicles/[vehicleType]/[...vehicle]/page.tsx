@@ -1,7 +1,7 @@
 "use client"
-import Reservation from "@/component/Reservation";
 import CarImage from "@/public/1567006637480.avif";
 import Image from "next/image";
+import { useRouter } from 'next/navigation'
 import { TbManualGearboxFilled } from "react-icons/tb";
 import { IoMdPerson } from "react-icons/io";
 import { PiBagSimpleFill } from "react-icons/pi";
@@ -12,8 +12,10 @@ import axiosInstance from "@/utils/axios";
 import { toast, ToastContainer } from "react-toastify";
 import { useParams } from "next/navigation";
 import { Button } from "@/component";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState, setReservation, setVehicleId } from "@/redux/store";
 type CarInfoType={
-  "id": number,
+  "id": number | null,
   "model": string,
   "vehicleType": "Van"|"SUV"|"Car"|"Truck",
   "automaticTransmission": boolean,
@@ -30,9 +32,10 @@ type CarInfoType={
 
 const page = () => {
   const {vehicle}= useParams()
-  
   const [vehicleData,setVehicleData]=useState<CarInfoType>()
-
+const dispatch=useDispatch()
+const state = useSelector((state:RootState) => state)
+const router=useRouter()
   useEffect(()=>{
    async   function getVehicle() {
     try {
@@ -48,12 +51,34 @@ console.log("url",response.config.url)
     getVehicle()
 
   },[])
- 
+  
+  async function rentHandler(e:any) {
+  
+    e.preventDefault()
+    const id =vehicleData?.id as number
+      dispatch(setVehicleId({vehicleId:id}))
+    if (!state.reservationData.driversAge || !state.reservationData.pickupDate || !state.reservationData.pickupLocation || !state.reservationData.pickupTime || !state.reservationData.returnDate || !state.reservationData.returnLocation || !state.reservationData.returnTime) {
+      router.push("/")
+      return
+    }
+   async function postData() {
+      try {
+      const response= await  axiosInstance.post("/reservations",{...state.reservationData,userId:state.userId,vehicleId:state.vehicleId})
+      toast.success("reservation made successfully")
+
+      } catch (error) {
+        toast.error("server error")
+      }
+    }
+    postData()
+
+  
+  }
   return (
     <div className="md:px-12 lg:px-24 space-y-16">
     <ToastContainer />
   
-    <form className="flex justify-center items-center py-8 bg-blue-500 dark:bg-gray-800 transition-all duration-500 rounded-md">
+    <form className="flex justify-center items-center py-8 bg-blue-500 dark:bg-gray-800 transition-all duration-500 rounded-md" onSubmit={rentHandler}>
       <div className="flex lg:flex-row flex-col gap-10 w-full max-w-6xl mx-auto">
         {/* Left Column - Details */}
         <div className="lg:w-2/3 w-full space-y-6 px-6 text-center lg:text-left">

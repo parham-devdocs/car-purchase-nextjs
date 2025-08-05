@@ -12,8 +12,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { format } from "date-fns";
-import axiosInstance from "@/utils/axios";
-import { useRouter } from "next/navigation";
 import ReservationDropDown from "./reservationDropDown";
 
 export default function Reservation({

@@ -32,6 +32,7 @@ type CountryType = {
     const [availableLocations,setAvailableLocations]=useState<ResponseType | CountryType[] | null>(null)
     useEffect(()=>{
     async  function fetchLocations() {
+      
       try {
         if (country) {
           const response= await  axiosInstance.get<CountryType[]>(`/locations/country/${country}`)

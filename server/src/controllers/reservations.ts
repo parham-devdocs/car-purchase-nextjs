@@ -2,7 +2,6 @@ import Prisma from "../utils/prismaClient";
 import { Reservation } from "../types/reservation";
 import { Request,Response } from "express";
 import {VehicleType} from "../types/vehicle";
-import prismaClient from "../utils/prismaClient";
 import { decodeJWT } from "../utils/jwt";
 export async function createReservation(req:Request<any,any ,Reservation>,res:Response) {
     const {returnDate,returnTime,returnLocation,pickupDate,pickupLocation,pickupTime,vehicle}=req.body
