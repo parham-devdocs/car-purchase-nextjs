@@ -58,7 +58,10 @@ console.log("url",response.config.url)
     const id =vehicleData?.id as number
       dispatch(setVehicleId({vehicleId:id}))
     if (!state.reservationData.driversAge || !state.reservationData.pickupDate || !state.reservationData.pickupLocation || !state.reservationData.pickupTime || !state.reservationData.returnDate || !state.reservationData.returnLocation || !state.reservationData.returnTime) {
-      router.push("/")
+     toast.warning("other reservation info are missing ! ")
+      setTimeout(() => {
+        router.push("/")
+       }, 3000);
       return
     }
    async function postData() {
