@@ -125,7 +125,7 @@ export async function createReservation(
 export async  function getAllReservations(req:Request<any,any ,Reservation>,res:Response) {
    try {
     const allReservations=await Prisma.reservation.findMany()
-    res.json({allReservations})
+    res.json({date:allReservations})
 
     if (!allReservations) {
         res.json({error:"no reservation found",data:[]})
@@ -160,12 +160,20 @@ const id=req.params.id
 
 export async function deleteReservationById(req:Request<any,any ,Reservation>,res:Response) {
     const {id}=req.params
+    const token=req.headers["authorization"]?.split(" ")[1] as string
+    const userId=decodeJWT(token,"access")
     try {
-        await Prisma.reservation.delete({where:{id}})
+      const reservationIsAvilable= await Prisma.reservation.findFirst({where:{userId:+userId,id:+id}})
+      if (!reservationIsAvilable) {
+        res.status(404).json({error:"reservation not found"})
+        return
+
+      }
+        await Prisma.reservation.delete({where:{userId:+userId,id:+id}})
        
 res.json({message:"item deleted"})
-    } catch (error) {
-        res.status(500).json({error})
+    } catch (error:any) {
+        res.status(500).json({error:error.message})
     }
 
 }

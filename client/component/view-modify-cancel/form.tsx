@@ -6,6 +6,9 @@ import {  useEffect, useState } from "react";
 import Modal from "./modal";
 import DisplayInfo from "./displayInfo";
 import ModifyInfo from "./modifyInfo";
+import axiosInstance from "@/utils/axios";
+import { toast, ToastContainer } from "react-toastify";
+import axios from "axios";
 const detailsAboutActions=[
   {action:"cancel",detail:" you can cancel a reservationa nd be sure that all your cancellation info is kept secret "},
   {action:"view",detail:"all the info related to your reservation is viewed"},
@@ -19,6 +22,27 @@ const Form = ({action}:{action:"cancel"|"modify"|"view"}) => {
  const [showReservationInfo,setShowReservationInfo]=useState(false)
  const [showModifyReservation,setShowModifyReservation]=useState(false)
   const specificAction=detailsAboutActions.filter(e=>e.action===action)[0]
+ async function deleteHandler(api:string) {
+    
+    try {
+      
+      const deletedItem=await axiosInstance.delete(api)
+      toast.success("deleted successfully")
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status===404) {
+          toast.error("reservation not found")
+          return
+        }
+        if (error.response?.status===500) {
+          toast.error("server error")
+        }
+      }
+    }
+    finally{
+      setOpenModal(false)
+    }
+  }
     useEffect(()=>{
         setShowReservationInfo(false);
         setShowModifyReservation(false);
@@ -40,6 +64,8 @@ const Form = ({action}:{action:"cancel"|"modify"|"view"}) => {
       }}
   return (
     <div className=" flex flex-col gap-8">
+            <ToastContainer/>
+
   <div className=' flex lg:flex-row flex-col bg-transparent lg:gap-24 gap-8  relative'>
         <div className=" flex flex-col flex-1/2 gap-3 w-full max-w-md">
         <Input label=" reservation Number" type="number" color=" text-stone-200 dark:text-violet-500" onChange={(e)=>setReservaionNumber(Number(e.target.value))} />
@@ -54,7 +80,7 @@ const Form = ({action}:{action:"cancel"|"modify"|"view"}) => {
             <p className=" text-white text-xl ">{specificAction.detail}</p>
         </div>
             {openModal    && <div className=" inset-0 flex items-center justify-center absolute z-50">
-              <Modal api={`https://jsonplaceholder.typicode.com/todos/${reservationNumber}`}text={`Are you sure to ${action} this reservation ? `} onCloseHandler={()=>setOpenModal(false)}/>
+              <Modal text={`Are you sure to ${action} this reservation ? `} onActionHandler={()=>deleteHandler(`reservations/${reservationNumber}`)} onCloseHandler={()=>setOpenModal(false)}/>
             </div> }     
             
     </div>

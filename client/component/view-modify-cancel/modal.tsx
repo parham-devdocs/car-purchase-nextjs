@@ -1,8 +1,8 @@
-import React, { useEffect, useRef } from 'react'
+import React from 'react'
 import Button from '../Button'
 
-const Modal = ({api,text,onCloseHandler}:{api:string,text:string,onCloseHandler:()=>void}) => {
-console.log(api)
+const Modal = ({text,onCloseHandler,onActionHandler}:{text:string,onCloseHandler:()=>void,onActionHandler:()=>void}) => {
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-[3px] bg-opacity-60 transition-colors duration-500">
     <div 
@@ -19,7 +19,7 @@ console.log(api)
   
       <div className="flex justify-center gap-4 mt-6">
         <Button label="Cancel" fn={onCloseHandler} />
-        <Button label="Confirm" />
+        <Button label="Confirm" fn={onActionHandler} />
       </div>
     </div>
   </div>
