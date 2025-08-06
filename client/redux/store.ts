@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { number } from "zod";
 
 interface ReservationType{
     returnDate:string | null
@@ -8,7 +7,7 @@ interface ReservationType{
     pickupTime:string | null
     returnLocation:string |null 
     pickupLocation:string |null
-    driversAge:number |null
+    driverAge:number |null
 }
 interface VehicleId {vehicleId:number | null}
 interface UserId {userId:number | null}
@@ -33,7 +32,7 @@ const initialState:initialStateTypes={
     pickupTime: null,
     returnLocation:null,
     pickupLocation:null,
-    driversAge:null
+    driverAge:null
 }
 }
 

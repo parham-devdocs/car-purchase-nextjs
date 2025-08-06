@@ -1,8 +1,8 @@
 
 
 export interface Reservation{
-    pickupLocation:number
-    returnLocation:number
+    pickupLocation:string 
+    returnLocation:string 
     returnTime :string
     returnDate :string
     pickupTime :string

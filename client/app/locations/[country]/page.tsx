@@ -152,7 +152,7 @@ export default  function CountryPage() {
       </div>
       <Reservation
         title={`${decodeURI(params.country)} Car Rental`}
-        pickUpLocation={`${decodeURI(params.country)}`}
+        pickUpLocationProp={`${decodeURI(params.country)}`}
       />
     </div>
   );

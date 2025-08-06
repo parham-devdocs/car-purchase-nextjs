@@ -45,7 +45,7 @@ const Page =async () => {
     <div>
       <Reservation
         title={`${decodedURL} Car Rental`}
-        pickUpLocation={decodedURL as string}
+        pickUpLocationProp={decodedURL as string}
         bgImage
       />
       <div className="bg-blue-500 w-full py-7 px-32 ">
