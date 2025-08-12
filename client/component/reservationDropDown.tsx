@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import {  FaLock } from "react-icons/fa";
 
-type CountryType = {
+type LocationType = {
   id: number;
   locationType: "Hotel" | "Airport";
   name: string;
@@ -15,7 +15,7 @@ type CountryType = {
   address: string;
 };
 
-type Location = Record<string, CountryType[]>;
+type Location = Record<string, LocationType[]>;
 
 type ResponseType = {
   locations: Location;
@@ -36,18 +36,18 @@ const ReservationDropDown = ({
   defaultValue?: string;
   [key: string]: any;
 }) => {
-  const [availableLocations, setAvailableLocations] = useState<CountryType[] | null>(null);
+  const [availableLocations, setAvailableLocations] = useState<LocationType[] | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchLocations() {
       setLoading(true);
       try {
-        let data: CountryType[] = [];
+        let data: LocationType[] = [];
 
         if (country) {
           // Fetch by country
-          const response = await axiosInstance.get<CountryType[]>(`/locations/country/${country}`);
+          const response = await axiosInstance.get<LocationType[]>(`/locations/country/${country}`);
           data = response.data;
         } else {
           // Fetch all and flatten

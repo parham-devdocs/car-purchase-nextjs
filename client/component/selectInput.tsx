@@ -1,21 +1,24 @@
  "use client";
-import React, { InputHTMLAttributes, useState } from 'react';
+import React, { ChangeEvent, InputHTMLAttributes, useState } from 'react';
 
 interface Option {
     value: string | number;
     label: string;
     disabled?: boolean;
+
   }
 
-interface InputProps extends InputHTMLAttributes<HTMLSelectElement> {
+interface InputProps  {
   label: string;
   id?: string;
   required?: boolean;
   color?:string;
   options:Option[]
+  onChange?: (e: ChangeEvent<HTMLSelectElement>) => void;
+
 }
 
-const SelectInput: React.FC<InputProps > = ({ label,options, id, placeholder = '',color, required = false,...props }) => {
+const SelectInput: React.FC<InputProps > = ({ label,onChange,options, id,color, required = false,...props }) => {
   const [isFocused, setIsFocused] = useState(false);
  
   const handleFocus = () => setIsFocused(true);
@@ -35,6 +38,7 @@ const SelectInput: React.FC<InputProps > = ({ label,options, id, placeholder = '
         id={id}
         name={label}
         onBlur={handleBlur}
+        onChange={onChange}
         onFocus={handleFocus}
         required={required}
         className={`

@@ -197,7 +197,7 @@ export async function getSingleReservationById(req:Request<any,any ,Reservation>
     const {id}=req.params
 
     try {
-        const reservation=await Prisma.reservation.findUnique({where:{id:Number(id)}})
+        const reservation=await Prisma.reservation.findUnique({where:{id:Number(id)},include:{vehicle:true,pickupLocation:true,returnLocation:true}})
    
         res.json({data:reservation})
     } catch (error:any) {
