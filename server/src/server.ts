@@ -6,6 +6,10 @@ import carRoutes from "./routes/vehicles";
 import userRoutes from "./routes/users";
 import reservationRoutes from "./routes/reservation";
 import locationRoutes from "./routes/location";
+import dashboardLocation from "./routes/dashboard/location";
+import dashboardReservation from "./routes/dashboard/reservation";
+import dashboardUser from "./routes/dashboard/user";
+import dashboardVehicle from "./routes/dashboard/vehicle";
 import dotenv from "dotenv";
 import path from "path";
 import cookieParser from "cookie-parser";
@@ -26,6 +30,11 @@ app.use("/api/vehicles", carRoutes);
 app.use("/api/users",userRoutes );
 app.use("/api/reservations",reservationRoutes)
 app.use("/api/locations",locationRoutes)
+app.use("/api/dashboard/reservations",dashboardReservation)
+app.use("/api/dashboard/locations",dashboardLocation)
+app.use("/api/dashboard/users",dashboardUser)
+app.use("/api/dashboard/vehicles",dashboardVehicle)
+
 app.listen(PORT, async () => {
 
   console.log(`Server is running at http://localhost:${PORT}`);

@@ -14,64 +14,66 @@ datasource db {
 }
 
 model Vehicle {
-  id                    Int              @id @default(autoincrement())
-  model                 String           @unique
-  vehicleType           VehicleType      @default(Car)
-  automaticTransmission Boolean          @default(true)
+  id                    Int           @id @default(autoincrement())
+  model                 String        @unique
+  vehicleType           VehicleType   @default(Car)
+  automaticTransmission Boolean       @default(true)
   pricePerDay           Int
   quantity              Int
   available             Boolean
   maxPassengers         Int
-  numberPlate           Int              @unique
+  numberPlate           Int           @unique
   numberOfDoors         Int
   luggageCapacity       Int
   image                 String
-  reservationId         Int?             @unique
+  reservationId         Int?          @unique
   reservations          Reservation[]
   options               String[]
 
-  locationId            Int              @unique
-  location              Location         @relation(fields: [locationId], references: [id])
+  locationId Int      @unique
+  location   Location @relation(fields: [locationId], references: [id])
+  createdAt  DateTime @default(now())
 }
 
-
 model User {
-  id            Int          @id @default(autoincrement())
-  username      String       @unique
+  id            Int           @id @default(autoincrement())
+  username      String        @unique
   password      String
-  email         String       @unique
+  email         String        @unique
   age           Int
   licenceNumber Int
   firstName     String
   lastName      String
   phoneNumber   String
-  receiveEmails Boolean      @default(true)
-  role          String    @default("user")
+  receiveEmails Boolean       @default(true)
+  role          String        @default("user")
   refreshToken  String?
   reservation   Reservation[] @relation()
+  createdAt     DateTime      @default(now())
 }
 
 model Location {
-  id           Int      @id @default(autoincrement())
-  locationName String   @unique
-  locationType LocationTypes
-  country      String
-  city         String
-  continent    String
-  address      String
-  vehicle      Vehicle? 
+  id                 Int           @id @default(autoincrement())
+  locationName       String        @unique
+  locationType       LocationTypes
+  country            String
+  city               String
+  continent          String
+  address            String
+  vehicle            Vehicle?
   returnReservations Reservation[] @relation("ReturnLocationRelation")
   pickupReservations Reservation[] @relation("PickupLocationRelation")
+  createdAt          DateTime      @default(now())
 
   @@unique([country, city, address])
 }
 
 model Reservation {
-  id               Int      @id @default(autoincrement())
-  userId           Int      @unique  // Ensures only one reservation per user
-  user             User     @relation(fields: [userId], references: [id])
-  vehicleId        Int
-  vehicle          Vehicle? @relation(fields: [vehicleId], references: [id])
+  id        Int      @id @default(autoincrement())
+  userId    Int      @unique // Ensures only one reservation per user
+  user      User     @relation(fields: [userId], references: [id])
+  vehicleId Int
+  vehicle   Vehicle? @relation(fields: [vehicleId], references: [id])
 
   pickupLocationId Int
   pickupLocation   Location @relation("PickupLocationRelation", fields: [pickupLocationId], references: [id])
@@ -79,13 +81,15 @@ model Reservation {
   returnLocationId Int
   returnLocation   Location @relation("ReturnLocationRelation", fields: [returnLocationId], references: [id])
 
-  returnTime       String
-  returnDate       String
-  pickupTime       String
-  pickupDate       String
-    @@unique([returnDate,pickupDate,pickupTime,returnTime])
+  returnTime String
+  returnDate String
+  pickupTime String
+  pickupDate String
+  createdAt  DateTime @default(now())
 
+  @@unique([returnDate, pickupDate, pickupTime, returnTime])
 }
+
 enum VehicleType {
   Van
   Car
