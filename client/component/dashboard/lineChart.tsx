@@ -26,14 +26,14 @@ const colors = [
 const dataKeys=["Car","Van","SUV","Truck"]
 const lineChart = ({color,dot,title}:{color:string,dot:string,title:string}) => {
   return (
-    <ResponsiveContainer height={300}   className={`border-2  rounded-md`}  style={{ borderColor: color,maxWidth:"400px"}} >
+    <ResponsiveContainer height={320} width={400}   className={`border-2  rounded-md`}  style={{ borderColor: color}} >
             <div className="flex flex-col  items-center justify-center ">
 
     <LineChart
     width={400}
     height={250}
     data={data}
-    className=' p-3'
+    className=' px-3'
     
     >
      <XAxis dataKey="month" stroke="#374151" tick={{ fill: '#374151', fontSize: 12 }} />
